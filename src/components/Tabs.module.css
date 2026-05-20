@@ -1,0 +1,30 @@
+.list {
+    &[data-variant="custom"] {
+        border-bottom: none;
+        gap: 24px;
+    }
+}
+
+.tab {
+    &[data-variant="custom"] {
+        border: none;
+        background: transparent;
+        padding: 4px 16px;
+        font-weight: 400;
+        color: #ADB5BD;
+
+        /* Создаем невидимую рамку заранее, чтобы при активации ничего не дергалось */
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+
+        &[data-active] {
+            color: #005B9C;
+            border-bottom-color: #005B9C;
+        }
+
+        &:hover:not([data-active]) {
+            color: #0070BF;
+            border-bottom-color: var(--mantine-color-gray-2);
+        }
+    }
+}

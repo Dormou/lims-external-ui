@@ -1,0 +1,66 @@
+.header {
+  height: 80px;
+  background-color: #005B9C;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  color: #ffffff;
+  box-shadow: 0 2px 4px #ADB5BD;
+  position: relative;
+  z-index: 10;
+}
+
+.title {
+  flex-grow: 1;
+  font-family: 'DIN Pro', sans-serif;
+  font-weight: 500;
+  font-size: 28px;
+  text-align: left;
+}
+
+.userFrame {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.accountText {
+  font-family: 'DIN Pro', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.menuDropdown {
+  width: 296px !important;
+  min-height: 112px;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 4px #ADB5BD !important;
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.menuItem {
+  height: 24px;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.menuItemInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: #005B9C;
+}
+
+.divider {
+  border-top: 1px solid #005B9C;
+  width: 100%;
+}
