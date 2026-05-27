@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom"
 import {
   PasswordInput,
   Button,
@@ -9,17 +8,21 @@ import {
   Text,
   Box,
   Center,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Icon } from "@iconify/react";
-import { useAuthStore } from "../features/auth/authStore";
-import { apiClient } from "../api/apiClient";
+} from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { Icon } from "@iconify/react"
+import { useAppDispatch } from '../store'
+import { useSetupPasswordMutation } from '../features/auth/authApi'
+import { authSlice } from '../features/auth/authStore'
 
 export const SetupPasswordPage = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const setAuth = useAuthStore((s) => s.setAuth);
-  const token = searchParams.get("token");
+  const dispatch = useAppDispatch()
+
+  const [setupPassword] = useSetupPasswordMutation()
+
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const token = searchParams.get("token")
 
   const form = useForm({
     initialValues: { password: "", confirmPassword: "" },
@@ -28,20 +31,23 @@ export const SetupPasswordPage = () => {
       confirmPassword: (val, values) =>
         val !== values.password ? "Пароли не совпадают" : null,
     },
-  });
+  })
 
   const handleSubmit = async (values: typeof form.values) => {
+    if (!token) return
+
     try {
-      const { data } = await apiClient.post("/auth/setup-password", {
+      const data = await setupPassword({
         token,
         password: values.password,
-      });
-      setAuth(data); // Сразу авторизуем пользователя
-      navigate("/"); // Редирект на главную
+      }).unwrap()
+
+      dispatch(authSlice.actions.setAuth(data))
+      navigate("/")
     } catch (e) {
-      console.error("Ошибка установки пароля");
+      console.error("Ошибка установки пароля")
     }
-  };
+  }
 
   return (
     <Group gap={0} h="100vh" align="stretch">
@@ -115,5 +121,5 @@ export const SetupPasswordPage = () => {
         </Stack>
       </Center>
     </Group>
-  );
-};
+  )
+}

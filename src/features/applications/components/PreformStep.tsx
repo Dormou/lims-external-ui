@@ -1,22 +1,24 @@
-import { Stack, Text, Button } from "@mantine/core";
-import { useApplicationStore } from "../applicationStore";
-import { ApplicationApi } from "../applicationApi";
+import { Stack, Text, Button } from "@mantine/core"
+import { applicationsSlice } from "../applicationStore"
+import { useAppDispatch } from '../../../store'
+import { useCreateDraftMutation } from '../applicationsApi'
 
 export const PreformStep = () => {
-  const { setStep, setApplicationId } = useApplicationStore();
+  const dispatch = useAppDispatch()
+
+  const [createDraft] = useCreateDraftMutation()
 
   const handleStart = async () => {
     try {
-      const response = await ApplicationApi.createDraft();
+      const response = await createDraft().unwrap()
 
-      setApplicationId(response);
-
-      setStep(1);
+      dispatch(applicationsSlice.actions.setApplicationId(response.id))
+      dispatch(applicationsSlice.actions.setStep(1))
     } catch (error) {
-      console.error("Не удалось создать черновик:", error);
+      console.error("Не удалось создать черновик:", error)
       // Здесь можно добавить уведомление пользователю
     }
-  };
+  }
 
   return (
     <Stack gap={24} align="center">

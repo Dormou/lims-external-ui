@@ -1,15 +1,19 @@
-import { Table, Checkbox, Text, ScrollArea } from "@mantine/core";
-import { useApplicationStore } from "../applicationStore";
+import { Table, Checkbox, Text, ScrollArea } from "@mantine/core"
+import { useGetMetadataQuery } from '../applicationsApi'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore'
 
 export const TestsTab = () => {
-  const { objects, tests, setTestValue, metadata, branchId, equipmentTypeId } =
-    useApplicationStore();
+  const dispatch = useAppDispatch()
+
+  const { data: metadata } = useGetMetadataQuery()
+
+  const { objects, tests, branchId, equipmentTypeId } = useAppSelector((state) => state.applicationsSlice)
 
   const activeTests =
-    metadata
-      .find((b) => b.branchId === branchId)
+    metadata?.find((b) => b.branchId === branchId)
       ?.equipmentTypes.find((t) => t.equipmentTypeId === equipmentTypeId)
-      ?.tests || [];
+      ?.tests || []
 
   return (
     <ScrollArea mt="xl">
@@ -38,7 +42,7 @@ export const TestsTab = () => {
                   <Checkbox
                     checked={tests[test.testId]?.[obj.id] || false}
                     onChange={(e) =>
-                      setTestValue(test.testId, obj.id, e.currentTarget.checked)
+                      dispatch(applicationsSlice.actions.setTestValue({ testId: test.testId, objId: obj.id, value: e.currentTarget.checked }))
                     }
                   />
                 </Table.Td>

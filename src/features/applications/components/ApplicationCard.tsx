@@ -1,19 +1,14 @@
-import { Paper, Title, Stack, Text, Divider, Group } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { Paper, Title, Stack, Text, Divider, Group } from "@mantine/core"
+import { useNavigate } from "react-router-dom"
+import type { ApplicationInfo } from '../types/Types'
 
 interface ApplicationCardProps {
-  app: {
-    id: string;
-    status: string;
-    updatedAt: string;
-    equipmentType: string;
-    samples: string[];
-  };
+  app: ApplicationInfo
 }
 
 export const ApplicationCard = ({ app }: ApplicationCardProps) => {
-  const navigate = useNavigate();
-  const isDraft = app.status === "Черновик";
+  const navigate = useNavigate()
+  const isDraft = app.status === "Черновик"
 
   return (
     <Paper

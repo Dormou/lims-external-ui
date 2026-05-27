@@ -1,16 +1,16 @@
-import { Stack, Text, Group, Button } from "@mantine/core";
-import { Icon } from "@iconify/react";
-import { useApplicationStore } from "../applicationStore";
-import { formatDate } from "../../../utils";
+import { Stack, Text, Group, Button } from "@mantine/core"
+import { Icon } from "@iconify/react"
+import { formatDate } from "../../../utils"
+import { useAppSelector } from '../../../store'
 
 export const SuccessStep = () => {
-  const { applicationId, signedFileMeta, reset } = useApplicationStore();
+  const { applicationId, signedFileMeta } = useAppSelector((state) => state.applicationsSlice)
 
   const fileCreatedDate = signedFileMeta?.createdAt
     ? formatDate(signedFileMeta.createdAt)
-    : "";
+    : ""
 
-  const downloadSignedUrl = `/api/applications/${applicationId}/signed-file`;
+  const downloadSignedUrl = `/api/applications/${applicationId}/signed-file`
 
   return (
     <Stack gap={24} align="center" w="100%">

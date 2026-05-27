@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useState } from "react"
 import {
   PasswordInput,
   Button,
@@ -10,25 +10,29 @@ import {
   Divider,
   Box,
   Grid,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useAuthStore } from "../../auth/authStore";
-import { profileApi } from "../profileApi";
-import { formatDate, getMonthNoun } from "../../../utils";
-import dayjs from "dayjs";
+} from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { useChangePasswordMutation } from "../profileApi"
+import { formatDate, getMonthNoun } from "../../../utils"
+import dayjs from "dayjs"
+import { useAppDispatch } from '../../../store'
+import { authSlice } from '../../auth/authStore'
 
 export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
+  const dispatch = useAppDispatch()
+
+  const [changePassword] = useChangePasswordMutation()
+
   const monthsAgo = lastUpdate
     ? dayjs().diff(lastUpdate, "month")
     : 0;
   const timeAgoText =
     monthsAgo < 1
       ? "меньше месяца назад"
-      : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`;
-  const isExpired = monthsAgo >= 3;
+      : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`
+  const isExpired = monthsAgo >= 3
 
-  const [isPasswordEditing, setIsPasswordEditing] = useState(false);
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const [isPasswordEditing, setIsPasswordEditing] = useState(false)
 
   const passwordForm = useForm({
     initialValues: {
@@ -41,22 +45,22 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
       confirmPassword: (val, values) =>
         val !== values.newPassword ? "Пароли не совпадают" : null,
     },
-  });
+  })
 
   const handleSavePassword = async (values: typeof passwordForm.values) => {
     try {
-      const { data } = await profileApi.changePassword({
+      const data = await changePassword({
         oldPassword: values.oldPassword,
         newPassword: values.newPassword,
-      });
-      setAuth(data);
-      setIsPasswordEditing(false);
-      passwordForm.reset();
+      }).unwrap()
+      dispatch(authSlice.actions.setAuth(data))
+      setIsPasswordEditing(false)
+      passwordForm.reset()
       // Можно добавить уведомление об успехе
     } catch (e) {
-      console.error("Ошибка смены пароля");
+      console.error("Ошибка смены пароля")
     }
-  };
+  }
 
   return (
     <Box pt={20}>
@@ -135,5 +139,5 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
         </form>
       )}
     </Box>
-  );
-};
+  )
+}

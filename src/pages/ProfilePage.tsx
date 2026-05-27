@@ -1,22 +1,16 @@
-import { useEffect } from "react";
-import {
-  Loader,
-  ScrollArea,
-} from "@mantine/core";
-import { useProfileStore } from "../features/profile/profileStore";
-import { ProfileForm } from "../features/profile/components/ProfileForm";
+import { Loader } from "@mantine/core"
+import { ProfileForm } from "../features/profile/components/ProfileForm"
+import { useGetProfileQuery } from '../features/profile/profileApi'
 
 export const ProfilePage = () => {
-  const { profile, fetchProfile } = useProfileStore();
+  const { data, isFetching, isSuccess, isError } = useGetProfileQuery()
 
-  useEffect(() => {
-    fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchProfile]);
+  if (isFetching)
+    return <Loader />
 
-  if (!profile) return <Loader />;
-
-  return (
-      <ProfileForm profile={profile} />
-  );
-};
+  if (isSuccess)
+    return <ProfileForm profile={data} />
+  
+  if (isError)
+    return <div>Не удалось загрузить данные</div>
+}

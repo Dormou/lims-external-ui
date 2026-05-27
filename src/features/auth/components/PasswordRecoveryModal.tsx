@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"
 import {
   Modal,
   TextInput,
@@ -9,46 +9,43 @@ import {
   Group,
   ActionIcon,
   Anchor,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconX } from "@tabler/icons-react";
-import { authApi } from "../authApi";
+} from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { IconX } from "@tabler/icons-react"
+import { useRecoverPasswordMutation } from "../authApi"
 
 interface Props {
-  opened: boolean;
-  onClose: () => void;
+  opened: boolean
+  onClose: () => void
 }
 
 export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [recoverPassword, { isLoading }] = useRecoverPasswordMutation()
+
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const form = useForm({
     initialValues: { email: "" },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Некорректный email"),
     },
-  });
+  })
 
   const handleRecover = async (values: typeof form.values) => {
-    setLoading(true);
     try {
-      await authApi.recoverPassword(values.email);
-      setIsSuccess(true);
+      await recoverPassword({email: values.email}).unwrap()  
     } catch (error: any) {
       if (error.response?.status === 404) {
-        form.setFieldError("email", "Пользователя с таким email не существует");
+        form.setFieldError("email", "Пользователя с таким email не существует")
       }
-    } finally {
-      setLoading(false);
     }
-  };
+  }
 
   const handleClose = () => {
-    setIsSuccess(false);
-    form.reset();
-    onClose();
-  };
+    setIsSuccess(false)
+    form.reset()
+    onClose()
+  }
 
   return (
     <Modal
@@ -79,7 +76,7 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
               {...form.getInputProps("email")}
             />
 
-            <Button type="submit" size="lg" px={40} loading={loading}>
+            <Button type="submit" size="lg" px={40} loading={isLoading}>
               Восстановить пароль
             </Button>
           </Stack>

@@ -1,32 +1,29 @@
-import { useState } from "react";
-import { Stack, Text, Button, Group, Box, FileInput } from "@mantine/core";
-import { Icon } from "@iconify/react";
-import { useApplicationStore } from "../applicationStore";
-import { ApplicationApi } from "../applicationApi";
+import { Stack, Text, Button, Group, Box, FileInput } from "@mantine/core"
+import { Icon } from "@iconify/react"
+import { useUploadSignedFileMutation } from '../applicationsApi'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore';
 
 export const SigningStep = () => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch()
 
-  const { applicationId, signedFile, setSignedFile, setSignedFileMeta, setStep, generatedFile } =
-    useApplicationStore();
+  const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
+
+  const { applicationId, signedFile, generatedFile } = useAppSelector((state) => state.applicationsSlice)
 
   const handleSend = async () => {
-    if (!applicationId || !signedFile) return;
-    setLoading(true);
+    if (!applicationId || !signedFile) return
     try {
-      const responseData = await ApplicationApi.uploadSignedFile(
+      const responseData = await uploadSignedFile({
         applicationId,
         signedFile,
-      );
-      setSignedFileMeta(responseData);
-
-      setStep(3);
+      }).unwrap()
+      dispatch(applicationsSlice.actions.setSignedFileMeta(responseData))
+      dispatch(applicationsSlice.actions.setStep(3))
     } catch (e) {
-      console.error("Ошибка отправки файла:", e);
-    } finally {
-      setLoading(false);
+      console.error("Ошибка отправки файла:", e)
     }
-  };
+  }
 
   return (
     <Stack gap={24} align="center" w="100%">
@@ -100,20 +97,20 @@ export const SigningStep = () => {
           placeholder="Нажмите, чтобы выбрать файл"
           leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
           value={signedFile}
-          onChange={setSignedFile}
+          onChange={(payload) => dispatch(applicationsSlice.actions.setSignedFile(payload))}
           clearable
         />
       </Box>
 
       <Group gap="md" mt="xl">
-        <Button variant="outline" size="lg" onClick={() => setStep(1)}>
+        <Button variant="outline" size="lg" onClick={() => dispatch(applicationsSlice.actions.setStep(1))}>
           Редактировать заявку
         </Button>
         <Button
           variant="filled"
           size="lg"
           disabled={!signedFile}
-          loading={loading}
+          loading={isLoading}
           onClick={handleSend}
         >
           Отправить заявку

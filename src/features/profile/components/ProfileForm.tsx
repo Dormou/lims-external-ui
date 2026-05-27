@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react";
+import { Icon } from "@iconify/react"
 import {
   Loader,
   Stack,
@@ -9,16 +9,25 @@ import {
   TextInput,
   Checkbox,
   Text,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { formatDate } from "../../../utils";
-import { useProfileStore, type UserProfile } from "../profileStore";
-import { ProfileSection } from "./ProfileSection";
-import { profileApi } from "../profileApi";
-import { SecuritySection } from "./SecuritySection";
+} from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { formatDate } from "../../../utils"
+import { ProfileSection } from "./ProfileSection"
+import {
+  useUpdateHeadMutation, 
+  useUpdateOrganizationMutation, 
+  useUpdateTechContactMutation, 
+  useUpdateUserMutation 
+} from "../profileApi"
+import { SecuritySection } from "./SecuritySection"
+
+import type { UserProfile } from '../types/userProfile'
 
 export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
-  const fetchProfile = useProfileStore((state) => state.fetchProfile);
+  const [updateUser] = useUpdateUserMutation()
+  const [updateOrganization] = useUpdateOrganizationMutation()
+  const [updateHead] = useUpdateHeadMutation()
+  const [updateTechContact] = useUpdateTechContactMutation()
 
   const userForm = useForm({
     initialValues: {
@@ -34,13 +43,12 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
 
   const handleSaveUser = async () => {
     try {
-      await profileApi.updateUser(userForm.values);
-      await fetchProfile();
-      userForm.resetDirty();
+      await updateUser(userForm.values).unwrap()
+      userForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления пользователя", e);
+      console.error("Ошибка обновления пользователя", e)
     }
-  };
+  }
 
   const organizationForm = useForm({
     initialValues: {
@@ -57,13 +65,12 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
 
   const handleSaveOrganization = async () => {
     try {
-      await profileApi.updateOrganization(organizationForm.values);
-      await fetchProfile();
-      organizationForm.resetDirty();
+      await updateOrganization(organizationForm.values).unwrap()
+      organizationForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления организации", e);
+      console.error("Ошибка обновления организации", e)
     }
-  };
+  }
 
   const headForm = useForm({
     initialValues: {
@@ -73,17 +80,16 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
       headPosition: profile?.headPosition || "",
       headDocument: profile?.headDocument || "",
     },
-  });
+  })
 
   const handleSaveHead = async () => {
     try {
-      await profileApi.updateHead(headForm.values);
-      await fetchProfile();
-      headForm.resetDirty();
+      await updateHead(headForm.values).unwrap()
+      headForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления руководителя", e);
+      console.error("Ошибка обновления руководителя", e)
     }
-  };
+  }
 
   const techContactForm = useForm({
     initialValues: {
@@ -93,17 +99,16 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
       email: profile?.techContactEmail || "",
       phoneNumber: profile?.techContactPhoneNumber || "",
     },
-  });
+  })
 
   const handleSaveTechContact = async () => {
     try {
-      await profileApi.updateTechContact(techContactForm.values);
-      await fetchProfile();
-      techContactForm.resetDirty();
+      await updateTechContact(techContactForm.values).unwrap()
+      techContactForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления контакта по техническим вопросам", e);
+      console.error("Ошибка обновления контакта по техническим вопросам", e)
     }
-  };
+  }
 
   const iAmTechContact = userForm.values.iAmTechContact;
   const iAmHead = userForm.values.iAmHead;

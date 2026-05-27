@@ -9,32 +9,37 @@ import {
   Anchor,
   Box,
   Center,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Icon } from "@iconify/react";
-import { useAuthStore } from "../features/auth/authStore";
-import { authApi } from "../features/auth/authApi";
-import { useDisclosure } from "@mantine/hooks";
-import { RegistrationModal } from "../features/auth/components/RegistrationModal";
-import { PasswordRecoveryModal } from "../features/auth/components/PasswordRecoveryModal";
+} from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { Icon } from "@iconify/react"
+
+import { useLoginMutation } from "../features/auth/authApi"
+import { useDisclosure } from "@mantine/hooks"
+import { RegistrationModal } from "../features/auth/components/RegistrationModal"
+import { PasswordRecoveryModal } from "../features/auth/components/PasswordRecoveryModal"
+import { useAppDispatch } from '../store'
+import { authSlice } from '../features/auth/authStore'
 
 export const LoginPage = () => {
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const dispatch = useAppDispatch()
+
+  const [login] = useLoginMutation()
+
   const form = useForm({
     initialValues: { email: "", password: "", userType: "Client" },
-  });
+  })
 
-  const [registrationOpened, registrationHandlers] = useDisclosure(false);
-  const [recoverOpened, recoverHandlers] = useDisclosure(false);
+  const [registrationOpened, registrationHandlers] = useDisclosure(false)
+  const [recoverOpened, recoverHandlers] = useDisclosure(false)
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const { data } = await authApi.login(values);
-      setAuth(data);
+      const data = await login({...values}).unwrap()
+      dispatch(authSlice.actions.setAuth(data))
     } catch (e) {
-      console.error("Ошибка входа");
+      console.error("Ошибка входа")
     }
-  };
+  }
 
   return (
     <>

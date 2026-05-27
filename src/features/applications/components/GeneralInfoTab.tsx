@@ -7,39 +7,40 @@ import {
   Text,
   Title,
   Group,
-  Divider,
   Anchor,
   ScrollArea,
-} from "@mantine/core";
-import { IconTrash, IconPlus } from "@tabler/icons-react";
-import { useApplicationStore } from "../applicationStore";
-import type { BranchMeta, EquipmentTypeMeta } from "../applicationTypes";
+} from "@mantine/core"
+import { IconTrash, IconPlus } from "@tabler/icons-react"
+
+import { useGetMetadataQuery } from '../applicationsApi'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore'
+import type { BranchMeta, EquipmentTypeMeta } from '../types/Types'
 
 export const GeneralInfoTab = () => {
+  const dispatch = useAppDispatch()
+
   const {
     branchId,
     equipmentTypeId,
     producerName,
     producerAddress,
-    objects,
-    updateGeneral,
-    addObject,
-    removeObject,
-    updateObjectName,
-  } = useApplicationStore();
+    objects
+  } = useAppSelector((state) => state.applicationsSlice)
 
-  const metadata = useApplicationStore((state) => state.metadata);
-  const branchData = metadata.map((b: BranchMeta) => ({
+  const { data: metadata } = useGetMetadataQuery()
+
+  const branchData = metadata?.map((b: BranchMeta) => ({
     value: b.branchId,
     label: b.branchName,
-  }));
+  })) ?? []
 
-  const selectedBranchData = metadata.find((b) => b.branchId === branchId);
+  const selectedBranchData = metadata?.find((b) => b.branchId === branchId)
   const equipmentData =
     selectedBranchData?.equipmentTypes.map((t: EquipmentTypeMeta) => ({
       value: t.equipmentTypeId,
       label: t.equipmentTypeName,
-    })) || [];
+    })) || []
 
   return (
     <ScrollArea>
@@ -62,9 +63,7 @@ export const GeneralInfoTab = () => {
           required
           data={branchData}
           value={branchId}
-          onChange={(val) =>
-            updateGeneral({ branchId: val ?? "", equipmentTypeId: "" })
-          }
+          onChange={(val) => dispatch(applicationsSlice.actions.updateGeneral({ branchId: val ?? "", equipmentTypeId: "" }))}
         />
 
         <Text size="sm" ta="center">
@@ -85,7 +84,7 @@ export const GeneralInfoTab = () => {
           disabled={branchId === ""}
           data={equipmentData}
           value={equipmentTypeId}
-          onChange={(val) => updateGeneral({ equipmentTypeId: val ?? "" })}
+          onChange={(val) => dispatch(applicationsSlice.actions.updateGeneral({ equipmentTypeId: val ?? "" }))}
         />
 
         <TextInput
@@ -93,7 +92,7 @@ export const GeneralInfoTab = () => {
           placeholder="Введите полное наименование предприятия-изготовителя"
           required
           value={producerName}
-          onChange={(e) => updateGeneral({ producerName: e.target.value })}
+          onChange={(e) => dispatch(applicationsSlice.actions.updateGeneral({ producerName: e.target.value }))}
         />
 
         <TextInput
@@ -101,7 +100,7 @@ export const GeneralInfoTab = () => {
           placeholder="Введите адрес производственной площадки изготовителя"
           required
           value={producerAddress}
-          onChange={(e) => updateGeneral({ producerAddress: e.target.value })}
+          onChange={(e) => dispatch(applicationsSlice.actions.updateGeneral({ producerAddress: e.target.value }))}
         />
 
         <Group justify="space-between">
@@ -109,7 +108,7 @@ export const GeneralInfoTab = () => {
           <Button
             variant="outline"
             leftSection={<IconPlus size={16} />}
-            onClick={addObject}
+            onClick={() => dispatch(applicationsSlice.actions.addObject())}
             disabled={objects.length >= 12}
           >
             Добавить объект испытаний
@@ -124,14 +123,14 @@ export const GeneralInfoTab = () => {
               required
               style={{ flex: 1 }}
               value={obj.name}
-              onChange={(e) => updateObjectName(obj.id, e.target.value)}
+              onChange={(e) => dispatch(applicationsSlice.actions.updateObjectName({id: obj.id, name: e.target.value}))}
             />
             {objects.length > 1 && (
               <ActionIcon
                 color="red"
                 variant="subtle"
                 size="lg"
-                onClick={() => removeObject(obj.id)}
+                onClick={() => dispatch(applicationsSlice.actions.removeObject(obj.id))}
               >
                 <IconTrash size={20} />
               </ActionIcon>

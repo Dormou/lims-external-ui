@@ -1,16 +1,17 @@
-import { Stack, FileInput } from "@mantine/core";
-import { Icon } from "@iconify/react";
-import { useApplicationStore } from "../applicationStore";
+import { Stack, FileInput } from "@mantine/core"
+import { Icon } from "@iconify/react"
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore'
 
 export const DocsTab = () => {
-  const {
-    regulatoryDocument,
-    specification,
-    shema,
-    additionalDocuments,
-    setFile,
-    setAdditionalFiles,
-  } = useApplicationStore();
+  const dispatch = useAppDispatch()
+
+  const { 
+    regulatoryDocument, 
+    specification, 
+    shema, 
+    additionalDocuments 
+  } = useAppSelector((state) => state.applicationsSlice)
 
   return (
     <Stack gap="xl" w="100%" style={{ maxWidth: "600px", margin: "0 auto" }}>
@@ -20,7 +21,7 @@ export const DocsTab = () => {
         placeholder="Выберите файл"
         leftSection={<Icon icon="mdi:file-document-outline" width={20} />}
         value={regulatoryDocument}
-        onChange={(file) => setFile("regulatoryDocument", file)}
+        onChange={(file) => dispatch(applicationsSlice.actions.setFile({field: "regulatoryDocument", file: file}))}
         clearable
       />
 
@@ -30,7 +31,7 @@ export const DocsTab = () => {
         placeholder="Выберите файл"
         leftSection={<Icon icon="mdi:file-certificate-outline" width={20} />}
         value={specification}
-        onChange={(file) => setFile("specification", file)}
+        onChange={(file) => dispatch(applicationsSlice.actions.setFile({field: "specification", file: file}))}
         clearable
       />
 
@@ -40,7 +41,7 @@ export const DocsTab = () => {
         placeholder="Выберите файл"
         leftSection={<Icon icon="mdi:file-cog-outline" width={20} />}
         value={shema}
-        onChange={(file) => setFile("shema", file)}
+        onChange={(file) => dispatch(applicationsSlice.actions.setFile({field: "shema", file: file}))}
         clearable
       />
 
@@ -50,9 +51,9 @@ export const DocsTab = () => {
         leftSection={<Icon icon="mdi:file-multiple-outline" width={20} />}
         multiple
         value={additionalDocuments}
-        onChange={setAdditionalFiles}
+        onChange={(payload) => dispatch(applicationsSlice.actions.setAdditionalFiles(payload))}
         clearable
       />
     </Stack>
-  );
-};
+  )
+}

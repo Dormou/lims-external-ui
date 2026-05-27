@@ -1,48 +1,35 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { UserInfo } from './types/userInfo'
+import type { LoginResponse } from './types/responses'
 
-interface UserInfo {
-  id: string;
-  fullName: {
-    firstName: string;
-    lastName: string;
-    patronymic: string | null;
-  };
+interface AuthSliceState {
+  accessToken: string | null
+  refreshToken: string | null
+  user: UserInfo | null
 }
 
-interface AuthState {
-  token: string | null;
-  refreshToken: string | null;
-  user: UserInfo | null;
-  setAuth: (data: any) => void;
-  logout: () => void;
-  getDisplayName: () => string;
+const initialState: AuthSliceState = {
+  accessToken: null,
+  refreshToken: null,
+  user: null
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      token: null,
-      refreshToken: null,
-      user: null,
-      setAuth: (data) =>
-        set({
-          token: data.accessToken,
-          refreshToken: data.refreshToken,
-          user: data.userInfo,
-        }),
-      logout: () => set({ token: null, refreshToken: null, user: null }),
-      getDisplayName: () => {
-        const user = get().user;
-        if (!user) return "Гость";
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setAuth: (state, action: PayloadAction<LoginResponse>) => {
+      state.accessToken = action.payload.accessToken
+      state.refreshToken = action.payload.refreshToken
+      state.user = action.payload.userInfo
+    },
+    logout: (state) => {
+      state.accessToken = null
+      state.refreshToken = null
+      state.user = null
+    }
+  }
+})
 
-        const { firstName, lastName, patronymic } = user.fullName;
-        const initials =
-          `${firstName[0]}.` + (patronymic ? `${patronymic[0]}.` : "");
-
-        return `${lastName} ${initials}`;
-      },
-    }),
-    { name: "auth-storage" },
-  ),
-);
+export default authSlice.reducer

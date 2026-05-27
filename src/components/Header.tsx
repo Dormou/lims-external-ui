@@ -1,13 +1,27 @@
-import { Text, Menu, UnstyledButton, Box, Anchor, Image } from "@mantine/core";
-import { Icon } from "@iconify/react";
-import classes from "./Header.module.css";
-import { useAuthStore } from "../features/auth/authStore";
-import { useNavigate } from "react-router-dom";
+import { Text, Menu, UnstyledButton, Box, Anchor, Image } from "@mantine/core"
+import { Icon } from "@iconify/react"
+import { useLogoutMutation } from '../features/auth/authApi'
+import { useNavigate } from "react-router-dom"
+import { useGetProfileQuery } from '../features/profile/profileApi'
+import { useMemo } from 'react'
+import classes from "./Header.module.css"
 
 export const Header = () => {
-  const logout = useAuthStore((s) => s.logout);
-  const displayName = useAuthStore((s) => s.getDisplayName());
-  const navigate = useNavigate();
+  const { data } = useGetProfileQuery()
+
+  const [logout] = useLogoutMutation()
+
+  const navigate = useNavigate()
+
+  const displayName = useMemo(() => {
+    if (!data) return "Гость"
+
+    const { firstName, lastName, patronymic } = data.fullName
+    const initials =
+    `${firstName[0]}.` + (patronymic ? `${patronymic[0]}.` : "")
+
+    return `${lastName} ${initials}`
+  }, [data])
 
   return (
     <header className={classes.header}>

@@ -7,59 +7,58 @@ import {
   Text,
   Center,
   Loader,
-} from "@mantine/core";
-import "@mantine/core/styles.layer.css";
-import { Icon } from "@iconify/react";
-import { useApplicationStore } from "../applicationStore";
-import { useEffect, useState } from "react";
-import { PreformStep } from "./PreformStep";
-import { useAutoSave } from "../hooks/useAutoSave";
-import { CreateFormStep } from "./CreateFormStep";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { SigningStep } from "./SigningStep";
-import { useUserConfirmationPolling } from "../hooks/useUserConfirmationPollling";
-import { SuccessStep } from "./SuccessStep";
-import { ApplicationApi } from "../applicationApi";
+} from "@mantine/core"
+import "@mantine/core/styles.layer.css"
+import { Icon } from "@iconify/react"
+
+import { useEffect, useState } from "react"
+import { PreformStep } from "./PreformStep"
+import { useAutoSave } from "../hooks/useAutoSave"
+import { CreateFormStep } from "./CreateFormStep"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { SigningStep } from "./SigningStep"
+import { useUserConfirmationPolling } from "../hooks/useUserConfirmationPollling"
+import { SuccessStep } from "./SuccessStep"
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { useLazyGetApplicationQuery } from '../applicationsApi'
+import { applicationsSlice } from '../applicationStore'
 
 export const CreateApplicationManager = () => {
-  const { currentStep, setStep, loadApplicationData, reset } =
-    useApplicationStore();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
 
-  const [searchParams] = useSearchParams();
-  const appIdFromUrl = searchParams.get("id");
-  const [isInitializing, setIsInitializing] = useState(true);
+  const currentStep = useAppSelector((state) => state.applicationsSlice.currentStep)
 
-  const fetchMetadata = useApplicationStore((state) => state.fetchMetadata);
-  useEffect(() => {
-    fetchMetadata();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [getApplication] = useLazyGetApplicationQuery()
+
+  const navigate = useNavigate()
+
+  const [searchParams] = useSearchParams()
+  const appIdFromUrl = searchParams.get("id")
+  const [isInitializing, setIsInitializing] = useState(true)
 
   useEffect(() => {
     const initForm = async () => {
-      if (appIdFromUrl) {
+      if (typeof appIdFromUrl === 'string') {
         try {
           // Загружаем данные существующей заявки
-          const appData = await ApplicationApi.getApplicationById(appIdFromUrl);
-          loadApplicationData(appData);
+          const appData = await getApplication({applicationId: appIdFromUrl}).unwrap()
+          dispatch(applicationsSlice.actions.loadApplicationData(appData))
         } catch (e) {
-          console.error("Не удалось восстановить заявку:", e);
-          reset();
+          console.error("Не удалось восстановить заявку:", e)
+          dispatch(applicationsSlice.actions.reset())
         }
       } else {
-        reset();
-        setStep(0);
+        dispatch(applicationsSlice.actions.reset())
+        dispatch(applicationsSlice.actions.setStep(0))   
       }
-      setIsInitializing(false);
-    };
+      setIsInitializing(false)
+    }
 
-    initForm();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appIdFromUrl]);
+    initForm()
+  }, [appIdFromUrl])
 
-  useAutoSave();
-  useUserConfirmationPolling();
+  useAutoSave()
+  useUserConfirmationPolling()
 
   return (
     <Stack gap={24} h="100%" w="100%">

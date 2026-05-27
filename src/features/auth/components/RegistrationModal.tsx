@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"
 import {
   Modal,
   TextInput,
@@ -10,10 +10,10 @@ import {
   Group,
   ActionIcon,
   Anchor,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconX } from "@tabler/icons-react";
-import { authApi } from "../authApi";
+} from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { IconX } from "@tabler/icons-react"
+import { useRegisterClientMutation } from "../authApi"
 
 export const RegistrationModal = ({
   opened,
@@ -22,8 +22,9 @@ export const RegistrationModal = ({
   opened: boolean;
   onClose: () => void;
 }) => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [registerClient, { isLoading }] = useRegisterClientMutation()
+
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const form = useForm({
     initialValues: {
@@ -44,33 +45,30 @@ export const RegistrationModal = ({
       organizationFullName: (value) =>
         value.length < 1 ? "Обязательное поле" : null,
     },
-  });
+  })
 
   const handleRegister = async (values: typeof form.values) => {
-    setLoading(true);
     try {
-      await authApi.register({
+      await registerClient({
         ...values,
         patronymic: values.patronymic || null,
         organizationShortName: values.organizationShortName || null,
-      });
-      setIsSuccess(true);
+      })
+      setIsSuccess(true)
     } catch (error: any) {
       if (error.response?.status === 409) {
         form.setFieldError(
           "email",
           "Пользователь с таким email уже зарегистрирован",
-        );
+        )
       }
-    } finally {
-      setLoading(false);
     }
-  };
+  }
 
   const handleClose = () => {
-    setIsSuccess(false);
-    form.reset();
-    onClose();
+    setIsSuccess(false)
+    form.reset()
+    onClose()
   };
 
   return (
@@ -181,7 +179,7 @@ export const RegistrationModal = ({
               variant="filled"
               size="lg"
               px={60}
-              loading={loading}
+              loading={isLoading}
             >
               Зарегистрироваться
             </Button>
