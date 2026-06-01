@@ -1,5 +1,3 @@
-import type { Application } from './Types'
-
 export type SaveDraftRequest = any
 
 export type GetApplicationRequest = {

@@ -10,8 +10,8 @@ interface AuthSliceState {
 }
 
 const initialState: AuthSliceState = {
-  accessToken: null,
-  refreshToken: null,
+  accessToken: localStorage.getItem('access_token'),
+  refreshToken: localStorage.getItem('refresh_token'),
   user: null
 }
 
@@ -20,8 +20,12 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setAuth: (state, action: PayloadAction<LoginResponse>) => {
+      localStorage.setItem('access_token', action.payload.accessToken)
+      localStorage.setItem('refresh_token', action.payload.refreshToken)
+
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken
+
       state.user = action.payload.userInfo
     },
     logout: (state) => {

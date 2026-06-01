@@ -27,3 +27,5 @@ pnpm-debug.log*
 .env.production.local
 
 .dockerignore
+
+public/mockServiceWorker.js
