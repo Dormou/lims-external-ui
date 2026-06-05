@@ -12,7 +12,7 @@ import {
   Grid,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useChangePasswordMutation } from "../profileApi"
+import { profileApi, useChangePasswordMutation } from "../profileApi"
 import { formatDate, getMonthNoun } from "../../../utils"
 import dayjs from "dayjs"
 import { useAppDispatch } from '../../../store'
@@ -53,9 +53,17 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
         oldPassword: values.oldPassword,
         newPassword: values.newPassword,
       }).unwrap()
+
+      // Обновление данных авторизации
       dispatch(authSlice.actions.setAuth(data))
-      setIsPasswordEditing(false)
+
+      // Обновление данных профиля
+      dispatch(profileApi.util.invalidateTags(['Profile']))
+
+      // Очистка формы
       passwordForm.reset()
+      setIsPasswordEditing(false)
+
       // Можно добавить уведомление об успехе
     } catch (e) {
       console.error("Ошибка смены пароля")

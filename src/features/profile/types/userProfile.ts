@@ -21,7 +21,7 @@ export type UserProfile = {
   headDocument: string | null
   techContactFirstName: string | null
   techContactLastName: string | null
-  techContactPantronymic: string | null
+  techContactPatronymic: string | null
   techContactEmail: string | null
   techContactPhoneNumber: string | null
 }

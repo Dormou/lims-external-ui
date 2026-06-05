@@ -8,7 +8,7 @@ export type LoginResponse = {
 }
 
 export type SetupPasswordResponse = {
-  token: string
+  accessToken: string
   refreshToken: string
   expiresInSeconds: number
   userInfo: UserInfo

@@ -74,9 +74,9 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
 
   const headForm = useForm({
     initialValues: {
-      firstName: profile?.headFullName?.firstName || "",
-      lastName: profile?.headFullName?.lastName || "",
-      patronymic: profile?.headFullName?.patronymic || "",
+      firstName: profile?.headFirstName || "",
+      lastName: profile?.headLastName || "",
+      patronymic: profile?.headPatronymic || "",
       headPosition: profile?.headPosition || "",
       headDocument: profile?.headDocument || "",
     },
@@ -93,9 +93,9 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
 
   const techContactForm = useForm({
     initialValues: {
-      firstName: profile?.techContactFullName?.firstName || "",
-      lastName: profile?.techContactFullName?.lastName || "",
-      patronymic: profile?.techContactFullName?.patronymic || "",
+      firstName: profile?.techContactFirstName || "",
+      lastName: profile?.techContactLastName || "",
+      patronymic: profile?.techContactPatronymic || "",
       email: profile?.techContactEmail || "",
       phoneNumber: profile?.techContactPhoneNumber || "",
     },
