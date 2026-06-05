@@ -63,7 +63,10 @@ export const GeneralInfoTab = () => {
           required
           data={branchData}
           value={branchId}
-          onChange={(val) => dispatch(applicationsSlice.actions.updateGeneral({ branchId: val ?? "", equipmentTypeId: "" }))}
+          onChange={(val) => {
+            dispatch(applicationsSlice.actions.updateGeneral({ param: 'branchId', value: val ?? '' }))
+            dispatch(applicationsSlice.actions.updateGeneral({ param: 'equipmentTypeId', value: '' }))
+          }}
         />
 
         <Text size="sm" ta="center">
@@ -84,7 +87,7 @@ export const GeneralInfoTab = () => {
           disabled={branchId === ""}
           data={equipmentData}
           value={equipmentTypeId}
-          onChange={(val) => dispatch(applicationsSlice.actions.updateGeneral({ equipmentTypeId: val ?? "" }))}
+          onChange={(val) => dispatch(applicationsSlice.actions.updateGeneral({ param: 'equipmentTypeId', value: val ?? '' }))}
         />
 
         <TextInput
@@ -92,7 +95,7 @@ export const GeneralInfoTab = () => {
           placeholder="Введите полное наименование предприятия-изготовителя"
           required
           value={producerName}
-          onChange={(e) => dispatch(applicationsSlice.actions.updateGeneral({ producerName: e.target.value }))}
+          onChange={(e) => dispatch(applicationsSlice.actions.updateGeneral({ param: 'producerName', value: e.target.value }))}
         />
 
         <TextInput
@@ -100,7 +103,7 @@ export const GeneralInfoTab = () => {
           placeholder="Введите адрес производственной площадки изготовителя"
           required
           value={producerAddress}
-          onChange={(e) => dispatch(applicationsSlice.actions.updateGeneral({ producerAddress: e.target.value }))}
+          onChange={(e) => dispatch(applicationsSlice.actions.updateGeneral({ param: 'producerAddress', value: e.target.value }))}
         />
 
         <Group justify="space-between">

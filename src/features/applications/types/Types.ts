@@ -61,6 +61,7 @@ export type EquipmentTypeMeta = {
 export type ParameterMeta = {
   parameterId: string
   parameterName: string
+  index: number
   parameterUnit?: string | null
   valueType: ValueType
   allowedValues?: string[]
@@ -71,6 +72,7 @@ export type ParameterMeta = {
 export type TestMeta = {
   testId: string
   testName: string
+  index: number
   testMethod: string
   requirements: string
 }

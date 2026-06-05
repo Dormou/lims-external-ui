@@ -70,13 +70,11 @@ export const applicationsSlice = createSlice({
     setApplicationId: (state, action: PayloadAction<string>) => {
       state.applicationId = action.payload
     },
-    updateGeneral: (state, action: PayloadAction<Partial<{
-      branchId: string
-      equipmentTypeId: string
-      producerName: string
-      producerAddress: string
-    }>>) => {
-      state = { ...state, ...action.payload }
+    updateGeneral: (state, action: PayloadAction<{ 
+      value: string, 
+      param: 'branchId' | 'equipmentTypeId' | 'producerName' | 'producerAddress'
+    }>) => {
+      state[action.payload.param] = action.payload.value
     },
     setIsUserConfirmed: (state, action: PayloadAction<boolean>) => {
       state.isUserConfirmed = action.payload
