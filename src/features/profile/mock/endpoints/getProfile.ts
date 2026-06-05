@@ -26,14 +26,14 @@ export const getProfileHandler: HttpHandler = http.get<never, never, GetProfileR
     ogrn: null,
     organizationEmail: null,
     organizationPhoneNumber: null,
-    headFullName: {
-      firstName: 'Иван',
-      lastName: 'Иванов',
-      patronymic: null
-    },
+    headFirstName: 'Иван',
+    headLastName: 'Иванов',
+    headPatronymic: null,
     headPosition: null,
     headDocument: null,
-    techContactFullName: null,
+    techContactFirstName: null,
+    techContactLastName: null,
+    techContactPatronymic: null,
     techContactEmail: null,
     techContactPhoneNumber: null
   })
