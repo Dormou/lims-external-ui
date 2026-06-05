@@ -222,7 +222,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
           <TextInput
             label="Почтовый адрес"
             placeholder="Введите почтовый адрес"
-            {...organizationForm.getInputProps("organizationPostalddress")}
+            {...organizationForm.getInputProps("organizationPostalAddress")}
             mt="md"
           />
 
