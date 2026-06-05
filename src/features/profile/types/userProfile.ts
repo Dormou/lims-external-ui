@@ -14,18 +14,14 @@ export type UserProfile = {
   ogrn: string | null
   organizationEmail: string | null
   organizationPhoneNumber: string | null
-  headFullName: {
-    firstName: string
-    lastName: string
-    patronymic: string | null
-  } | null
+  headFirstName: string
+  headLastName: string
+  headPatronymic: string | null
   headPosition: string | null
   headDocument: string | null
-  techContactFullName: {
-    firstName: string
-    lastName: string
-    patronymic: string | null
-  } | null
+  techContactFirstName: string | null
+  techContactLastName: string | null
+  techContactPantronymic: string | null
   techContactEmail: string | null
   techContactPhoneNumber: string | null
 }
