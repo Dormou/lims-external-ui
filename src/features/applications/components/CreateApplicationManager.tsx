@@ -41,7 +41,7 @@ export const CreateApplicationManager = () => {
       if (typeof appIdFromUrl === 'string') {
         try {
           // Загружаем данные существующей заявки
-          const appData = await getApplication({applicationId: appIdFromUrl}).unwrap()
+          const appData = await getApplication(appIdFromUrl).unwrap()
           dispatch(applicationsSlice.actions.loadApplicationData(appData))
         } catch (e) {
           console.error("Не удалось восстановить заявку:", e)

@@ -4,7 +4,7 @@ import { useSaveDraftMutation } from '../applicationsApi'
 
 export const useAutoSave = () => {
   const currentStep = useAppSelector((state) => state.applicationsSlice.currentStep)
-  const applicationId = useAppSelector((state) => state.applicationsSlice.applicationId)
+  const id = useAppSelector((state) => state.applicationsSlice.id)
   const branchId = useAppSelector((state) => state.applicationsSlice.branchId)
   const equipmentTypeId = useAppSelector((state) => state.applicationsSlice.equipmentTypeId)
   const objects = useAppSelector((state) => state.applicationsSlice.objects)
@@ -23,13 +23,13 @@ export const useAutoSave = () => {
 
   useEffect(() => {
     if (currentStep !== 1) return
-    if (!applicationId) return
+    if (!id) return
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
     timeoutRef.current = setTimeout(async () => {
       const payload = {
-        applicationId,
+        id,
         branchId,
         equipmentTypeId,
         objects,
@@ -54,7 +54,7 @@ export const useAutoSave = () => {
     }
   }, [
     currentStep,
-    applicationId,
+    id,
     branchId,
     equipmentTypeId,
     objects,

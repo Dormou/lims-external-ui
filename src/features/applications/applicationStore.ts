@@ -10,7 +10,7 @@ interface ApplicationsSliceState {
   activeTab: ApplicationTabs // Активная вкладка внутри формы
   isUserConfirmed: boolean
 
-  applicationId: string | null
+  id: string | null
   branchId: string
   equipmentTypeId: string
   producerName: string
@@ -37,7 +37,7 @@ const initialState: ApplicationsSliceState = {
   activeTab: 'general',
   isUserConfirmed: false,
 
-  applicationId: null,
+  id: null,
   branchId: '',
   equipmentTypeId: '',
   producerName: '',
@@ -68,7 +68,7 @@ export const applicationsSlice = createSlice({
       state.activeTab = action.payload
     },
     setApplicationId: (state, action: PayloadAction<string>) => {
-      state.applicationId = action.payload
+      state.id = action.payload
     },
     updateGeneral: (state, action: PayloadAction<{ 
       value: string, 
@@ -167,7 +167,7 @@ export const applicationsSlice = createSlice({
       if (action.payload.status === "Сформирована") targetStep = 2
       if (action.payload.status === "Отправлена") targetStep = 3
 
-      state.applicationId = action.payload.id
+      state.id = action.payload.id
       state.currentStep = targetStep
       state.branchId = draftData.branchId || ""
       state.equipmentTypeId = draftData.equipmentTypeId || ""

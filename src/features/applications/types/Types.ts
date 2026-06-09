@@ -10,7 +10,7 @@ export type ApplicationInfo = {
   status: ApplicationStatus
   updatedAt: Date
   equipmentType: string
-  samples: string[]
+  samples: string[] | null
 }
 
 export type TestingObject = {

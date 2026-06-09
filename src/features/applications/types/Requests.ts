@@ -1,8 +1,6 @@
 export type SaveDraftRequest = any
 
-export type GetApplicationRequest = {
-  applicationId: string
-}
+export type CreateDraftRequest = any
 
 export type UploadSignedFileRequest = {
   applicationId: string

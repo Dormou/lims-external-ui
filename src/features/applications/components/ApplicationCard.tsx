@@ -37,12 +37,12 @@ export const ApplicationCard = ({ app }: ApplicationCardProps) => {
       </Title>
 
       <Stack gap={4} style={{ flex: 1 }}>
-        {app.samples.slice(0, 3).map((sample, idx) => (
+        {app.samples && app.samples.slice(0, 3).map((sample, idx) => (
           <Text key={idx} size="sm" c="dimmed" lineClamp={1}>
             {sample}
           </Text>
         ))}
-        {app.samples.length > 3 && (
+        {app.samples && app.samples.length > 3 && (
           <Text size="xs" c="dimmed">
             ...
           </Text>

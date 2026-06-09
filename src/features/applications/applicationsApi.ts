@@ -14,9 +14,9 @@ import type {
 } from './types/Responses'
 
 import type {
+  CreateDraftRequest,
   SaveDraftRequest,
   UploadSignedFileRequest,
-  GetApplicationRequest
 } from './types/Requests'
 
 export const applicationsApi = createApi({
@@ -37,11 +37,11 @@ export const applicationsApi = createApi({
         query: () => 'applications'
       }),
       // Получить данные по заявке
-      getApplication: builder.query<GetApplicationResponse, GetApplicationRequest>({
+      getApplication: builder.query<GetApplicationResponse, string>({
         query: (applicationId) => `applications/${applicationId}`
       }),
       // Создать черновик заявки
-      createDraft: builder.mutation<CreateDraftResponse, void>({
+      createDraft: builder.mutation<CreateDraftResponse, CreateDraftRequest>({
         query: data => ({
           url: `applications`,
           method: 'POST',
@@ -64,7 +64,7 @@ export const applicationsApi = createApi({
         })
       }),
       // Скачать сформированную заявку
-      downloadApplicationFile: builder.mutation<DownloadApplicationFileResponse, void>({
+      downloadApplicationFile: builder.mutation<DownloadApplicationFileResponse, string>({
         query: (applicationId) => `applications/${applicationId}/raw-file`
       }),
       // Отправить подписанную заявку
@@ -76,7 +76,7 @@ export const applicationsApi = createApi({
         })
       }),
       // Скачать подписанную заявку
-      downloadSignedFile: builder.mutation<DownloadSignedFileResponse, void>({
+      downloadSignedFile: builder.mutation<DownloadSignedFileResponse, string>({
         query: (applicationId) => `applications/${applicationId}/signed-file`
       })
     })
