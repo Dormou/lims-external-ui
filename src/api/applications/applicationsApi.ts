@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { baseQueryWithReauth } from '../../api/baseQuery'
+import { baseQueryWithReauth } from '../baseQuery'
 
 import type { 
   CreateDraftResponse,
@@ -8,30 +8,19 @@ import type {
   DownloadApplicationFileResponse,
   UploadSignedFileResponse,
   DownloadSignedFileResponse,
-  GetApplicationResponse,
-  GetMetadataResponse,
-  GetClientConfirmedResponse
-} from './types/Responses'
+  GetApplicationResponse
+} from './types/responses'
 
 import type {
-  CreateDraftRequest,
   SaveDraftRequest,
   UploadSignedFileRequest,
-} from './types/Requests'
+} from './types/requests'
 
 export const applicationsApi = createApi({
   reducerPath: 'applications',
   baseQuery: baseQueryWithReauth,
   endpoints: builder => {
     return ({
-      // Получить справочную информацию для заявки
-      getMetadata: builder.query<GetMetadataResponse, void>({
-        query: () => 'references/application-info'
-      }),
-      // Узнать подтвержденность заявителя (используется для заявки)
-      getClientConfirmed: builder.query<GetClientConfirmedResponse, void>({
-        query: () => 'clients/confirmed'
-      }),
       // Получить все заявки текущего пользователя
       getAllApplications: builder.query<GetAllApplicationsResponse, void>({
         query: () => 'applications'
@@ -41,11 +30,10 @@ export const applicationsApi = createApi({
         query: (applicationId) => `applications/${applicationId}`
       }),
       // Создать черновик заявки
-      createDraft: builder.mutation<CreateDraftResponse, CreateDraftRequest>({
-        query: data => ({
+      createDraft: builder.mutation<CreateDraftResponse, void>({
+        query: () => ({
           url: `applications`,
-          method: 'POST',
-          body: data
+          method: 'POST'
         })
       }),
       // Сохранить черновик заявки
@@ -84,14 +72,12 @@ export const applicationsApi = createApi({
 })
 
 export const {
-  useGetMetadataQuery,
   useCreateDraftMutation,
   useSaveDraftMutation,
   useGenerateApplicationMutation,
   useUploadSignedFileMutation,
   useGetAllApplicationsQuery,
   useLazyGetApplicationQuery,
-  useLazyGetClientConfirmedQuery,
   useDownloadApplicationFileMutation,
   useDownloadSignedFileMutation
 } = applicationsApi

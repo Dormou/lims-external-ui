@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { UserInfo } from './types/userInfo'
-import type { LoginResponse } from './types/responses'
+import type { UserInfo } from '../../api/auth/types/userInfo'
+import type { LoginResponse } from '../../api/auth/types/responses'
 
 interface AuthSliceState {
   accessToken: string | null

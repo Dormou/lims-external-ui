@@ -13,7 +13,7 @@ import {
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconX } from "@tabler/icons-react"
-import { useRegisterClientMutation } from "../authApi"
+import { useRegisterClientMutation } from '../../../api/clients/clientsApi';
 
 export const RegistrationModal = ({
   opened,

@@ -12,8 +12,8 @@ import {
 import { useForm } from "@mantine/form"
 import { Icon } from "@iconify/react"
 import { useAppDispatch } from '../store'
-import { useSetupPasswordMutation } from '../features/auth/authApi'
 import { authSlice } from '../features/auth/authStore'
+import { useSetupPasswordMutation } from '../api/auth/authApi'
 
 export const SetupPasswordPage = () => {
   const dispatch = useAppDispatch()

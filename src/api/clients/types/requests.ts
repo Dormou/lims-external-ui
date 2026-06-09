@@ -1,3 +1,13 @@
+export type RegisterClientRequest = {
+  firstName: string
+  lastName: string
+  patronymic: string | null
+  email: string
+  organizationFullName: string
+  organizationShortName: string | null
+  innKpp: string | null
+}
+
 export type UpdateUserRequest = {
   firstName: string
   lastName: string
@@ -33,9 +43,4 @@ export type UpdateTechContactRequest = {
   patronymic: string | null
   email: string | null
   phoneNumber: string | null
-}
-
-export type ChangePasswordRequest = {
-  oldPassword: string
-  newPassword: string
 }

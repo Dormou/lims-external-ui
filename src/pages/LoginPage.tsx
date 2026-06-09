@@ -13,12 +13,12 @@ import {
 import { useForm } from "@mantine/form"
 import { Icon } from "@iconify/react"
 
-import { useLoginMutation } from "../features/auth/authApi"
 import { useDisclosure } from "@mantine/hooks"
 import { RegistrationModal } from "../features/auth/components/RegistrationModal"
 import { PasswordRecoveryModal } from "../features/auth/components/PasswordRecoveryModal"
 import { useAppDispatch } from '../store'
 import { authSlice } from '../features/auth/authStore'
+import { useLoginMutation } from '../api/auth/authApi'
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch()

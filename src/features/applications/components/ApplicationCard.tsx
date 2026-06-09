@@ -1,6 +1,6 @@
 import { Paper, Title, Stack, Text, Divider, Group } from "@mantine/core"
 import { useNavigate } from "react-router-dom"
-import type { ApplicationInfo } from '../types/Types'
+import type { ApplicationInfo } from '../../../api/applications/types/types'
 
 interface ApplicationCardProps {
   app: ApplicationInfo

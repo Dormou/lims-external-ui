@@ -1,6 +1,6 @@
 import { Loader } from "@mantine/core"
 import { ProfileForm } from "../features/profile/components/ProfileForm"
-import { useGetProfileQuery } from '../features/profile/profileApi'
+import { useGetProfileQuery } from '../api/clients/clientsApi'
 
 export const ProfilePage = () => {
   const { data, isFetching, isSuccess, isError } = useGetProfileQuery()

@@ -13,3 +13,10 @@ export type SetupPasswordResponse = {
   expiresInSeconds: number
   userInfo: UserInfo
 }
+
+export type ChangePasswordResponse = {
+  accessToken: string
+  refreshToken: string
+  expiresInSeconds: number
+  userInfo: UserInfo
+}

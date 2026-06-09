@@ -11,11 +11,10 @@ import {
   ScrollArea,
 } from "@mantine/core"
 import { IconTrash, IconPlus } from "@tabler/icons-react"
-
-import { useGetMetadataQuery } from '../applicationsApi'
+import { useGetMetadataQuery } from '../../../api/references/referencesApi'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
-import type { BranchMeta, EquipmentTypeMeta } from '../types/Types'
+import type { BranchMeta, EquipmentTypeMeta } from '../../../api/applications/types/types'
 
 export const GeneralInfoTab = () => {
   const dispatch = useAppDispatch()

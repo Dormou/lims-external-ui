@@ -6,7 +6,7 @@ import { authSlice } from '../features/auth/authStore.ts'
 
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import type { RootState } from '../store.ts'
-import type { LoginResponse } from '../features/auth/types/responses.ts'
+import type { LoginResponse } from './auth/types/responses.ts'
 
 // Мьютекс для блокировки одновременных запросов обновления
 const mutex = new Mutex()

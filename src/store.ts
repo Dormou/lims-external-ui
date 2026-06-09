@@ -1,9 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
 
-import { authApi } from './features/auth/authApi'
-import { profileApi } from './features/profile/profileApi'
-import { applicationsApi } from './features/applications/applicationsApi'
+import { authApi } from './api/auth/authApi'
+import { clientsApi } from './api/clients/clientsApi'
+import { applicationsApi } from './api/applications/applicationsApi'
+import { referencesApi } from './api/references/referencesApi'
 
 import appSlice from './AppStore'
 import authSlice from './features/auth/authStore'
@@ -11,8 +12,9 @@ import applicationsSlice from './features/applications/applicationStore'
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
-  [profileApi.reducerPath]: profileApi.reducer,
+  [clientsApi.reducerPath]: clientsApi.reducer,
   [applicationsApi.reducerPath]: applicationsApi.reducer,
+  [referencesApi.reducerPath]: referencesApi.reducer,
   appSlice,
   authSlice,
   applicationsSlice
@@ -24,8 +26,9 @@ export const store = configureStore({
     getDefaultMiddleware()
     .concat([
       authApi.middleware,
-      profileApi.middleware,
+      clientsApi.middleware,
       applicationsApi.middleware,
+      referencesApi.middleware,
     ])
 })
 

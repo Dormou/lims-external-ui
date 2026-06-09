@@ -1,25 +1,32 @@
-import { baseQueryWithReauth } from '../../api/baseQuery'
+import { baseQueryWithReauth } from '../baseQuery'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import type { 
-  ChangePasswordResponse, 
+  GetClientConfirmedResponse,
   GetProfileResponse 
 } from './types/responses'
 
 import type { 
-  ChangePasswordRequest,
+  RegisterClientRequest,
   UpdateHeadRequest, 
   UpdateOrganizationRequest, 
   UpdateTechContactRequest, 
   UpdateUserRequest 
 } from './types/requests'
 
-export const profileApi = createApi({
-  reducerPath: 'profile',
+export const clientsApi = createApi({
+  reducerPath: 'clients',
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Profile'],
   endpoints: builder => {
     return ({
+      registerClient: builder.mutation<void, RegisterClientRequest>({
+        query: data => ({
+          url: '/clients',
+          method: 'POST',
+          body: data
+        })
+      }),
       getProfile: builder.query<GetProfileResponse, void>({
         query: () => ({ url: '/clients/me' }),
         providesTags: ['Profile']
@@ -56,22 +63,20 @@ export const profileApi = createApi({
         }),
         invalidatesTags: ['Profile']
       }),
-      changePassword: builder.mutation<ChangePasswordResponse, ChangePasswordRequest>({
-        query: data => ({ 
-          url: '/auth/change-password',
-          method: 'POST', 
-          body: data
-        })
+      // Узнать подтвержденность заявителя (используется для заявки)
+      getClientConfirmed: builder.query<GetClientConfirmedResponse, void>({
+        query: () => 'clients/confirmed'
       })
     })
   }
 })
 
 export const {
+  useRegisterClientMutation,
   useGetProfileQuery,
   useUpdateHeadMutation,
   useUpdateTechContactMutation,
-  useChangePasswordMutation,
   useUpdateUserMutation,
-  useUpdateOrganizationMutation
-} = profileApi
+  useUpdateOrganizationMutation,
+  useLazyGetClientConfirmedQuery
+} = clientsApi

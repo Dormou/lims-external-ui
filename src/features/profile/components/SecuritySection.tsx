@@ -12,11 +12,12 @@ import {
   Grid,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { profileApi, useChangePasswordMutation } from "../profileApi"
+import { clientsApi } from "../../../api/clients/clientsApi"
 import { formatDate, getMonthNoun } from "../../../utils"
 import dayjs from "dayjs"
 import { useAppDispatch } from '../../../store'
 import { authSlice } from '../../auth/authStore'
+import { useChangePasswordMutation } from '../../../api/auth/authApi'
 
 export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
   const dispatch = useAppDispatch()
@@ -58,7 +59,7 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
       dispatch(authSlice.actions.setAuth(data))
 
       // Обновление данных профиля
-      dispatch(profileApi.util.invalidateTags(['Profile']))
+      dispatch(clientsApi.util.invalidateTags(['Profile']))
 
       // Очистка формы
       passwordForm.reset()

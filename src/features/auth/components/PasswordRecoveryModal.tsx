@@ -12,7 +12,7 @@ import {
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconX } from "@tabler/icons-react"
-import { useRecoverPasswordMutation } from "../authApi"
+import { useRecoverPasswordMutation } from '../../../api/auth/authApi'
 
 interface Props {
   opened: boolean

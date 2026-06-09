@@ -6,9 +6,10 @@ import { TestsTab } from "./TestsTab"
 import { DocsTab } from "./DocsTab"
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from '../../../store'
-import { useGenerateApplicationMutation, useGetMetadataQuery, useSaveDraftMutation } from '../applicationsApi'
+import { useGenerateApplicationMutation, useSaveDraftMutation } from '../../../api/applications/applicationsApi'
+import { useGetMetadataQuery } from '../../../api/references/referencesApi'
 import { applicationsSlice } from '../applicationStore'
-import type { EquipmentTypeMeta, ParameterMeta, TestMeta } from '../types/Types'
+import type { EquipmentTypeMeta, ParameterMeta, TestMeta } from '../../../api/applications/types/types'
 
 export const CreateFormStep = () => {
   const dispatch = useAppDispatch()

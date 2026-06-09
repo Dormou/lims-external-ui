@@ -2,17 +2,18 @@ import { baseQueryWithReauth } from '../../api/baseQuery'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import type { 
+  ChangePasswordRequest,
   LoginRequest, 
-  RecoverPasswordRequest, 
-  RegisterClientRequest, 
+  RecoverPasswordRequest,
   SetupPasswordRequest
 } from './types/requests'
 
 import type { 
+  ChangePasswordResponse,
   LoginResponse,
   SetupPasswordResponse, 
 } from './types/responses'
-import { authSlice } from './authStore'
+import { authSlice } from '../../features/auth/authStore'
 
 export const authApi = createApi({
   reducerPath: 'auth',
@@ -38,13 +39,6 @@ export const authApi = createApi({
           }
         },
       }),
-      registerClient: builder.mutation<void, RegisterClientRequest>({
-        query: data => ({
-          url: '/clients',
-          method: 'POST',
-          body: data
-        })
-      }),
       recoverPassword: builder.mutation<void, RecoverPasswordRequest>({
         query: data => ({
           url: '/auth/recover-password',
@@ -58,6 +52,13 @@ export const authApi = createApi({
           method: 'POST',
           body: data
         })
+      }),
+      changePassword: builder.mutation<ChangePasswordResponse, ChangePasswordRequest>({
+        query: data => ({ 
+          url: '/auth/change-password',
+          method: 'POST', 
+          body: data
+        })
       })
     })
   }
@@ -66,7 +67,7 @@ export const authApi = createApi({
 export const {
   useLoginMutation,
   useLogoutMutation,
-  useRegisterClientMutation,
   useRecoverPasswordMutation,
-  useSetupPasswordMutation
+  useSetupPasswordMutation,
+  useChangePasswordMutation
 } = authApi

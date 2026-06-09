@@ -1,9 +1,5 @@
-import type { ApplicationInfo, FileMeta, Application } from './Types'
-import type { BranchMeta } from './Types'
-
-export type GetClientConfirmedResponse = {
-  confirmed: boolean
-}
+import type { ApplicationInfo, FileMeta, Application } from './types'
+import type { BranchMeta } from './types'
 
 export type GetMetadataResponse = BranchMeta[]
 

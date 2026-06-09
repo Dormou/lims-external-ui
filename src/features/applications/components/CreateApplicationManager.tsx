@@ -20,7 +20,7 @@ import { SigningStep } from "./SigningStep"
 import { useUserConfirmationPolling } from "../hooks/useUserConfirmationPollling"
 import { SuccessStep } from "./SuccessStep"
 import { useAppDispatch, useAppSelector } from '../../../store'
-import { useLazyGetApplicationQuery } from '../applicationsApi'
+import { useLazyGetApplicationQuery } from '../../../api/applications/applicationsApi'
 import { applicationsSlice } from '../applicationStore'
 
 export const CreateApplicationManager = () => {

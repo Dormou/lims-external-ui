@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidV4 } from 'uuid'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { FileMeta, TestingObject } from './types/Types'
+import type { FileMeta, TestingObject } from '../../api/applications/types/types'
 
 export type ApplicationTabs = 'general' | 'params' | 'tests' | 'docs'
 
@@ -10,7 +10,7 @@ interface ApplicationsSliceState {
   activeTab: ApplicationTabs // Активная вкладка внутри формы
   isUserConfirmed: boolean
 
-  id: string | null
+  applicationId: string | null
   branchId: string
   equipmentTypeId: string
   producerName: string
@@ -37,7 +37,7 @@ const initialState: ApplicationsSliceState = {
   activeTab: 'general',
   isUserConfirmed: false,
 
-  id: null,
+  applicationId: null,
   branchId: '',
   equipmentTypeId: '',
   producerName: '',
@@ -68,7 +68,7 @@ export const applicationsSlice = createSlice({
       state.activeTab = action.payload
     },
     setApplicationId: (state, action: PayloadAction<string>) => {
-      state.id = action.payload
+      state.applicationId = action.payload
     },
     updateGeneral: (state, action: PayloadAction<{ 
       value: string, 
@@ -167,7 +167,7 @@ export const applicationsSlice = createSlice({
       if (action.payload.status === "Сформирована") targetStep = 2
       if (action.payload.status === "Отправлена") targetStep = 3
 
-      state.id = action.payload.id
+      state.applicationId = action.payload.id
       state.currentStep = targetStep
       state.branchId = draftData.branchId || ""
       state.equipmentTypeId = draftData.equipmentTypeId || ""

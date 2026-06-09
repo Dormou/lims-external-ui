@@ -1,8 +1,8 @@
 import { Text, Menu, UnstyledButton, Box, Anchor, Image } from "@mantine/core"
 import { Icon } from "@iconify/react"
-import { useLogoutMutation } from '../features/auth/authApi'
+import { useLogoutMutation } from '../api/auth/authApi'
 import { useNavigate } from "react-router-dom"
-import { useGetProfileQuery } from '../features/profile/profileApi'
+import { useGetProfileQuery } from '../api/clients/clientsApi'
 import { useMemo } from 'react'
 import classes from "./Header.module.css"
 

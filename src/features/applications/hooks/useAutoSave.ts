@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react"
 import { useAppSelector } from '../../../store'
-import { useSaveDraftMutation } from '../applicationsApi'
+import { useSaveDraftMutation } from '../../../api/applications/applicationsApi'
 
 export const useAutoSave = () => {
   const currentStep = useAppSelector((state) => state.applicationsSlice.currentStep)
-  const id = useAppSelector((state) => state.applicationsSlice.id)
+  const id = useAppSelector((state) => state.applicationsSlice.applicationId)
   const branchId = useAppSelector((state) => state.applicationsSlice.branchId)
   const equipmentTypeId = useAppSelector((state) => state.applicationsSlice.equipmentTypeId)
   const objects = useAppSelector((state) => state.applicationsSlice.objects)

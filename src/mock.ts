@@ -1,7 +1,7 @@
 import { setupWorker } from 'msw/browser'
-import { authMockHandlers } from './features/auth/mock/authMockHandlers'
-import { profileMockHandlers } from './features/profile/mock/profileMockHandlers'
+import { authMockHandlers } from './api/auth/mock/authMockHandlers'
+import { clientsMockHandlers } from './api/clients/mock/clientsMockHandlers'
 
 export const worker = setupWorker(...authMockHandlers
-  .concat(profileMockHandlers)
+  .concat(clientsMockHandlers)
 )

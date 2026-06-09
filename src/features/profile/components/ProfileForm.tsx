@@ -18,10 +18,9 @@ import {
   useUpdateOrganizationMutation, 
   useUpdateTechContactMutation, 
   useUpdateUserMutation 
-} from "../profileApi"
+} from "../../../api/clients/clientsApi"
 import { SecuritySection } from "./SecuritySection"
-
-import type { UserProfile } from '../types/userProfile'
+import type { UserProfile } from '../../../api/clients/types/userProfile'
 
 export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
   const [updateUser] = useUpdateUserMutation()
