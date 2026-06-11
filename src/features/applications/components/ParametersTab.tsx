@@ -1,9 +1,8 @@
-import { Table, TextInput, Select, Text, ScrollArea } from "@mantine/core"
-import type { EquipmentTypeMeta, ParameterMeta, TestMeta, ValueType } from '../../../api/applications/types/types';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { applicationsSlice } from '../applicationStore';
-import { useGetMetadataQuery } from '../../../api/references/referencesApi';
-
+import { Table, TextInput, Select, Text, ScrollArea } from '@mantine/core'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore'
+import { useGetMetadataQuery } from '../../../api/references/referencesApi'
+import type { EquipmentTypeMeta, ParameterMeta, TestMeta, ValueType } from '../../../api/applications/types/types'
 
 export const ParametersTab = () => {
   const dispatch = useAppDispatch()
@@ -34,32 +33,32 @@ export const ParametersTab = () => {
   const { parameters: activeParams } = getActiveMetadata()
 
   const renderInput = (param: ParameterMeta, objId: string) => {
-    const value = state.parameters[param.parameterId]?.[objId] || ""
+    const value = state.parameters[param.parameterId]?.[objId] || ''
 
     const error = getValidationError(value, param)
 
-    if (param.valueType.endsWith("List")) {
+    if (param.valueType.endsWith('List')) {
       return (
         <Select
           data={param.allowedValues || []}
           value={value}
           onChange={(val) => 
-            dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: val || ""}))
+            dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: val || ''}))
           }
-          placeholder="Выберите значение"
+          placeholder='Выберите значение'
         />
       )
     }
 
-    if (param.valueType === "Constant") {
-      return <TextInput value={value} disabled />;
+    if (param.valueType === 'Constant') {
+      return <TextInput value={value} disabled />
     }
 
-    const minStr = param.minValue ? ` от ${param.minValue}` : "";
-    const maxStr = param.maxValue ? ` до ${param.maxValue}` : "";
+    const minStr = param.minValue ? ` от ${param.minValue}` : ''
+    const maxStr = param.maxValue ? ` до ${param.maxValue}` : ''
 
-    if (param.valueType === "Integer") {
-      const placeholder = `Введите целое число${minStr}${maxStr}`;
+    if (param.valueType === 'Integer') {
+      const placeholder = `Введите целое число${minStr}${maxStr}`
 
       return (
         <TextInput
@@ -73,8 +72,8 @@ export const ParametersTab = () => {
       )
     }
 
-    if (param.valueType === "Decimal") {
-      const placeholder = `Введите число${minStr}${maxStr}`;
+    if (param.valueType === 'Decimal') {
+      const placeholder = `Введите число${minStr}${maxStr}`
 
       return (
         <TextInput
@@ -88,8 +87,8 @@ export const ParametersTab = () => {
       )
     }
 
-    if (param.valueType === "String") {
-      const placeholder = `Введите строку${minStr}${maxStr} символов`;
+    if (param.valueType === 'String') {
+      const placeholder = `Введите строку${minStr}${maxStr} символов`
 
       return (
         <TextInput
@@ -106,7 +105,7 @@ export const ParametersTab = () => {
     return (
       <TextInput
         value={value}
-        placeholder="Введите значение"
+        placeholder='Введите значение'
         onChange={(e) =>
           dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: e.currentTarget.value}))
         }
@@ -115,16 +114,16 @@ export const ParametersTab = () => {
   }
 
   return (
-    <ScrollArea mt="xl">
-      <Table variant="simple" withColumnBorders withTableBorder>
+    <ScrollArea mt='xl'>
+      <Table variant='simple' withColumnBorders withTableBorder>
         <Table.Thead>
-          <Table.Tr bg="#F1F3F5">
+          <Table.Tr bg='#F1F3F5'>
             <Table.Th w={250}>Параметр</Table.Th>
             {state.objects.map((obj, idx) => (
-              <Table.Th key={obj.id} ta="center">
+              <Table.Th key={obj.id} ta='center'>
                 Объект №{idx + 1}
-                <Text size="xs" c="dimmed" fw={400}>
-                  {obj.name || "Без названия"}
+                <Text size='xs' c='dimmed' fw={400}>
+                  {obj.name || 'Без названия'}
                 </Text>
               </Table.Th>
             ))}
@@ -134,11 +133,11 @@ export const ParametersTab = () => {
           {activeParams.map((param) => (
             <Table.Tr key={param.parameterId}>
               <Table.Td>
-                <Text size="sm" fw={500}>
+                <Text size='sm' fw={500}>
                   {param.parameterName}
                 </Text>
                 {param.parameterUnit && (
-                  <Text size="xs" c="dimmed">
+                  <Text size='xs' c='dimmed'>
                     {param.parameterUnit}
                   </Text>
                 )}
@@ -156,28 +155,28 @@ export const ParametersTab = () => {
         </Table.Tbody>
       </Table>
     </ScrollArea>
-  );
-};
+  )
+}
 
 const getValidationError = (value: string, param: ParameterMeta) => {
-  if (!value) return null // Если пусто, ошибку не показываем (или покажем при нажатии "Отправить")
+  if (!value) return null // Если пусто, ошибку не показываем (или покажем при нажатии 'Отправить')
 
   const { valueType, minValue, maxValue } = param
-  const numValue = Number(value.replace(",", ".")) // заменяем запятую на точку для парсинга
+  const numValue = Number(value.replace(',', '.')) // заменяем запятую на точку для парсинга
 
-  if (valueType === "Integer") {
-    if (!Number.isInteger(numValue)) return "Введите целое число"
+  if (valueType === 'Integer') {
+    if (!Number.isInteger(numValue)) return 'Введите целое число'
     if (minValue && numValue < Number(minValue)) return `Минимум: ${minValue}`
     if (maxValue && numValue > Number(maxValue)) return `Максимум: ${maxValue}`
   }
 
-  if (valueType === "Decimal") {
-    if (isNaN(numValue)) return "Введите число";
+  if (valueType === 'Decimal') {
+    if (isNaN(numValue)) return 'Введите число'
     if (minValue && numValue < Number(minValue)) return `Минимум: ${minValue}`
     if (maxValue && numValue > Number(maxValue)) return `Максимум: ${maxValue}`
   }
 
-  if (valueType === "String") {
+  if (valueType === 'String') {
     if (minValue && value.length < Number(minValue))
       return `Минимум символов: ${minValue}`
     if (maxValue && value.length > Number(maxValue))

@@ -1,5 +1,5 @@
-import { defineConfig } from "vite"
-import react from "@vitejs/plugin-react"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 import { rmSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -25,8 +25,8 @@ export default defineConfig(({ command }) => ({
   ],
   server: {
     proxy: {
-      "/api": {
-        target: "http://lims.ntc-tech.ru",
+      '/api': {
+        target: 'http://lims.ntc-tech.ru',
         changeOrigin: true,
         secure: false,
       },

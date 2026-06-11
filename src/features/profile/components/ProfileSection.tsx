@@ -1,4 +1,4 @@
-import { Stack, Title, Text, Group, Button, Divider, Box } from "@mantine/core"
+import { Stack, Title, Text, Group, Button, Divider, Box } from '@mantine/core'
 
 interface ProfileSectionProps {
   title: string
@@ -19,26 +19,26 @@ export const ProfileSection = ({
 }: ProfileSectionProps) => {
   return (
     <Box>
-      <Title order={3} c="#005B9C" mb={4}>
+      <Title order={3} c='#005B9C' mb={4}>
         {title}
       </Title>
       {description && (
-        <Text size="xs" c="dimmed" mb={16}>
+        <Text size='xs' c='dimmed' mb={16}>
           {description}
         </Text>
       )}
 
-      <Stack gap="md">{children}</Stack>
+      <Stack gap='md'>{children}</Stack>
 
       {isDirty && (
-        <Group justify="flex-end" mt="md">
-          <Button variant="outline" color="gray" onClick={onReset}>
+        <Group justify='flex-end' mt='md'>
+          <Button variant='outline' color='gray' onClick={onReset}>
             Сбросить изменения
           </Button>
-          <Button variant="filled" onClick={onSave}>Сохранить изменения</Button>
+          <Button variant='filled' onClick={onSave}>Сохранить изменения</Button>
         </Group>
       )}
-      <Divider mt="xl" mb="xl" />
+      <Divider mt='xl' mb='xl' />
     </Box>
   )
 }

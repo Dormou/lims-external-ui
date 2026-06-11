@@ -1,5 +1,9 @@
 export type UserProfile = {
-  fullName: { firstName: string; lastName: string; patronymic: string | null }
+  fullName: { 
+    firstName: string
+    lastName: string
+    patronymic: string | null 
+  }
   registrationDate: string
   passwordChangeDate: string
   email: string

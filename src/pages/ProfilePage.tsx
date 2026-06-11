@@ -1,5 +1,5 @@
-import { Loader } from "@mantine/core"
-import { ProfileForm } from "../features/profile/components/ProfileForm"
+import { Loader } from '@mantine/core'
+import { ProfileForm } from '../features/profile/components/ProfileForm'
 import { useGetProfileQuery } from '../api/clients/clientsApi'
 
 export const ProfilePage = () => {

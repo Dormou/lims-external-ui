@@ -1,5 +1,5 @@
-import { Table, Checkbox, Text, ScrollArea } from "@mantine/core"
-import { useGetMetadataQuery } from '../../../api/references/referencesApi';
+import { Table, Checkbox, Text, ScrollArea } from '@mantine/core'
+import { useGetMetadataQuery } from '../../../api/references/referencesApi'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
 
@@ -16,13 +16,13 @@ export const TestsTab = () => {
       ?.tests || []
 
   return (
-    <ScrollArea mt="xl">
+    <ScrollArea mt='xl'>
       <Table withColumnBorders withTableBorder>
         <Table.Thead>
-          <Table.Tr bg="gray.0">
+          <Table.Tr bg='gray.0'>
             <Table.Th w={300}>Наименование испытания</Table.Th>
             {objects.map((obj, idx) => (
-              <Table.Th key={obj.id} ta="center">
+              <Table.Th key={obj.id} ta='center'>
                 №{idx + 1}
               </Table.Th>
             ))}
@@ -32,13 +32,13 @@ export const TestsTab = () => {
           {activeTests.map((test: any) => (
             <Table.Tr key={test.testId}>
               <Table.Td>
-                <Text size="sm">{test.testName}</Text>
-                <Text size="xs" c="dimmed">
+                <Text size='sm'>{test.testName}</Text>
+                <Text size='xs' c='dimmed'>
                   {test.testMethod}
                 </Text>
               </Table.Td>
               {objects.map((obj) => (
-                <Table.Td key={obj.id} ta="center">
+                <Table.Td key={obj.id} ta='center'>
                   <Checkbox
                     checked={tests[test.testId]?.[obj.id] || false}
                     onChange={(e) =>
@@ -52,5 +52,5 @@ export const TestsTab = () => {
         </Table.Tbody>
       </Table>
     </ScrollArea>
-  );
-};
+  )
+}

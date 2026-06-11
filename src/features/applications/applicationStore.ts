@@ -40,7 +40,7 @@ const initialState: ApplicationsSliceState = {
   equipmentTypeId: '',
   producerName: '',
   producerAddress: '',
-  objects: [{ id: uuidV4(), name: "" }],
+  objects: [{ id: uuidV4(), name: '' }],
 
   parameters: {},
   tests: {},
@@ -128,17 +128,17 @@ export const applicationsSlice = createSlice({
 
     loadApplicationData: (state, action: PayloadAction<any>) => { 
       const draftData = action.payload.draft || {
-        branchId: "",
-        equipmentTypeId: "",
-        producerName: "",
-        producerAddress: "",
+        branchId: '',
+        equipmentTypeId: '',
+        producerName: '',
+        producerAddress: '',
         samples: [],
       }
 
       const objects = (draftData.samples || []).map(
         (sample: any, idx: number) => ({
           id: `loaded-obj-${idx}`,
-          name: sample.name || ""
+          name: sample.name || ''
         })
       )
 
@@ -150,7 +150,7 @@ export const applicationsSlice = createSlice({
 
         sample.parameterValues?.forEach((pv: any) => {
           if (!parameters[pv.parameterId]) parameters[pv.parameterId] = {}
-          parameters[pv.parameterId][objId] = pv.parameterValue || ""
+          parameters[pv.parameterId][objId] = pv.parameterValue || ''
         })
 
         sample.testValues?.forEach((tv: any) => {
@@ -160,16 +160,16 @@ export const applicationsSlice = createSlice({
       })
 
       let targetStep = 1
-      if (action.payload.status === "Сформирована") targetStep = 2
-      if (action.payload.status === "Отправлена") targetStep = 3
+      if (action.payload.status === 'Сформирована') targetStep = 2
+      if (action.payload.status === 'Отправлена') targetStep = 3
 
       state.applicationId = action.payload.id
       state.currentStep = targetStep
-      state.branchId = draftData.branchId || ""
-      state.equipmentTypeId = draftData.equipmentTypeId || ""
-      state.producerName = draftData.producerName || ""
-      state.producerAddress = draftData.producerAddress || ""
-      state.objects = objects.length > 0 ? objects : [{ id: crypto.randomUUID(), name: "" }]
+      state.branchId = draftData.branchId || ''
+      state.equipmentTypeId = draftData.equipmentTypeId || ''
+      state.producerName = draftData.producerName || ''
+      state.producerAddress = draftData.producerAddress || ''
+      state.objects = objects.length > 0 ? objects : [{ id: crypto.randomUUID(), name: '' }]
       state.parameters = parameters
       state.tests = tests
 

@@ -1,4 +1,4 @@
-import { useSearchParams, useNavigate } from "react-router-dom"
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import {
   PasswordInput,
   Button,
@@ -8,9 +8,9 @@ import {
   Text,
   Box,
   Center,
-} from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { Icon } from "@iconify/react"
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { Icon } from '@iconify/react'
 import { useAppDispatch } from '../store'
 import { authSlice } from '../features/auth/authStore'
 import { useSetupPasswordMutation } from '../api/auth/authApi'
@@ -22,14 +22,14 @@ export const SetupPasswordPage = () => {
 
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const token = searchParams.get("token")
+  const token = searchParams.get('token')
 
   const form = useForm({
-    initialValues: { password: "", confirmPassword: "" },
+    initialValues: { password: '', confirmPassword: '' },
     validate: {
-      password: (val) => (val.length < 6 ? "Пароль слишком короткий" : null),
+      password: (val) => (val.length < 6 ? 'Пароль слишком короткий' : null),
       confirmPassword: (val, values) =>
-        val !== values.password ? "Пароли не совпадают" : null,
+        val !== values.password ? 'Пароли не совпадают' : null,
     },
   })
 
@@ -43,33 +43,33 @@ export const SetupPasswordPage = () => {
       }).unwrap()
 
       dispatch(authSlice.actions.setAuth(data))
-      navigate("/")
+      navigate('/')
     } catch (e) {
-      console.error("Ошибка установки пароля")
+      console.error('Ошибка установки пароля')
     }
   }
 
   return (
-    <Group gap={0} h="100vh" align="stretch">
-      <Box style={{ flex: 1, position: "relative", backgroundColor: "#fff" }}>
+    <Group gap={0} h='100vh' align='stretch'>
+      <Box style={{ flex: 1, position: 'relative', backgroundColor: '#fff' }}>
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             inset: 0,
-            backgroundImage: "url(/login-bg.jpg)",
-            backgroundSize: "cover",
+            backgroundImage: 'url(/login-bg.jpg)',
+            backgroundSize: 'cover',
             opacity: 0.25,
           }}
         />
-        <Stack p={40} h="100%" justify="space-between" pos="relative">
-          <Group gap="xl">
-            <img src="/logo.png" alt="Россети" style={{ height: 48 }} />
-            <Text fw={700} size="28px" c="#005B9C">
+        <Stack p={40} h='100%' justify='space-between' pos='relative'>
+          <Group gap='xl'>
+            <img src='/logo.png' alt='Россети' style={{ height: 48 }} />
+            <Text fw={700} size='28px' c='#005B9C'>
               АИС Управление испытаниями
             </Text>
           </Group>
-          <Text size="16px" c="#005B9C">
-            Разработано Департаментом цифровых технологий АО "Россети НТЦ" ®
+          <Text size='16px' c='#005B9C'>
+            Разработано Департаментом цифровых технологий АО 'Россети НТЦ' ®
           </Text>
         </Stack>
       </Box>
@@ -78,9 +78,9 @@ export const SetupPasswordPage = () => {
         <Stack w={400} gap={32}>
           <Title
             order={1}
-            ta="center"
-            c="#005B9C"
-            style={{ fontFamily: "DIN Pro", fontSize: 36 }}
+            ta='center'
+            c='#005B9C'
+            style={{ fontFamily: 'DIN Pro', fontSize: 36 }}
           >
             Установка пароля
           </Title>
@@ -88,29 +88,29 @@ export const SetupPasswordPage = () => {
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={16}>
               <PasswordInput
-                placeholder="Введите пароль"
-                size="md"
+                placeholder='Введите пароль'
+                size='md'
                 leftSection={
-                  <Icon icon="mdi:lock-outline" width={20} color="#ADB5BD" />
+                  <Icon icon='mdi:lock-outline' width={20} color='#ADB5BD' />
                 }
-                {...form.getInputProps("password")}
+                {...form.getInputProps('password')}
               />
               <PasswordInput
-                placeholder="Повторите пароль"
-                size="md"
+                placeholder='Повторите пароль'
+                size='md'
                 leftSection={
                   <Icon
-                    icon="mdi:lock-check-outline"
+                    icon='mdi:lock-check-outline'
                     width={20}
-                    color="#ADB5BD"
+                    color='#ADB5BD'
                   />
                 }
-                {...form.getInputProps("confirmPassword")}
+                {...form.getInputProps('confirmPassword')}
               />
               <Button
-                type="submit"
-                variant="filled"
-                size="lg"
+                type='submit'
+                variant='filled'
+                size='lg'
                 mt={16}
                 disabled={!token}
               >

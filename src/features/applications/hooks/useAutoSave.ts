@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react'
 import { useAppSelector } from '../../../store'
 import { useSaveDraftMutation } from '../../../api/applications/applicationsApi'
 
@@ -28,10 +28,10 @@ export const useAutoSave = () => {
     timeoutRef.current = setTimeout(async () => {
       const formData = new FormData()
 
-      formData.append("branchId", branchId || "")
-      formData.append("equipmentTypeId", equipmentTypeId || "")
-      formData.append("producerName", producerName || "")
-      formData.append("producerAddress", producerAddress || "")
+      formData.append('branchId', branchId || '')
+      formData.append('equipmentTypeId', equipmentTypeId || '')
+      formData.append('producerName', producerName || '')
+      formData.append('producerAddress', producerAddress || '')
 
       const samples = objects.map((obj: any) => {
         // Собираем параметры для данного объекта
@@ -49,25 +49,25 @@ export const useAutoSave = () => {
         }))
 
         return {
-          name: obj.name || "",
+          name: obj.name || '',
           parameterValues: parameterValues,
           testValues: testValues,
         }
       })
-      formData.append("samples", JSON.stringify(samples))
+      formData.append('samples', JSON.stringify(samples))
 
       if (regulatoryDocument) {
-        formData.append("regulatoryDocument", regulatoryDocument)
+        formData.append('regulatoryDocument', regulatoryDocument)
       }
 
       additionalDocuments?.forEach((file: File) => {
-        formData.append("additionalDocuments", file)
+        formData.append('additionalDocuments', file)
       })
 
       try {
         await saveDraft({id: id, formData: formData}).unwrap()
       } catch (e) {
-        console.error("Ошибка автосохранения:", e)
+        console.error('Ошибка автосохранения:', e)
       }
     }, 2000)
 

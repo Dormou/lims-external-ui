@@ -7,18 +7,17 @@ import {
   Text,
   Center,
   Loader,
-} from "@mantine/core"
-import "@mantine/core/styles.layer.css"
-import { Icon } from "@iconify/react"
-
-import { useEffect, useState } from "react"
-import { PreformStep } from "./PreformStep"
-import { useAutoSave } from "../hooks/useAutoSave"
-import { CreateFormStep } from "./CreateFormStep"
-import { useNavigate, useSearchParams } from "react-router-dom"
-import { SigningStep } from "./SigningStep"
-import { useUserConfirmationPolling } from "../hooks/useUserConfirmationPollling"
-import { SuccessStep } from "./SuccessStep"
+} from '@mantine/core'
+import '@mantine/core/styles.layer.css'
+import { Icon } from '@iconify/react'
+import { useEffect, useState } from 'react'
+import { PreformStep } from './PreformStep'
+import { useAutoSave } from '../hooks/useAutoSave'
+import { CreateFormStep } from './CreateFormStep'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { SigningStep } from './SigningStep'
+import { useUserConfirmationPolling } from '../hooks/useUserConfirmationPollling'
+import { SuccessStep } from './SuccessStep'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { useLazyGetApplicationQuery } from '../../../api/applications/applicationsApi'
 import { applicationsSlice } from '../applicationStore'
@@ -33,7 +32,7 @@ export const CreateApplicationManager = () => {
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
-  const appIdFromUrl = searchParams.get("id")
+  const appIdFromUrl = searchParams.get('id')
   const [isInitializing, setIsInitializing] = useState(true)
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export const CreateApplicationManager = () => {
           const appData = await getApplication(appIdFromUrl).unwrap()
           dispatch(applicationsSlice.actions.loadApplicationData(appData))
         } catch (e) {
-          console.error("Не удалось восстановить заявку:", e)
+          console.error('Не удалось восстановить заявку:', e)
           dispatch(applicationsSlice.actions.reset())
         }
       } else {
@@ -61,51 +60,51 @@ export const CreateApplicationManager = () => {
   useUserConfirmationPolling()
 
   return (
-    <Stack gap={24} h="100%" w="100%">
-      <Group h={45} justify="center" pos="relative" style={{ flexShrink: 0 }}>
+    <Stack gap={24} h='100%' w='100%'>
+      <Group h={45} justify='center' pos='relative' style={{ flexShrink: 0 }}>
         <UnstyledButton
           onClick={() => {
-            navigate("/");
+            navigate('/')
           }}
           style={{
-            position: "absolute",
+            position: 'absolute',
             left: 0,
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
           <Icon
-            icon="mdi:chevron-left"
-            width="24"
-            height="24"
-            color="#005B9C"
+            icon='mdi:chevron-left'
+            width='24'
+            height='24'
+            color='#005B9C'
           />
           <Box px={24} py={8}>
             <Text
-              c="#005B9C"
-              style={{ fontFamily: "PF Din Text Cond Pro", fontSize: "24px" }}
+              c='#005B9C'
+              style={{ fontFamily: 'PF Din Text Cond Pro', fontSize: '24px' }}
             >
               Назад
             </Text>
           </Box>
         </UnstyledButton>
 
-        <Title c="#212529" order={2} style={{ fontFamily: "DIN Pro" }}>
+        <Title c='#212529' order={2} style={{ fontFamily: 'DIN Pro' }}>
           Новая заявка
         </Title>
       </Group>
 
       {isInitializing ? (
         <Center h={400}>
-          <Loader size="xl" />
+          <Loader size='xl' />
         </Center>
       ) : (
         <Box
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            height: "80vh",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '80vh',
           }}
         >
           {currentStep === 0 && <PreformStep />}
@@ -115,5 +114,5 @@ export const CreateApplicationManager = () => {
         </Box>
       )}
     </Stack>
-  );
-};
+  )
+}

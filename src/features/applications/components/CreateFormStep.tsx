@@ -1,10 +1,10 @@
-import { Box, Tabs, Group, Tooltip, Button } from "@mantine/core"
-import { notifications } from "@mantine/notifications"
-import { GeneralInfoTab } from "./GeneralInfoTab"
-import { ParametersTab } from "./ParametersTab"
-import { TestsTab } from "./TestsTab"
-import { DocsTab } from "./DocsTab"
-import { useState } from "react"
+import { Box, Tabs, Group, Tooltip, Button } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
+import { GeneralInfoTab } from './GeneralInfoTab'
+import { ParametersTab } from './ParametersTab'
+import { TestsTab } from './TestsTab'
+import { DocsTab } from './DocsTab'
+import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { useGenerateApplicationMutation, useSaveDraftMutation } from '../../../api/applications/applicationsApi'
 import { useGetMetadataQuery } from '../../../api/references/referencesApi'
@@ -45,13 +45,13 @@ export const CreateFormStep = () => {
     const { valueType, minValue, maxValue } = param
     if (!value) return false
 
-    const numValue = Number(value.replace(",", "."))
-    if (valueType === "Integer" || valueType === "Decimal") {
+    const numValue = Number(value.replace(',', '.'))
+    if (valueType === 'Integer' || valueType === 'Decimal') {
       if (isNaN(numValue)) return false
       if (minValue && numValue < Number(minValue)) return false
       if (maxValue && numValue > Number(maxValue)) return false
     }
-    if (valueType === "String") {
+    if (valueType === 'String') {
       if (minValue && value.length < Number(minValue)) return false
       if (maxValue && value.length > Number(maxValue)) return false
     }
@@ -71,7 +71,7 @@ export const CreateFormStep = () => {
     // Проверяем таблицу параметров
     const areParametersValid = metaParams.every((param) =>
       state.objects.every((obj) => {
-        const val = state.parameters[param.parameterId]?.[obj.id] || ""
+        const val = state.parameters[param.parameterId]?.[obj.id] || ''
         return validateField(val, param)
       }),
     )
@@ -91,10 +91,10 @@ export const CreateFormStep = () => {
   const createFormData = () => {
     const formData = new FormData()
 
-    formData.append("branchId", state.branchId || "")
-    formData.append("equipmentTypeId", state.equipmentTypeId || "")
-    formData.append("producerName", state.producerName || "")
-    formData.append("producerAddress", state.producerAddress || "")
+    formData.append('branchId', state.branchId || '')
+    formData.append('equipmentTypeId', state.equipmentTypeId || '')
+    formData.append('producerName', state.producerName || '')
+    formData.append('producerAddress', state.producerAddress || '')
 
     const samples = state.objects.map((obj: any) => {
       // Собираем параметры для данного объекта
@@ -112,19 +112,19 @@ export const CreateFormStep = () => {
       }))
 
       return {
-        name: obj.name || "",
+        name: obj.name || '',
         parameterValues: parameterValues,
         testValues: testValues,
       }
     })
-    formData.append("samples", JSON.stringify(samples))
+    formData.append('samples', JSON.stringify(samples))
 
     if (state.regulatoryDocument) {
-      formData.append("regulatoryDocument", state.regulatoryDocument)
+      formData.append('regulatoryDocument', state.regulatoryDocument)
     }
 
     state.additionalDocuments?.forEach((file: File) => {
-      formData.append("additionalDocuments", file)
+      formData.append('additionalDocuments', file)
     })
 
     return formData
@@ -145,17 +145,17 @@ export const CreateFormStep = () => {
 
         backendErrors.forEach((errText) => {
           notifications.show({
-            title: "Ошибка валидации заявки",
+            title: 'Ошибка валидации заявки',
             message: errText,
-            color: "red",
+            color: 'red',
             autoClose: 5000,
           })
         })
       } else {
         notifications.show({
-          title: "Ошибка",
-          message: "Не удалось сформировать заявку. Попробуйте позже.",
-          color: "red",
+          title: 'Ошибка',
+          message: 'Не удалось сформировать заявку. Попробуйте позже.',
+          color: 'red',
         })
       }
     } finally {
@@ -165,65 +165,65 @@ export const CreateFormStep = () => {
   return (
     <Box
       style={{
-        display: "flex",
+        display: 'flex',
         flexGrow: 1,
-        flexDirection: "column",
-        width: "100%",
+        flexDirection: 'column',
+        width: '100%',
       }}
     >
       <Tabs
         value={state.activeTab}
-        onChange={(val) => dispatch(applicationsSlice.actions.setActiveTab(val as any || "general"))}
-        variant="custom"
+        onChange={(val) => dispatch(applicationsSlice.actions.setActiveTab(val as any || 'general'))}
+        variant='custom'
         style={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           flexGrow: 1,
-          overflow: "hidden",
+          overflow: 'hidden',
         }}
       >
         <Tabs.List style={{ flexShrink: 0 }}>
-          <Tabs.Tab value="general">Общая информация</Tabs.Tab>
-          <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
-          <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
-          <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
+          <Tabs.Tab value='general'>Общая информация</Tabs.Tab>
+          <Tabs.Tab value='params'>Характеристики объектов испытаний</Tabs.Tab>
+          <Tabs.Tab value='tests'>Требования к испытаниям</Tabs.Tab>
+          <Tabs.Tab value='docs'>Техническая документация</Tabs.Tab>
         </Tabs.List>
 
-        <Box style={{ padding: "24px 0" }}>
+        <Box style={{ padding: '24px 0' }}>
           <Tabs.Panel
-            value="general"
+            value='general'
           >
             <GeneralInfoTab />
           </Tabs.Panel>
-          <Tabs.Panel value="params">
+          <Tabs.Panel value='params'>
             <ParametersTab />
           </Tabs.Panel>
-          <Tabs.Panel value="tests">
+          <Tabs.Panel value='tests'>
             <TestsTab />
           </Tabs.Panel>
-          <Tabs.Panel value="docs">
+          <Tabs.Panel value='docs'>
             <DocsTab />
           </Tabs.Panel>
         </Box>
       </Tabs>
 
-      <Group justify="center">
+      <Group justify='center'>
         <Tooltip
-          label="Пожалуйста, заполните обязательные поля формы и данные в Личном кабинете"
+          label='Пожалуйста, заполните обязательные поля формы и данные в Личном кабинете'
           disabled={isFormValid}
           multiline
           w={300}
           withArrow
-          position="top"
+          position='top'
         >
-          <div style={{ display: "inline-block" }}>
+          <div style={{ display: 'inline-block' }}>
             <Button
-              variant="filled"
-              size="lg"
+              variant='filled'
+              size='lg'
               disabled={!isFormValid}
               loading={isGenerating}
               onClick={handleGenerate}
-              style={{ cursor: !isFormValid ? "not-allowed" : "pointer" }}
+              style={{ cursor: !isFormValid ? 'not-allowed' : 'pointer' }}
             >
               Сформировать заявку
             </Button>
@@ -231,5 +231,5 @@ export const CreateFormStep = () => {
         </Tooltip>
       </Group>
     </Box>
-  );
-};
+  )
+}

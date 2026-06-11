@@ -1,5 +1,6 @@
-import { baseQueryWithReauth } from '../../api/baseQuery'
 import { createApi } from '@reduxjs/toolkit/query/react'
+import { baseQueryWithReauth } from '../../api/baseQuery'
+import { authSlice } from '../../features/auth/authStore'
 
 import type { 
   ChangePasswordRequest,
@@ -13,7 +14,6 @@ import type {
   LoginResponse,
   SetupPasswordResponse, 
 } from './types/responses'
-import { authSlice } from '../../features/auth/authStore'
 
 export const authApi = createApi({
   reducerPath: 'auth',

@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { applicationsSlice, } from "../applicationStore"
+import { useEffect } from 'react'
+import { applicationsSlice, } from '../applicationStore'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { useLazyGetClientConfirmedQuery } from '../../../api/clients/clientsApi'
 
@@ -18,7 +18,7 @@ export const useUserConfirmationPolling = (intervalMs: number = 10000) => {
         const confirmData = await getClientConfirmed().unwrap()
         dispatch(applicationsSlice.actions.setIsUserConfirmed(confirmData.confirmed))
       } catch (e) {
-        console.error("Ошибка проверки подтверждения пользователя:", e)
+        console.error('Ошибка проверки подтверждения пользователя:', e)
       }
     }
 

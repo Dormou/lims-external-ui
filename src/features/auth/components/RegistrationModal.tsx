@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import {
   Modal,
   TextInput,
@@ -10,17 +10,17 @@ import {
   Group,
   ActionIcon,
   Anchor,
-} from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { IconX } from "@tabler/icons-react"
-import { useRegisterClientMutation } from '../../../api/clients/clientsApi';
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { IconX } from '@tabler/icons-react'
+import { useRegisterClientMutation } from '../../../api/clients/clientsApi'
 
 export const RegistrationModal = ({
   opened,
   onClose,
 }: {
-  opened: boolean;
-  onClose: () => void;
+  opened: boolean
+  onClose: () => void
 }) => {
   const [registerClient, { isLoading }] = useRegisterClientMutation()
 
@@ -28,22 +28,22 @@ export const RegistrationModal = ({
 
   const form = useForm({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      patronymic: "",
-      email: "",
-      organizationFullName: "",
-      organizationShortName: "",
-      innKpp: "",
+      firstName: '',
+      lastName: '',
+      patronymic: '',
+      email: '',
+      organizationFullName: '',
+      organizationShortName: '',
+      innKpp: '',
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Некорректный email"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Некорректный email'),
       innKpp: (value) =>
-        /^\d{10}\/\d{9}$/.test(value) ? null : "Формат: 10 цифр / 9 цифр",
-      firstName: (value) => (value.length < 1 ? "Обязательное поле" : null),
-      lastName: (value) => (value.length < 1 ? "Обязательное поле" : null),
+        /^\d{10}\/\d{9}$/.test(value) ? null : 'Формат: 10 цифр / 9 цифр',
+      firstName: (value) => (value.length < 1 ? 'Обязательное поле' : null),
+      lastName: (value) => (value.length < 1 ? 'Обязательное поле' : null),
       organizationFullName: (value) =>
-        value.length < 1 ? "Обязательное поле" : null,
+        value.length < 1 ? 'Обязательное поле' : null,
     },
   })
 
@@ -58,8 +58,8 @@ export const RegistrationModal = ({
     } catch (error: any) {
       if (error.response?.status === 409) {
         form.setFieldError(
-          "email",
-          "Пользователь с таким email уже зарегистрирован",
+          'email',
+          'Пользователь с таким email уже зарегистрирован',
         )
       }
     }
@@ -69,19 +69,19 @@ export const RegistrationModal = ({
     setIsSuccess(false)
     form.reset()
     onClose()
-  };
+  }
 
   return (
     <Modal
       opened={opened}
       onClose={handleClose}
-      size="xl"
+      size='xl'
       padding={40}
-      radius="md"
+      radius='md'
       withCloseButton={false}
     >
-      <Group justify="flex-end" mb={isSuccess ? 0 : 32}>
-        <ActionIcon variant="subtle" color="gray" onClick={handleClose}>
+      <Group justify='flex-end' mb={isSuccess ? 0 : 32}>
+        <ActionIcon variant='subtle' color='gray' onClick={handleClose}>
           <IconX size={24} />
         </ActionIcon>
       </Group>
@@ -90,9 +90,9 @@ export const RegistrationModal = ({
         <form onSubmit={form.onSubmit(handleRegister)}>
           <Title
             order={2}
-            ta="center"
+            ta='center'
             mb={32}
-            style={{ fontFamily: "DIN Pro", fontSize: 24 }}
+            style={{ fontFamily: 'DIN Pro', fontSize: 24 }}
           >
             Регистрация в АИС Управление испытаниями
           </Title>
@@ -102,36 +102,36 @@ export const RegistrationModal = ({
               <Stack gap={16}>
                 <Title
                   order={4}
-                  c="#005B9C"
+                  c='#005B9C'
                   style={{
-                    borderBottom: "2px solid #005B9C",
+                    borderBottom: '2px solid #005B9C',
                     paddingBottom: 8,
                   }}
                 >
                   Информация о пользователе
                 </Title>
                 <TextInput
-                  label="Фамилия"
-                  placeholder="Введите фамилию"
+                  label='Фамилия'
+                  placeholder='Введите фамилию'
                   required
-                  {...form.getInputProps("lastName")}
+                  {...form.getInputProps('lastName')}
                 />
                 <TextInput
-                  label="Имя"
-                  placeholder="Введите имя"
+                  label='Имя'
+                  placeholder='Введите имя'
                   required
-                  {...form.getInputProps("firstName")}
+                  {...form.getInputProps('firstName')}
                 />
                 <TextInput
-                  label="Отчество (при наличии)"
-                  placeholder="Введите отчество"
-                  {...form.getInputProps("patronymic")}
+                  label='Отчество (при наличии)'
+                  placeholder='Введите отчество'
+                  {...form.getInputProps('patronymic')}
                 />
                 <TextInput
-                  label="Email"
-                  placeholder="Введите email"
+                  label='Email'
+                  placeholder='Введите email'
                   required
-                  {...form.getInputProps("email")}
+                  {...form.getInputProps('email')}
                 />
               </Stack>
             </Grid.Col>
@@ -140,44 +140,44 @@ export const RegistrationModal = ({
               <Stack gap={16}>
                 <Title
                   order={4}
-                  c="#005B9C"
+                  c='#005B9C'
                   style={{
-                    borderBottom: "2px solid #005B9C",
+                    borderBottom: '2px solid #005B9C',
                     paddingBottom: 8,
                   }}
                 >
                   Информация об организации
                 </Title>
                 <TextInput
-                  label="Полное наименование"
-                  placeholder="Введите полное наименование"
+                  label='Полное наименование'
+                  placeholder='Введите полное наименование'
                   required
-                  {...form.getInputProps("organizationFullName")}
+                  {...form.getInputProps('organizationFullName')}
                 />
                 <TextInput
-                  label="Сокращённое наименование"
-                  placeholder="Введите сокращённое наименование"
-                  {...form.getInputProps("organizationShortName")}
+                  label='Сокращённое наименование'
+                  placeholder='Введите сокращённое наименование'
+                  {...form.getInputProps('organizationShortName')}
                 />
                 <TextInput
-                  label="ИНН/КПП"
-                  placeholder="Введите ИНН/КПП"
+                  label='ИНН/КПП'
+                  placeholder='Введите ИНН/КПП'
                   required
-                  {...form.getInputProps("innKpp")}
+                  {...form.getInputProps('innKpp')}
                 />
               </Stack>
             </Grid.Col>
           </Grid>
 
-          <Stack align="center" mt={40} gap="xl">
-            <Text size="xs" ta="center" c="dimmed">
-              Нажимая "Зарегистрироваться", я подтверждаю согласие на обработку
+          <Stack align='center' mt={40} gap='xl'>
+            <Text size='xs' ta='center' c='dimmed'>
+              Нажимая 'Зарегистрироваться', я подтверждаю согласие на обработку
               персональных данных
             </Text>
             <Button
-              type="submit"
-              variant="filled"
-              size="lg"
+              type='submit'
+              variant='filled'
+              size='lg'
               px={60}
               loading={isLoading}
             >
@@ -186,41 +186,41 @@ export const RegistrationModal = ({
           </Stack>
         </form>
       ) : (
-        <Stack align="center" gap={24} py={20}>
+        <Stack align='center' gap={24} py={20}>
           <Title
             order={2}
-            ta="center"
-            style={{ fontFamily: "DIN Pro", fontSize: 24 }}
+            ta='center'
+            style={{ fontFamily: 'DIN Pro', fontSize: 24 }}
           >
             Регистрация в АИС Управление испытаниями
           </Title>
           <Text
-            ta="center"
-            size="lg"
-            style={{ fontFamily: "PF Din Text Cond Pro" }}
+            ta='center'
+            size='lg'
+            style={{ fontFamily: 'PF Din Text Cond Pro' }}
           >
-            На адрес{" "}
+            На адрес{' '}
             <Text span fw={700}>
               {form.values.email}
-            </Text>{" "}
+            </Text>{' '}
             отправлено письмо с инструкцией по установке пароля. Пожалуйста,
             выполните инструкции в письме для завершения регистрации.
           </Text>
           <Text
-            ta="center"
-            c="dimmed"
-            size="md"
-            style={{ fontFamily: "PF Din Text Cond Pro" }}
+            ta='center'
+            c='dimmed'
+            size='md'
+            style={{ fontFamily: 'PF Din Text Cond Pro' }}
           >
-            Если письмо не пришло, проверьте папку "Спам" или обратитесь в
-            службу технической поддержки{" "}
-            <Anchor href="mailto:lims-service@yandex.ru">
+            Если письмо не пришло, проверьте папку 'Спам' или обратитесь в
+            службу технической поддержки{' '}
+            <Anchor href='mailto:lims-service@yandex.ru'>
               lims-service@yandex.ru
             </Anchor>
           </Text>
           <Button
-            size="lg"
-            variant="filled"
+            size='lg'
+            variant='filled'
             px={60}
             onClick={handleClose}
             mt={20}
@@ -230,5 +230,5 @@ export const RegistrationModal = ({
         </Stack>
       )}
     </Modal>
-  );
-};
+  )
+}
