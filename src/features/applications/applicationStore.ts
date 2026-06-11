@@ -23,8 +23,6 @@ interface ApplicationsSliceState {
   tests: Record<string, Record<string, boolean>>
 
   regulatoryDocument: File | null
-  specification: File | null
-  shema: File | null
   additionalDocuments: File[]
 
   generatedFile: FileMeta | null
@@ -48,8 +46,6 @@ const initialState: ApplicationsSliceState = {
   tests: {},
 
   regulatoryDocument: null,
-  specification: null,
-  shema: null,
   additionalDocuments: [],
 
   generatedFile: null,
@@ -114,8 +110,8 @@ export const applicationsSlice = createSlice({
       }
     },
 
-    setFile: (state, action: PayloadAction<{ field: 'regulatoryDocument' | 'specification' | 'shema', file: File | null }>) => {
-      state[action.payload.field] = action.payload.file
+    setRegulatoryFile: (state, action: PayloadAction<File | null>) => {
+      state.regulatoryDocument = action.payload
     },
     setAdditionalFiles: (state, action: PayloadAction<File[]>) => {
       state.additionalDocuments = action.payload
@@ -183,13 +179,9 @@ export const applicationsSlice = createSlice({
       state.regulatoryDocument = action.payload.regulatoryDocument
         ? new File([], action.payload.regulatoryDocument.fileName)
         : null
-      state.specification = action.payload.specification
-        ? new File([], action.payload.specification.fileName)
-        : null
-      state.shema = action.payload.shema ? new File([], action.payload.shema.fileName) : null // Используем скорректированный ключ
     },
     reset: (state) => {
-      state = {...initialState}
+      state = {...state, ...initialState}
     }
   }
 })

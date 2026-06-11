@@ -41,7 +41,7 @@ export const applicationsApi = createApi({
         query: data => ({
           url: `applications/${data.id}`,
           method: 'PUT',
-          body: data
+          body: data.formData
         })
       }),
       // Сформировать заявку
@@ -57,11 +57,16 @@ export const applicationsApi = createApi({
       }),
       // Отправить подписанную заявку
       uploadSignedFile: builder.mutation<UploadSignedFileResponse, UploadSignedFileRequest>({
-        query: data => ({
-          url: `applications/${data.applicationId}/signed-file`,
-          method: 'POST',
-          body: data
-        })
+        query: data => {
+          const formData = new FormData()
+          formData.append('file', data.signedFile)
+
+          return {
+            url: `applications/${data.applicationId}/signed-file`,
+            method: 'POST',
+            body: formData
+          }
+        }
       }),
       // Скачать подписанную заявку
       downloadSignedFile: builder.mutation<DownloadSignedFileResponse, string>({

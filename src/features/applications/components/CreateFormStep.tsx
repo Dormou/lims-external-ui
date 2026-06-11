@@ -77,7 +77,7 @@ export const CreateFormStep = () => {
     )
 
     // Проверяем наличие обязательных документов
-    const areDocumentsValid = !!state.regulatoryDocument && !!state.specification && !!state.shema
+    const areDocumentsValid = !!state.regulatoryDocument
 
     return (
       isGeneralValid &&
@@ -122,12 +122,6 @@ export const CreateFormStep = () => {
     if (state.regulatoryDocument) {
       formData.append("regulatoryDocument", state.regulatoryDocument)
     }
-    if (state.specification) {
-      formData.append("specification", state.specification)
-    }
-    if (state.shema) {
-      formData.append("shema", state.shema)
-    }
 
     state.additionalDocuments?.forEach((file: File) => {
       formData.append("additionalDocuments", file)
@@ -141,7 +135,7 @@ export const CreateFormStep = () => {
     setIsGenerating(true)
 
     try {
-      await saveDraft(createFormData()).unwrap()
+      await saveDraft({id: state.applicationId, formData: createFormData()}).unwrap()
       const fileData = await generateApplication(state.applicationId).unwrap()
       dispatch(applicationsSlice.actions.setGeneratedFile(fileData))
       dispatch(applicationsSlice.actions.setStep(2))

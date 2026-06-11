@@ -13,8 +13,6 @@ export const useAutoSave = () => {
   const producerName = useAppSelector((state) => state.applicationsSlice.producerName)
   const producerAddress = useAppSelector((state) => state.applicationsSlice.producerAddress)
   const regulatoryDocument = useAppSelector((state) => state.applicationsSlice.regulatoryDocument)
-  const specification = useAppSelector((state) => state.applicationsSlice.specification)
-  const shema = useAppSelector((state) => state.applicationsSlice.shema)
   const additionalDocuments = useAppSelector((state) => state.applicationsSlice.additionalDocuments)
 
   const [saveDraft] = useSaveDraftMutation()
@@ -28,22 +26,46 @@ export const useAutoSave = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
     timeoutRef.current = setTimeout(async () => {
-      const payload = {
-        id,
-        branchId,
-        equipmentTypeId,
-        objects,
-        parameters,
-        tests,
-        producerName,
-        producerAddress,
-        regulatoryDocument,
-        specification,
-        shema,
-        additionalDocuments,
+      const formData = new FormData()
+
+      formData.append("branchId", branchId || "")
+      formData.append("equipmentTypeId", equipmentTypeId || "")
+      formData.append("producerName", producerName || "")
+      formData.append("producerAddress", producerAddress || "")
+
+      const samples = objects.map((obj: any) => {
+        // Собираем параметры для данного объекта
+        const parameterValues = Object.keys(parameters).map(
+          (paramId) => ({
+            parameterId: paramId,
+            parameterValue: parameters[paramId]?.[obj.id] ?? null,
+          }),
+        )
+
+        // Собираем тесты для данного объекта
+        const testValues = Object.keys(tests).map((testId) => ({
+          testId: testId,
+          testValue: tests[testId]?.[obj.id] ?? false,
+        }))
+
+        return {
+          name: obj.name || "",
+          parameterValues: parameterValues,
+          testValues: testValues,
+        }
+      })
+      formData.append("samples", JSON.stringify(samples))
+
+      if (regulatoryDocument) {
+        formData.append("regulatoryDocument", regulatoryDocument)
       }
+
+      additionalDocuments?.forEach((file: File) => {
+        formData.append("additionalDocuments", file)
+      })
+
       try {
-        await saveDraft(payload).unwrap()
+        await saveDraft({id: id, formData: formData}).unwrap()
       } catch (e) {
         console.error("Ошибка автосохранения:", e)
       }
@@ -63,8 +85,6 @@ export const useAutoSave = () => {
     producerName,
     producerAddress,
     regulatoryDocument,
-    specification,
-    shema,
     additionalDocuments,
   ])
 }

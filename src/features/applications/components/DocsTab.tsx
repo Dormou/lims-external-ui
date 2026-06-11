@@ -7,9 +7,7 @@ export const DocsTab = () => {
   const dispatch = useAppDispatch()
 
   const { 
-    regulatoryDocument, 
-    specification, 
-    shema, 
+    regulatoryDocument,
     additionalDocuments 
   } = useAppSelector((state) => state.applicationsSlice)
 
@@ -21,27 +19,7 @@ export const DocsTab = () => {
         placeholder="Выберите файл"
         leftSection={<Icon icon="mdi:file-document-outline" width={20} />}
         value={regulatoryDocument}
-        onChange={(file) => dispatch(applicationsSlice.actions.setFile({field: "regulatoryDocument", file: file}))}
-        clearable
-      />
-
-      <FileInput
-        label="Технические условия"
-        required
-        placeholder="Выберите файл"
-        leftSection={<Icon icon="mdi:file-certificate-outline" width={20} />}
-        value={specification}
-        onChange={(file) => dispatch(applicationsSlice.actions.setFile({field: "specification", file: file}))}
-        clearable
-      />
-
-      <FileInput
-        label="Схема строповки"
-        required
-        placeholder="Выберите файл"
-        leftSection={<Icon icon="mdi:file-cog-outline" width={20} />}
-        value={shema}
-        onChange={(file) => dispatch(applicationsSlice.actions.setFile({field: "shema", file: file}))}
+        onChange={(file) => dispatch(applicationsSlice.actions.setRegulatoryFile(file))}
         clearable
       />
 
