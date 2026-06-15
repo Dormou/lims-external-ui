@@ -12,9 +12,9 @@ import {
 } from '@mantine/core'
 import { IconSearch, IconPlus } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
-import { ApplicationCard } from '../features/applications/components/ApplicationCard'
+import { ApplicationCard } from '../../features/applications/components/ApplicationCard'
 import { Icon } from '@iconify/react'
-import { useGetAllApplicationsQuery } from '../api/applications/applicationsApi'
+import { useGetAllApplicationsQuery } from '../../api/applications/applicationsApi'
 
 export const HomePage = () => {
   const navigate = useNavigate()
@@ -29,13 +29,13 @@ export const HomePage = () => {
         const query = search.toLowerCase()
         const matchesType = app.equipmentType?.toLowerCase().includes(query)
         const matchesSamples = app.samples?.some((s: string) =>
-          s.toLowerCase().includes(query),
+          s.toLowerCase().includes(query)
         )
         return matchesType || matchesSamples
       })
       .sort(
         (a, b) =>
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       )
   }, [data, search])
 
@@ -47,15 +47,15 @@ export const HomePage = () => {
     )
 
   return (
-    <Stack gap={40} w='100%'>
-      <Title order={2} ta='center'>
+    <Stack gap={40} w="100%">
+      <Title order={2} ta="center">
         Заявки на проведение испытаний
       </Title>
 
       {data && data?.length > 0 && (
-        <Group justify='space-between'>
+        <Group justify="space-between">
           <TextInput
-            placeholder='Поиск'
+            placeholder="Поиск"
             leftSection={<IconSearch size={16} />}
             w={600}
             value={search}
@@ -72,18 +72,18 @@ export const HomePage = () => {
 
       {!data || data.length === 0 ? (
         <Center mt={100}>
-          <Stack align='center' gap='md'>
+          <Stack align="center" gap="md">
             <Box opacity={0.3}>
-              <Icon icon='mdi:database-off-outline' width={80} height={80} />
+              <Icon icon="mdi:database-off-outline" width={80} height={80} />
             </Box>
-            <Text c='dimmed' size='lg' ta='center'>
+            <Text c="dimmed" size="lg" ta="center">
               Вы пока не подали ни одной заявки
             </Text>
             <Button
-              variant='filled'
+              variant="filled"
               leftSection={<IconPlus size={20} />}
-              size='md'
-              mt='xl'
+              size="md"
+              mt="xl"
               onClick={() => navigate('/create-application')}
             >
               Подать заявку
@@ -92,10 +92,10 @@ export const HomePage = () => {
         </Center>
       ) : filteredApps.length === 0 ? (
         <Center mt={100}>
-          <Text c='dimmed'>По вашему запросу ничего не найдено</Text>
+          <Text c="dimmed">По вашему запросу ничего не найдено</Text>
         </Center>
       ) : (
-        <SimpleGrid cols={3} spacing='xl'>
+        <SimpleGrid cols={3} spacing="xl">
           {filteredApps.map((app) => (
             <ApplicationCard key={app.id} app={app} />
           ))}

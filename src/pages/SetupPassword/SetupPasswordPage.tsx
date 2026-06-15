@@ -11,9 +11,9 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { Icon } from '@iconify/react'
-import { useAppDispatch } from '../store'
-import { authSlice } from '../features/auth/authStore'
-import { useSetupPasswordMutation } from '../api/auth/authApi'
+import { useAppDispatch } from '../../store'
+import { useSetupPasswordMutation } from '../../api/auth/authApi'
+import { authSlice } from '../../features/auth/authStore'
 
 export const SetupPasswordPage = () => {
   const dispatch = useAppDispatch()
@@ -50,7 +50,7 @@ export const SetupPasswordPage = () => {
   }
 
   return (
-    <Group gap={0} h='100vh' align='stretch'>
+    <Group gap={0} h="100vh" align="stretch">
       <Box style={{ flex: 1, position: 'relative', backgroundColor: '#fff' }}>
         <div
           style={{
@@ -61,14 +61,14 @@ export const SetupPasswordPage = () => {
             opacity: 0.25,
           }}
         />
-        <Stack p={40} h='100%' justify='space-between' pos='relative'>
-          <Group gap='xl'>
-            <img src='/logo.png' alt='Россети' style={{ height: 48 }} />
-            <Text fw={700} size='28px' c='#005B9C'>
+        <Stack p={40} h="100%" justify="space-between" pos="relative">
+          <Group gap="xl">
+            <img src="/logo.png" alt="Россети" style={{ height: 48 }} />
+            <Text fw={700} size="28px" c="#005B9C">
               АИС Управление испытаниями
             </Text>
           </Group>
-          <Text size='16px' c='#005B9C'>
+          <Text size="16px" c="#005B9C">
             Разработано Департаментом цифровых технологий АО 'Россети НТЦ' ®
           </Text>
         </Stack>
@@ -78,8 +78,8 @@ export const SetupPasswordPage = () => {
         <Stack w={400} gap={32}>
           <Title
             order={1}
-            ta='center'
-            c='#005B9C'
+            ta="center"
+            c="#005B9C"
             style={{ fontFamily: 'DIN Pro', fontSize: 36 }}
           >
             Установка пароля
@@ -88,29 +88,29 @@ export const SetupPasswordPage = () => {
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap={16}>
               <PasswordInput
-                placeholder='Введите пароль'
-                size='md'
+                placeholder="Введите пароль"
+                size="md"
                 leftSection={
-                  <Icon icon='mdi:lock-outline' width={20} color='#ADB5BD' />
+                  <Icon icon="mdi:lock-outline" width={20} color="#ADB5BD" />
                 }
                 {...form.getInputProps('password')}
               />
               <PasswordInput
-                placeholder='Повторите пароль'
-                size='md'
+                placeholder="Повторите пароль"
+                size="md"
                 leftSection={
                   <Icon
-                    icon='mdi:lock-check-outline'
+                    icon="mdi:lock-check-outline"
                     width={20}
-                    color='#ADB5BD'
+                    color="#ADB5BD"
                   />
                 }
                 {...form.getInputProps('confirmPassword')}
               />
               <Button
-                type='submit'
-                variant='filled'
-                size='lg'
+                type="submit"
+                variant="filled"
+                size="lg"
                 mt={16}
                 disabled={!token}
               >
