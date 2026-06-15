@@ -25,10 +25,7 @@ export default defineConfig(({ command }) => {
   const serverPort = Number(env.VITE_SERVER_PORT) ?? 5173
 
   return {
-    plugins: [
-      react(),
-      env.VITE_ENABLE_MOCK !== 'true' && removeMockServiceWorker(),
-    ],
+    plugins: [react(), command === 'build' && removeMockServiceWorker()],
     server: {
       port: serverPort,
       open: true,
