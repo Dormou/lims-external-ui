@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react'
 import {
   Modal,
   TextInput,
@@ -9,46 +9,43 @@ import {
   Group,
   ActionIcon,
   Anchor,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconX } from "@tabler/icons-react";
-import { authApi } from "../authApi";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { IconX } from '@tabler/icons-react'
+import { useRecoverPasswordMutation } from '../../../api/auth/authApi'
 
 interface Props {
-  opened: boolean;
-  onClose: () => void;
+  opened: boolean
+  onClose: () => void
 }
 
 export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [recoverPassword, { isLoading }] = useRecoverPasswordMutation()
+
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const form = useForm({
-    initialValues: { email: "" },
+    initialValues: { email: '' },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Некорректный email"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Некорректный email'),
     },
-  });
+  })
 
   const handleRecover = async (values: typeof form.values) => {
-    setLoading(true);
     try {
-      await authApi.recoverPassword(values.email);
-      setIsSuccess(true);
+      await recoverPassword({ email: values.email }).unwrap()
     } catch (error: any) {
       if (error.response?.status === 404) {
-        form.setFieldError("email", "Пользователя с таким email не существует");
+        form.setFieldError('email', 'Пользователя с таким email не существует')
       }
-    } finally {
-      setLoading(false);
     }
-  };
+  }
 
   const handleClose = () => {
-    setIsSuccess(false);
-    form.reset();
-    onClose();
-  };
+    setIsSuccess(false)
+    form.reset()
+    onClose()
+  }
 
   return (
     <Modal
@@ -68,7 +65,7 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
       {!isSuccess ? (
         <form onSubmit={form.onSubmit(handleRecover)}>
           <Stack gap={32} align="center">
-            <Title order={2} style={{ fontFamily: "DIN Pro", fontSize: 24 }}>
+            <Title order={2} style={{ fontFamily: 'DIN Pro', fontSize: 24 }}>
               Восстановление пароля
             </Title>
 
@@ -76,38 +73,38 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
               label="Email"
               placeholder="Введите email"
               w="100%"
-              {...form.getInputProps("email")}
+              {...form.getInputProps('email')}
             />
 
-            <Button type="submit" size="lg" px={40} loading={loading}>
+            <Button type="submit" size="lg" px={40} loading={isLoading}>
               Восстановить пароль
             </Button>
           </Stack>
         </form>
       ) : (
         <Stack align="center" gap={24} py={20}>
-          <Title order={2} style={{ fontFamily: "DIN Pro", fontSize: 24 }}>
+          <Title order={2} style={{ fontFamily: 'DIN Pro', fontSize: 24 }}>
             Восстановление пароля
           </Title>
           <Text
             ta="center"
             size="lg"
-            style={{ fontFamily: "PF Din Text Cond Pro" }}
+            style={{ fontFamily: 'PF Din Text Cond Pro' }}
           >
-            На адрес{" "}
+            На адрес{' '}
             <Text span fw={700}>
               {form.values.email}
-            </Text>{" "}
+            </Text>{' '}
             отправлено письмо с инструкцией по установке нового пароля.
           </Text>
           <Text
             ta="center"
             c="dimmed"
             size="md"
-            style={{ fontFamily: "PF Din Text Cond Pro" }}
+            style={{ fontFamily: 'PF Din Text Cond Pro' }}
           >
-            Если письмо не пришло, проверьте папку "Спам" или обратитесь в
-            службу технической поддержки{" "}
+            Если письмо не пришло, проверьте папку 'Спам' или обратитесь в
+            службу технической поддержки{' '}
             <Anchor href="mailto:support@ntc-tech.ru">
               support@ntc-tech.ru
             </Anchor>
@@ -118,5 +115,5 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
         </Stack>
       )}
     </Modal>
-  );
-};
+  )
+}

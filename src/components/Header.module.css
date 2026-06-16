@@ -1,12 +1,12 @@
 .header {
   height: 80px;
-  background-color: #005B9C;
+  background-color: #005b9c;
   padding: 16px 40px;
   display: flex;
   align-items: center;
   gap: 40px;
   color: #ffffff;
-  box-shadow: 0 2px 4px #ADB5BD;
+  box-shadow: 0 2px 4px #adb5bd;
   position: relative;
   z-index: 10;
 }
@@ -39,7 +39,7 @@
   padding: 16px !important;
   border-radius: 8px !important;
   background-color: #ffffff !important;
-  box-shadow: 0 4px 4px #ADB5BD !important;
+  box-shadow: 0 4px 4px #adb5bd !important;
   border: none !important;
   display: flex;
   flex-direction: column;
@@ -57,10 +57,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  color: #005B9C;
+  color: #005b9c;
 }
 
 .divider {
-  border-top: 1px solid #005B9C;
+  border-top: 1px solid #005b9c;
   width: 100%;
 }

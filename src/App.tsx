@@ -1,17 +1,19 @@
-import "@mantine/core/styles.css";
-import { MantineProvider, Notification, ScrollArea } from "@mantine/core";
-import { theme } from "./theme";
-import { CreateApplicationManager } from "./features/applications/components/CreateApplicationManager";
-import { useAuthStore } from "./features/auth/authStore";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { LoginPage } from "./pages/LoginPage";
-import { HomePage } from "./pages/HomePage";
-import { MainLayout } from "./components/MainLayout";
-import { SetupPasswordPage } from "./pages/SetupPasswordPage";
-import { ProfilePage } from "./pages/ProfilePage";
+import '@mantine/core/styles.css'
+import { MantineProvider } from '@mantine/core'
+import { theme } from './theme'
+import { CreateApplicationPage } from './pages/CreateApplication/CreateApplicationPage'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { useAppSelector } from './store'
+import { MainLayout } from './components/MainLayout'
+import { RoutesPath } from './types/routesPath'
+
+import { LoginPage } from './pages/Login/LoginPage'
+import { HomePage } from './pages/Home/HomePage'
+import { SetupPasswordPage } from './pages/SetupPassword/SetupPasswordPage'
+import { ProfilePage } from './pages/Profile/ProfilePage'
 
 function App() {
-  const token = useAuthStore((s) => s.token);
+  const token = useAppSelector((state) => state.authSlice.accessToken)
 
   return (
     <MantineProvider theme={theme}>
@@ -20,17 +22,23 @@ function App() {
         <Routes>
           {!token ? (
             <>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/setup-password" element={<SetupPasswordPage />} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
+              <Route path={RoutesPath.Login} element={<LoginPage />} />
+              <Route
+                path={RoutesPath.SetupPassword}
+                element={<SetupPasswordPage />}
+              />
+              <Route
+                path="*"
+                element={<Navigate to={RoutesPath.Login} replace />}
+              />
             </>
           ) : (
             <Route element={<MainLayout />}>
               <Route path="/" element={<HomePage />} />
-              <Route path="/profile" element={<ProfilePage />} />
+              <Route path={RoutesPath.Profile} element={<ProfilePage />} />
               <Route
-                path="/create-application"
-                element={<CreateApplicationManager />}
+                path={RoutesPath.CreateApplication}
+                element={<CreateApplicationPage />}
               />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
@@ -38,7 +46,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </MantineProvider>
-  );
+  )
 }
 
-export default App;
+export default App

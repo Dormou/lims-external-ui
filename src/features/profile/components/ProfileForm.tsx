@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react";
+import { Icon } from '@iconify/react'
 import {
   Loader,
   Stack,
@@ -9,106 +9,110 @@ import {
   TextInput,
   Checkbox,
   Text,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { formatDate } from "../../../utils";
-import { useProfileStore, type UserProfile } from "../profileStore";
-import { ProfileSection } from "./ProfileSection";
-import { profileApi } from "../profileApi";
-import { SecuritySection } from "./SecuritySection";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { formatDate } from '../../../utils'
+import { ProfileSection } from './ProfileSection'
+import {
+  useUpdateHeadMutation,
+  useUpdateOrganizationMutation,
+  useUpdateTechContactMutation,
+  useUpdateUserMutation,
+} from '../../../api/clients/clientsApi'
+import { SecuritySection } from './SecuritySection'
+import type { UserProfile } from '../../../api/clients/types/userProfile'
 
 export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
-  const fetchProfile = useProfileStore((state) => state.fetchProfile);
+  const [updateUser] = useUpdateUserMutation()
+  const [updateOrganization] = useUpdateOrganizationMutation()
+  const [updateHead] = useUpdateHeadMutation()
+  const [updateTechContact] = useUpdateTechContactMutation()
 
   const userForm = useForm({
     initialValues: {
-      firstName: profile?.fullName.firstName || "",
-      lastName: profile?.fullName.lastName || "",
-      patronymic: profile?.fullName.patronymic || "",
-      email: profile?.email || "",
-      phoneNumber: profile?.phoneNumber || "",
+      firstName: profile?.fullName.firstName || '',
+      lastName: profile?.fullName.lastName || '',
+      patronymic: profile?.fullName.patronymic || '',
+      email: profile?.email || '',
+      phoneNumber: profile?.phoneNumber || '',
       iAmTechContact: profile?.iAmTechContact || false,
       iAmHead: profile?.iAmHead || false,
     },
-  });
+  })
 
   const handleSaveUser = async () => {
     try {
-      await profileApi.updateUser(userForm.values);
-      await fetchProfile();
-      userForm.resetDirty();
+      await updateUser(userForm.values).unwrap()
+      userForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления пользователя", e);
+      console.error('Ошибка обновления пользователя', e)
     }
-  };
+  }
 
   const organizationForm = useForm({
     initialValues: {
-      organizationFullName: profile?.organizationFullName || "",
-      organizationShortName: profile?.organizationShortName || "",
-      organizationLegalAddress: profile?.organizationLegalAddress || "",
-      organizationPostalAddress: profile?.organizationPostalAddress || "",
-      innKpp: profile?.innKpp || "",
-      ogrn: profile?.ogrn || "",
-      organizationEmail: profile?.organizationEmail || "",
-      organizationPhoneNumber: profile?.organizationPhoneNumber || "",
+      organizationFullName: profile?.organizationFullName || '',
+      organizationShortName: profile?.organizationShortName || '',
+      organizationLegalAddress: profile?.organizationLegalAddress || '',
+      organizationPostalAddress: profile?.organizationPostalAddress || '',
+      innKpp: profile?.innKpp || '',
+      ogrn: profile?.ogrn || '',
+      organizationEmail: profile?.organizationEmail || '',
+      organizationPhoneNumber: profile?.organizationPhoneNumber || '',
     },
-  });
+  })
 
   const handleSaveOrganization = async () => {
     try {
-      await profileApi.updateOrganization(organizationForm.values);
-      await fetchProfile();
-      organizationForm.resetDirty();
+      await updateOrganization(organizationForm.values).unwrap()
+      organizationForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления организации", e);
+      console.error('Ошибка обновления организации', e)
     }
-  };
+  }
 
   const headForm = useForm({
     initialValues: {
-      firstName: profile?.headFullName?.firstName || "",
-      lastName: profile?.headFullName?.lastName || "",
-      patronymic: profile?.headFullName?.patronymic || "",
-      headPosition: profile?.headPosition || "",
-      headDocument: profile?.headDocument || "",
+      firstName: profile?.headFirstName || '',
+      lastName: profile?.headLastName || '',
+      patronymic: profile?.headPatronymic || '',
+      headPosition: profile?.headPosition || '',
+      headDocument: profile?.headDocument || '',
     },
-  });
+  })
 
   const handleSaveHead = async () => {
     try {
-      await profileApi.updateHead(headForm.values);
-      await fetchProfile();
-      headForm.resetDirty();
+      await updateHead(headForm.values).unwrap()
+      headForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления руководителя", e);
+      console.error('Ошибка обновления руководителя', e)
     }
-  };
+  }
 
   const techContactForm = useForm({
     initialValues: {
-      firstName: profile?.techContactFullName?.firstName || "",
-      lastName: profile?.techContactFullName?.lastName || "",
-      patronymic: profile?.techContactFullName?.patronymic || "",
-      email: profile?.techContactEmail || "",
-      phoneNumber: profile?.techContactPhoneNumber || "",
+      firstName: profile?.techContactFirstName || '',
+      lastName: profile?.techContactLastName || '',
+      patronymic: profile?.techContactPatronymic || '',
+      email: profile?.techContactEmail || '',
+      phoneNumber: profile?.techContactPhoneNumber || '',
     },
-  });
+  })
 
   const handleSaveTechContact = async () => {
     try {
-      await profileApi.updateTechContact(techContactForm.values);
-      await fetchProfile();
-      techContactForm.resetDirty();
+      await updateTechContact(techContactForm.values).unwrap()
+      techContactForm.resetDirty()
     } catch (e) {
-      console.error("Ошибка обновления контакта по техническим вопросам", e);
+      console.error('Ошибка обновления контакта по техническим вопросам', e)
     }
-  };
+  }
 
-  const iAmTechContact = userForm.values.iAmTechContact;
-  const iAmHead = userForm.values.iAmHead;
+  const iAmTechContact = userForm.values.iAmTechContact
+  const iAmHead = userForm.values.iAmHead
 
-  if (!profile) return <Loader />;
+  if (!profile) return <Loader />
   else
     return (
       <Stack gap={40} w="100%">
@@ -117,14 +121,14 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
             <Icon icon="mdi:user" width={40} />
           </Avatar>
           <Stack gap={4}>
-            <Title order={1} style={{ fontFamily: "DIN Pro" }}>
-              {`${userForm.values.lastName} ${userForm.values.firstName} ${userForm.values.patronymic || ""}`}
+            <Title order={1} style={{ fontFamily: 'DIN Pro' }}>
+              {`${userForm.values.lastName} ${userForm.values.firstName} ${userForm.values.patronymic || ''}`}
             </Title>
             <Text c="dimmed" size="sm">
               Дата регистрации:
               {profile?.registrationDate
                 ? formatDate(profile.registrationDate)
-                : ""}
+                : ''}
             </Text>
           </Stack>
         </Group>
@@ -142,19 +146,19 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 label="Фамилия"
                 placeholder="Введите фамилию"
                 required
-                {...userForm.getInputProps("lastName")}
+                {...userForm.getInputProps('lastName')}
               />
               <TextInput
                 label="Имя"
                 placeholder="Введите имя"
                 required
-                {...userForm.getInputProps("firstName")}
+                {...userForm.getInputProps('firstName')}
                 mt="md"
               />
               <TextInput
                 label="Отчество (при наличии)"
                 placeholder="Введите отчество"
-                {...userForm.getInputProps("patronymic")}
+                {...userForm.getInputProps('patronymic')}
                 mt="md"
               />
             </Grid.Col>
@@ -163,25 +167,25 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 label="Email"
                 placeholder="Введите email"
                 required
-                {...userForm.getInputProps("email")}
+                {...userForm.getInputProps('email')}
               />
               <TextInput
                 label="Телефон"
                 placeholder="Введите телефон"
-                {...userForm.getInputProps("phoneNumber")}
+                {...userForm.getInputProps('phoneNumber')}
                 mt="md"
               />
               <Stack gap={8} mt="md">
                 <Checkbox
                   label="Я являюсь контактным лицом по техническим вопросам"
-                  {...userForm.getInputProps("iAmTechContact", {
-                    type: "checkbox",
+                  {...userForm.getInputProps('iAmTechContact', {
+                    type: 'checkbox',
                   })}
                 />
                 <Checkbox
                   label="Я являюсь руководителем организации (или иным лицом, уполномоченным на подписание документов)"
-                  {...userForm.getInputProps("iAmHead", {
-                    type: "checkbox",
+                  {...userForm.getInputProps('iAmHead', {
+                    type: 'checkbox',
                   })}
                 />
               </Stack>
@@ -200,24 +204,24 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
             label="Полное наименование"
             placeholder="Введите полное наименование"
             required
-            {...organizationForm.getInputProps("organizationFullName")}
+            {...organizationForm.getInputProps('organizationFullName')}
           />
           <TextInput
             label="Сокращённое наименование"
             placeholder="Введите сокращенное наименование"
-            {...organizationForm.getInputProps("organizationShortName")}
+            {...organizationForm.getInputProps('organizationShortName')}
             mt="md"
           />
           <TextInput
             label="Юридический адрес"
             placeholder="Введите юридический адрес"
-            {...organizationForm.getInputProps("organizationLegalAddress")}
+            {...organizationForm.getInputProps('organizationLegalAddress')}
             mt="md"
           />
           <TextInput
             label="Почтовый адрес"
             placeholder="Введите почтовый адрес"
-            {...organizationForm.getInputProps("organizationPostalddress")}
+            {...organizationForm.getInputProps('organizationPostalAddress')}
             mt="md"
           />
 
@@ -227,12 +231,12 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 label="ИНН/КПП"
                 placeholder="Введите ИНН/КПП"
                 required
-                {...organizationForm.getInputProps("innKpp")}
+                {...organizationForm.getInputProps('innKpp')}
               />
               <TextInput
                 label="Email"
                 placeholder="Введите email"
-                {...organizationForm.getInputProps("organizationEmail")}
+                {...organizationForm.getInputProps('organizationEmail')}
                 mt="md"
               />
             </Grid.Col>
@@ -240,12 +244,12 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
               <TextInput
                 label="ОГРН"
                 placeholder="Введите ОГРН"
-                {...organizationForm.getInputProps("ogrn")}
+                {...organizationForm.getInputProps('ogrn')}
               />
               <TextInput
                 label="Телефон"
                 placeholder="Введите телефон"
-                {...organizationForm.getInputProps("organizationPhoneNumber")}
+                {...organizationForm.getInputProps('organizationPhoneNumber')}
                 mt="md"
               />
             </Grid.Col>
@@ -269,7 +273,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                   iAmHead ? userForm.values.lastName : headForm.values.lastName
                 }
                 onChange={(e) =>
-                  headForm.setFieldValue("lastName", e.target.value)
+                  headForm.setFieldValue('lastName', e.target.value)
                 }
               />
               <TextInput
@@ -282,7 +286,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : headForm.values.firstName
                 }
                 onChange={(e) =>
-                  headForm.setFieldValue("firstName", e.target.value)
+                  headForm.setFieldValue('firstName', e.target.value)
                 }
               />
               <TextInput
@@ -295,7 +299,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : headForm.values.patronymic
                 }
                 onChange={(e) =>
-                  headForm.setFieldValue("lastName", e.target.value)
+                  headForm.setFieldValue('lastName', e.target.value)
                 }
               />
             </Grid.Col>
@@ -303,12 +307,12 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
               <TextInput
                 label="Должность"
                 placeholder="Введите должность"
-                {...headForm.getInputProps("headPosition")}
+                {...headForm.getInputProps('headPosition')}
               />
               <TextInput
                 label="Основание"
                 placeholder="Введите наименование и реквизиты документа"
-                {...headForm.getInputProps("headDocument")}
+                {...headForm.getInputProps('headDocument')}
               />
             </Grid.Col>
           </Grid>
@@ -333,7 +337,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : techContactForm.values.lastName
                 }
                 onChange={(e) =>
-                  techContactForm.setFieldValue("lastName", e.target.value)
+                  techContactForm.setFieldValue('lastName', e.target.value)
                 }
               />
               <TextInput
@@ -346,7 +350,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : techContactForm.values.firstName
                 }
                 onChange={(e) =>
-                  techContactForm.setFieldValue("firstName", e.target.value)
+                  techContactForm.setFieldValue('firstName', e.target.value)
                 }
               />
               <TextInput
@@ -359,7 +363,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : techContactForm.values.patronymic
                 }
                 onChange={(e) =>
-                  techContactForm.setFieldValue("lastName", e.target.value)
+                  techContactForm.setFieldValue('lastName', e.target.value)
                 }
               />
             </Grid.Col>
@@ -374,7 +378,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : techContactForm.values.email
                 }
                 onChange={(e) =>
-                  techContactForm.setFieldValue("email", e.target.value)
+                  techContactForm.setFieldValue('email', e.target.value)
                 }
               />
               <TextInput
@@ -387,7 +391,7 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                     : techContactForm.values.phoneNumber
                 }
                 onChange={(e) =>
-                  techContactForm.setFieldValue("phoneNumber", e.target.value)
+                  techContactForm.setFieldValue('phoneNumber', e.target.value)
                 }
               />
             </Grid.Col>
@@ -396,5 +400,5 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
 
         <SecuritySection lastUpdate={profile?.passwordChangeDate} />
       </Stack>
-    );
-};
+    )
+}

@@ -1,22 +1,24 @@
-import { Stack, Text, Button } from "@mantine/core";
-import { useApplicationStore } from "../applicationStore";
-import { ApplicationApi } from "../applicationApi";
+import { Stack, Text, Button } from '@mantine/core'
+import { applicationsSlice } from '../applicationStore'
+import { useAppDispatch } from '../../../store'
+import { useCreateDraftMutation } from '../../../api/applications/applicationsApi'
 
 export const PreformStep = () => {
-  const { setStep, setApplicationId } = useApplicationStore();
+  const dispatch = useAppDispatch()
+
+  const [createDraft] = useCreateDraftMutation()
 
   const handleStart = async () => {
     try {
-      const response = await ApplicationApi.createDraft();
+      const response = await createDraft().unwrap()
 
-      setApplicationId(response);
-
-      setStep(1);
+      dispatch(applicationsSlice.actions.setApplicationId(response.id))
+      dispatch(applicationsSlice.actions.setStep(1))
     } catch (error) {
-      console.error("Не удалось создать черновик:", error);
+      console.error('Не удалось создать черновик:', error)
       // Здесь можно добавить уведомление пользователю
     }
-  };
+  }
 
   return (
     <Stack gap={24} align="center">
@@ -25,9 +27,9 @@ export const PreformStep = () => {
         ta="center"
         c="#212529"
         style={{
-          fontFamily: "PF Din Text Cond Pro",
+          fontFamily: 'PF Din Text Cond Pro',
           fontWeight: 300,
-          fontSize: "20px",
+          fontSize: '20px',
         }}
       >
         В форме подачи заявки вам необходимо заполнить четыре раздела: Общая
@@ -47,7 +49,7 @@ export const PreformStep = () => {
         <br />
         <br />
         Вы можете в любой момент прервать заполнение заявки и вернуться к ней
-        позже. Заявка будет храниться в системе в статусе "Черновик" в течение
+        позже. Заявка будет храниться в системе в статусе 'Черновик' в течение
         30 дней.
       </Text>
 
@@ -55,5 +57,5 @@ export const PreformStep = () => {
         Заполнить заявку
       </Button>
     </Stack>
-  );
-};
+  )
+}

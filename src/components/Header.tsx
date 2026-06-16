@@ -1,30 +1,48 @@
-import { Text, Menu, UnstyledButton, Box, Anchor, Image } from "@mantine/core";
-import { Icon } from "@iconify/react";
-import classes from "./Header.module.css";
-import { useAuthStore } from "../features/auth/authStore";
-import { useNavigate } from "react-router-dom";
+import { Text, Menu, UnstyledButton, Box, Anchor, Image } from '@mantine/core'
+import { Icon } from '@iconify/react'
+import { useLogoutMutation } from '../api/auth/authApi'
+import { useNavigate } from 'react-router-dom'
+import { useGetProfileQuery } from '../api/clients/clientsApi'
+import { useMemo } from 'react'
+import classes from './Header.module.css'
 
 export const Header = () => {
-  const logout = useAuthStore((s) => s.logout);
-  const displayName = useAuthStore((s) => s.getDisplayName());
-  const navigate = useNavigate();
+  const { data } = useGetProfileQuery()
+
+  const [logout] = useLogoutMutation()
+
+  const navigate = useNavigate()
+
+  const displayName = useMemo(() => {
+    if (!data) return 'Гость'
+
+    const { firstName, lastName, patronymic } = data.fullName
+    const initials =
+      `${firstName[0]}.` + (patronymic ? `${patronymic[0]}.` : '')
+
+    return `${lastName} ${initials}`
+  }, [data])
 
   return (
     <header className={classes.header}>
-      <UnstyledButton onClick={() => navigate("/")}>
-        <Image src="./logo.png" alt="Россети" style={{
-          height: "48px",
-          width: "auto",
-          filter: "brightness(0) invert(1)",
-        }} />
+      <UnstyledButton onClick={() => navigate('/')}>
+        <Image
+          src="./logo.png"
+          alt="Россети"
+          style={{
+            height: '48px',
+            width: 'auto',
+            filter: 'brightness(0) invert(1)',
+          }}
+        />
       </UnstyledButton>
 
       <Anchor
         underline="never"
         className={classes.title}
-        style={{ userSelect: "none" }}
+        style={{ userSelect: 'none' }}
         c="var(--white-color)"
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
       >
         АИС Управление испытаниями
       </Anchor>
@@ -46,7 +64,7 @@ export const Header = () => {
         <Menu.Dropdown className={classes.menuDropdown}>
           <Menu.Item
             className={classes.menuItem}
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate('/profile')}
           >
             <div className={classes.menuItemInner}>
               <Icon icon="mdi:user" width="24" height="24" />
@@ -65,5 +83,5 @@ export const Header = () => {
         </Menu.Dropdown>
       </Menu>
     </header>
-  );
-};
+  )
+}

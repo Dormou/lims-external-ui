@@ -1,41 +1,41 @@
 @font-face {
-  font-family: "DIN Pro";
-  src: url("./assets/fonts/dinpro_light.otf") format("opentype");
+  font-family: 'DIN Pro';
+  src: url('./assets/fonts/dinpro_light.otf') format('opentype');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "DIN Pro";
-  src: url("./assets/fonts/dinpro_medium.otf") format("opentype");
+  font-family: 'DIN Pro';
+  src: url('./assets/fonts/dinpro_medium.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "DIN Pro";
-  src: url("./assets/fonts/dinpro_bold.otf") format("opentype");
+  font-family: 'DIN Pro';
+  src: url('./assets/fonts/dinpro_bold.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "DIN Pro";
-  src: url("./assets/fonts/dinpro_black.otf") format("opentype");
+  font-family: 'DIN Pro';
+  src: url('./assets/fonts/dinpro_black.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "PF Din Text Cond Pro";
-  src: url("./assets/fonts/PFDinTextCondPro-Light.ttf") format("truetype");
+  font-family: 'PF Din Text Cond Pro';
+  src: url('./assets/fonts/PFDinTextCondPro-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "PF Din Text Cond Pro";
-  src: url("./assets/fonts/PFDinTextCondPro.ttf") format("truetype");
+  font-family: 'PF Din Text Cond Pro';
+  src: url('./assets/fonts/PFDinTextCondPro.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -46,7 +46,7 @@
   --primary-color-dark: #00497d;
   --complementary-color: #e3eef4;
   --white-color: #ffffff;
-  --darkgray-color: #ADB5BD;
+  --darkgray-color: #adb5bd;
   /* --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -98,7 +98,6 @@
   }
 } */
 
-
 body {
   margin: 0;
   padding: 0;
@@ -117,7 +116,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  
+
   padding: 40px 144px 0 144px;
   background-color: #ffffff;
   border: none !important;
@@ -126,8 +125,8 @@ body {
 
   height: calc(100vh - 80px - 48px - 32px);
   max-height: calc(100vh - 80px - 48px - 32px);
-  
-  overflow-y: scroll; 
+
+  overflow-y: scroll;
 }
 
 .mantine-Menu-dropdown [data-autofocus] {

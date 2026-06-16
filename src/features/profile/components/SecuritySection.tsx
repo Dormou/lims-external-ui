@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useState } from 'react'
 import {
   PasswordInput,
   Button,
@@ -10,53 +10,64 @@ import {
   Divider,
   Box,
   Grid,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useAuthStore } from "../../auth/authStore";
-import { profileApi } from "../profileApi";
-import { formatDate, getMonthNoun } from "../../../utils";
-import dayjs from "dayjs";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { clientsApi } from '../../../api/clients/clientsApi'
+import { formatDate, getMonthNoun } from '../../../utils'
+import { useAppDispatch } from '../../../store'
+import { authSlice } from '../../auth/authStore'
+import { useChangePasswordMutation } from '../../../api/auth/authApi'
+import dayjs from 'dayjs'
 
 export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
-  const monthsAgo = lastUpdate
-    ? dayjs().diff(lastUpdate, "month")
-    : 0;
+  const dispatch = useAppDispatch()
+
+  const [changePassword] = useChangePasswordMutation()
+
+  const monthsAgo = lastUpdate ? dayjs().diff(lastUpdate, 'month') : 0
   const timeAgoText =
     monthsAgo < 1
-      ? "меньше месяца назад"
-      : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`;
-  const isExpired = monthsAgo >= 3;
+      ? 'меньше месяца назад'
+      : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`
+  const isExpired = monthsAgo >= 3
 
-  const [isPasswordEditing, setIsPasswordEditing] = useState(false);
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const [isPasswordEditing, setIsPasswordEditing] = useState(false)
 
   const passwordForm = useForm({
     initialValues: {
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
     },
     validate: {
-      newPassword: (val) => (val.length < 6 ? "Пароль слишком короткий" : null),
+      newPassword: (val) => (val.length < 6 ? 'Пароль слишком короткий' : null),
       confirmPassword: (val, values) =>
-        val !== values.newPassword ? "Пароли не совпадают" : null,
+        val !== values.newPassword ? 'Пароли не совпадают' : null,
     },
-  });
+  })
 
   const handleSavePassword = async (values: typeof passwordForm.values) => {
     try {
-      const { data } = await profileApi.changePassword({
+      const data = await changePassword({
         oldPassword: values.oldPassword,
         newPassword: values.newPassword,
-      });
-      setAuth(data);
-      setIsPasswordEditing(false);
-      passwordForm.reset();
+      }).unwrap()
+
+      // Обновление данных авторизации
+      dispatch(authSlice.actions.setAuth(data))
+
+      // Обновление данных профиля
+      dispatch(clientsApi.util.invalidateTags(['Profile']))
+
+      // Очистка формы
+      passwordForm.reset()
+      setIsPasswordEditing(false)
+
       // Можно добавить уведомление об успехе
     } catch (e) {
-      console.error("Ошибка смены пароля");
+      console.error('Ошибка смены пароля')
     }
-  };
+  }
 
   return (
     <Box pt={20}>
@@ -69,10 +80,10 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
         <Group justify="space-between" align="flex-end">
           <Stack gap={4}>
             <Text size="sm">
-              Последнее изменение пароля:{" "}
-              {lastUpdate ? formatDate(lastUpdate) : ""}
+              Последнее изменение пароля:{' '}
+              {lastUpdate ? formatDate(lastUpdate) : ''}
               {lastUpdate && (
-                <Text span c={isExpired ? "red" : "dimmed"} inherit ml={4}>
+                <Text span c={isExpired ? 'red' : 'dimmed'} inherit ml={4}>
                   ({timeAgoText})
                 </Text>
               )}
@@ -99,21 +110,21 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
               <PasswordInput
                 label="Текущий пароль"
                 placeholder="Введите текущий пароль"
-                {...passwordForm.getInputProps("oldPassword")}
+                {...passwordForm.getInputProps('oldPassword')}
               />
             </Grid.Col>
             <Grid.Col span={4}>
               <PasswordInput
                 label="Новый пароль"
                 placeholder="Введите новый пароль"
-                {...passwordForm.getInputProps("newPassword")}
+                {...passwordForm.getInputProps('newPassword')}
               />
             </Grid.Col>
             <Grid.Col span={4}>
               <PasswordInput
                 label="Подтверждение пароля"
                 placeholder="Повторите новый пароль"
-                {...passwordForm.getInputProps("confirmPassword")}
+                {...passwordForm.getInputProps('confirmPassword')}
               />
             </Grid.Col>
           </Grid>
@@ -122,8 +133,8 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
             <Button
               variant="outline"
               onClick={() => {
-                setIsPasswordEditing(false);
-                passwordForm.reset();
+                setIsPasswordEditing(false)
+                passwordForm.reset()
               }}
             >
               Отмена
@@ -135,5 +146,5 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
         </form>
       )}
     </Box>
-  );
-};
+  )
+}

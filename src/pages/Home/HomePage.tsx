@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from 'react'
 import {
   Title,
   TextInput,
@@ -9,53 +9,42 @@ import {
   Center,
   Text,
   Box,
-} from "@mantine/core";
-import { IconSearch, IconPlus } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
-import { ApplicationCard } from "../features/applications/components/ApplicationCard";
-import { Icon } from "@iconify/react";
-import { ApplicationApi } from "../features/applications/applicationApi";
+} from '@mantine/core'
+import { IconSearch, IconPlus } from '@tabler/icons-react'
+import { useNavigate } from 'react-router-dom'
+import { ApplicationCard } from '../../features/applications/components/ApplicationCard'
+import { Icon } from '@iconify/react'
+import { useGetAllApplicationsQuery } from '../../api/applications/applicationsApi'
 
 export const HomePage = () => {
-  const navigate = useNavigate();
-  const [applications, setApplications] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    ApplicationApi.getAllApplications()
-      .then((result) => setApplications(result))
-      .catch((err) => {
-        console.error("Ошибка при загрузке:", err);
-        setApplications([]);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+  const navigate = useNavigate()
+  const { data, isFetching } = useGetAllApplicationsQuery()
+  const [search, setSearch] = useState('')
 
   const filteredApps = useMemo(() => {
-    if (!applications?.length) return [];
+    if (!data || data.length === 0) return []
 
-    return applications
+    return data
       .filter((app) => {
-        const query = search.toLowerCase();
-        const matchesType = app.equipmentType?.toLowerCase().includes(query);
+        const query = search.toLowerCase()
+        const matchesType = app.equipmentType?.toLowerCase().includes(query)
         const matchesSamples = app.samples?.some((s: string) =>
-          s.toLowerCase().includes(query),
-        );
-        return matchesType || matchesSamples;
+          s.toLowerCase().includes(query)
+        )
+        return matchesType || matchesSamples
       })
       .sort(
         (a, b) =>
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-      );
-  }, [applications, search]);
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      )
+  }, [data, search])
 
-  if (isLoading)
+  if (isFetching)
     return (
       <Center h={400}>
         <Text>Загрузка заявок...</Text>
       </Center>
-    );
+    )
 
   return (
     <Stack gap={40} w="100%">
@@ -63,7 +52,7 @@ export const HomePage = () => {
         Заявки на проведение испытаний
       </Title>
 
-      {applications?.length > 0 && (
+      {data && data?.length > 0 && (
         <Group justify="space-between">
           <TextInput
             placeholder="Поиск"
@@ -74,14 +63,14 @@ export const HomePage = () => {
           />
           <Button
             leftSection={<IconPlus size={20} />}
-            onClick={() => navigate("/create-application")}
+            onClick={() => navigate('/create-application')}
           >
             Подать заявку
           </Button>
         </Group>
       )}
 
-      {!applications || applications.length === 0 ? (
+      {!data || data.length === 0 ? (
         <Center mt={100}>
           <Stack align="center" gap="md">
             <Box opacity={0.3}>
@@ -95,7 +84,7 @@ export const HomePage = () => {
               leftSection={<IconPlus size={20} />}
               size="md"
               mt="xl"
-              onClick={() => navigate("/create-application")}
+              onClick={() => navigate('/create-application')}
             >
               Подать заявку
             </Button>
@@ -113,5 +102,5 @@ export const HomePage = () => {
         </SimpleGrid>
       )}
     </Stack>
-  );
-};
+  )
+}

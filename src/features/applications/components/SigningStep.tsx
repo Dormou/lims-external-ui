@@ -1,39 +1,38 @@
-import { useState } from "react";
-import { Stack, Text, Button, Group, Box, FileInput } from "@mantine/core";
-import { Icon } from "@iconify/react";
-import { useApplicationStore } from "../applicationStore";
-import { ApplicationApi } from "../applicationApi";
+import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
+import { Icon } from '@iconify/react'
+import { useUploadSignedFileMutation } from '../../../api/applications/applicationsApi'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore'
 
 export const SigningStep = () => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch()
 
-  const { applicationId, signedFile, setSignedFile, setSignedFileMeta, setStep, generatedFile } =
-    useApplicationStore();
+  const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
+
+  const { applicationId, signedFile, generatedFile } = useAppSelector(
+    (state) => state.applicationsSlice
+  )
 
   const handleSend = async () => {
-    if (!applicationId || !signedFile) return;
-    setLoading(true);
+    if (!applicationId || !signedFile) return
     try {
-      const responseData = await ApplicationApi.uploadSignedFile(
+      const responseData = await uploadSignedFile({
         applicationId,
         signedFile,
-      );
-      setSignedFileMeta(responseData);
-
-      setStep(3);
+      }).unwrap()
+      dispatch(applicationsSlice.actions.setSignedFileMeta(responseData))
+      dispatch(applicationsSlice.actions.setStep(3))
     } catch (e) {
-      console.error("Ошибка отправки файла:", e);
-    } finally {
-      setLoading(false);
+      console.error('Ошибка отправки файла:', e)
     }
-  };
+  }
 
   return (
     <Stack gap={24} align="center" w="100%">
       <Text
         style={{
-          fontFamily: "PF Din Text Cond Pro",
-          fontSize: "20px",
+          fontFamily: 'PF Din Text Cond Pro',
+          fontSize: '20px',
           fontWeight: 300,
         }}
         ta="center"
@@ -44,9 +43,9 @@ export const SigningStep = () => {
       <Group
         p="xs"
         style={{
-          border: "1px solid #005B9C",
-          borderRadius: "8px",
-          minWidth: "450px",
+          border: '1px solid #005B9C',
+          borderRadius: '8px',
+          minWidth: '450px',
         }}
         justify="space-between"
       >
@@ -59,11 +58,11 @@ export const SigningStep = () => {
           />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
-              {generatedFile?.fileName || "Заявка на испытания.pdf"}
+              {generatedFile?.fileName || 'Заявка на испытания.pdf'}
             </Text>
             <Text size="xs" c="dimmed">
-              {generatedFile?.fileExtension?.toUpperCase() || "PDF"} •{" "}
-              {generatedFile?.fileSize || "Размер неизвестен"}
+              {generatedFile?.fileExtension?.toUpperCase() || 'PDF'} •{' '}
+              {generatedFile?.fileSize || 'Размер неизвестен'}
             </Text>
           </Stack>
         </Group>
@@ -80,10 +79,10 @@ export const SigningStep = () => {
 
       <Text
         style={{
-          fontFamily: "PF Din Text Cond Pro",
-          fontSize: "20px",
+          fontFamily: 'PF Din Text Cond Pro',
+          fontSize: '20px',
           fontWeight: 300,
-          maxWidth: "800px",
+          maxWidth: '800px',
         }}
         ta="center"
       >
@@ -93,32 +92,38 @@ export const SigningStep = () => {
         скан подписанного документа в форму ниже.
       </Text>
 
-      <Box w="100%" style={{ maxWidth: "600px" }}>
+      <Box w="100%" style={{ maxWidth: '600px' }}>
         <FileInput
           label="Подписанная заявка"
           required
           placeholder="Нажмите, чтобы выбрать файл"
           leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
           value={signedFile}
-          onChange={setSignedFile}
+          onChange={(payload) =>
+            dispatch(applicationsSlice.actions.setSignedFile(payload))
+          }
           clearable
         />
       </Box>
 
       <Group gap="md" mt="xl">
-        <Button variant="outline" size="lg" onClick={() => setStep(1)}>
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={() => dispatch(applicationsSlice.actions.setStep(1))}
+        >
           Редактировать заявку
         </Button>
         <Button
           variant="filled"
           size="lg"
           disabled={!signedFile}
-          loading={loading}
+          loading={isLoading}
           onClick={handleSend}
         >
           Отправить заявку
         </Button>
       </Group>
     </Stack>
-  );
-};
+  )
+}

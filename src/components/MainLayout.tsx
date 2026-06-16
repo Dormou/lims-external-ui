@@ -1,7 +1,7 @@
-import { AppShell } from "@mantine/core";
-import { Outlet } from "react-router-dom";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { AppShell } from '@mantine/core'
+import { Outlet } from 'react-router-dom'
+import { Header } from './Header'
+import { Footer } from './Footer'
 
 export const MainLayout = () => {
   return (
@@ -20,5 +20,5 @@ export const MainLayout = () => {
         <Footer />
       </AppShell.Footer>
     </AppShell>
-  );
-};
+  )
+}

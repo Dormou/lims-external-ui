@@ -1,12 +1,12 @@
-import { Stack, Title, Text, Group, Button, Divider, Box } from "@mantine/core";
+import { Stack, Title, Text, Group, Button, Divider, Box } from '@mantine/core'
 
 interface ProfileSectionProps {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-  onSave: () => void;
-  onReset: () => void;
-  isDirty: boolean; // Изменены ли данные в этом блоке
+  title: string
+  description?: string
+  children: React.ReactNode
+  onSave: () => void
+  onReset: () => void
+  isDirty: boolean // Изменены ли данные в этом блоке
 }
 
 export const ProfileSection = ({
@@ -35,10 +35,12 @@ export const ProfileSection = ({
           <Button variant="outline" color="gray" onClick={onReset}>
             Сбросить изменения
           </Button>
-          <Button variant="filled" onClick={onSave}>Сохранить изменения</Button>
+          <Button variant="filled" onClick={onSave}>
+            Сохранить изменения
+          </Button>
         </Group>
       )}
       <Divider mt="xl" mb="xl" />
     </Box>
-  );
-};
+  )
+}

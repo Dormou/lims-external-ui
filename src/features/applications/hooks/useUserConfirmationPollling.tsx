@@ -1,27 +1,35 @@
-import { useEffect } from "react";
-import { useApplicationStore } from "../applicationStore";
-import { ApplicationApi } from "../applicationApi";
+import { useEffect } from 'react'
+import { applicationsSlice } from '../applicationStore'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { useLazyGetClientConfirmedQuery } from '../../../api/clients/clientsApi'
 
 export const useUserConfirmationPolling = (intervalMs: number = 10000) => {
-  const isUserConfirmed = useApplicationStore((s) => s.isUserConfirmed);
-  const setIsUserConfirmed = useApplicationStore((s) => s.setIsUserConfirmed);
+  const [getClientConfirmed] = useLazyGetClientConfirmedQuery()
+
+  const dispatch = useAppDispatch()
+
+  const isUserConfirmed = useAppSelector(
+    (state) => state.applicationsSlice.isUserConfirmed
+  )
 
   useEffect(() => {
-    if (isUserConfirmed) return;
+    if (isUserConfirmed) return
 
     const checkStatus = async () => {
       try {
-        const confirmData = await ApplicationApi.checkUserConfirmation();
-        setIsUserConfirmed(confirmData.confirmed);
+        const confirmData = await getClientConfirmed().unwrap()
+        dispatch(
+          applicationsSlice.actions.setIsUserConfirmed(confirmData.confirmed)
+        )
       } catch (e) {
-        console.error("Ошибка проверки подтверждения пользователя:", e);
+        console.error('Ошибка проверки подтверждения пользователя:', e)
       }
-    };
+    }
 
-    checkStatus();
+    checkStatus()
 
-    const intervalId = setInterval(checkStatus, intervalMs);
+    const intervalId = setInterval(checkStatus, intervalMs)
 
-    return () => clearInterval(intervalId);
-  }, [isUserConfirmed, setIsUserConfirmed, intervalMs]);
-};
+    return () => clearInterval(intervalId)
+  }, [isUserConfirmed, intervalMs])
+}

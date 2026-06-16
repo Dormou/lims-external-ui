@@ -1,48 +1,42 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { UserInfo } from '../../api/auth/types/userInfo'
+import type { LoginResponse } from '../../api/auth/types/responses'
 
-interface UserInfo {
-  id: string;
-  fullName: {
-    firstName: string;
-    lastName: string;
-    patronymic: string | null;
-  };
+interface AuthSliceState {
+  accessToken: string | null
+  refreshToken: string | null
+  user: UserInfo | null
 }
 
-interface AuthState {
-  token: string | null;
-  refreshToken: string | null;
-  user: UserInfo | null;
-  setAuth: (data: any) => void;
-  logout: () => void;
-  getDisplayName: () => string;
+const initialState: AuthSliceState = {
+  accessToken: localStorage.getItem('access_token') ?? null,
+  refreshToken: localStorage.getItem('refresh_token') ?? null,
+  user: null,
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      token: null,
-      refreshToken: null,
-      user: null,
-      setAuth: (data) =>
-        set({
-          token: data.accessToken,
-          refreshToken: data.refreshToken,
-          user: data.userInfo,
-        }),
-      logout: () => set({ token: null, refreshToken: null, user: null }),
-      getDisplayName: () => {
-        const user = get().user;
-        if (!user) return "Гость";
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setAuth: (state, action: PayloadAction<LoginResponse>) => {
+      localStorage.setItem('access_token', action.payload.accessToken)
+      localStorage.setItem('refresh_token', action.payload.refreshToken)
 
-        const { firstName, lastName, patronymic } = user.fullName;
-        const initials =
-          `${firstName[0]}.` + (patronymic ? `${patronymic[0]}.` : "");
+      state.accessToken = action.payload.accessToken
+      state.refreshToken = action.payload.refreshToken
 
-        return `${lastName} ${initials}`;
-      },
-    }),
-    { name: "auth-storage" },
-  ),
-);
+      state.user = action.payload.userInfo
+    },
+    logout: (state) => {
+      localStorage.setItem('access_token', '')
+      localStorage.setItem('refresh_token', '')
+
+      state.accessToken = null
+      state.refreshToken = null
+      state.user = null
+    },
+  },
+})
+
+export default authSlice.reducer

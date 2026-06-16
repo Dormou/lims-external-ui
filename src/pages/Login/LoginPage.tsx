@@ -9,32 +9,36 @@ import {
   Anchor,
   Box,
   Center,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Icon } from "@iconify/react";
-import { useAuthStore } from "../features/auth/authStore";
-import { authApi } from "../features/auth/authApi";
-import { useDisclosure } from "@mantine/hooks";
-import { RegistrationModal } from "../features/auth/components/RegistrationModal";
-import { PasswordRecoveryModal } from "../features/auth/components/PasswordRecoveryModal";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { Icon } from '@iconify/react'
+import { useDisclosure } from '@mantine/hooks'
+import { RegistrationModal } from '../../features/auth/components/RegistrationModal'
+import { PasswordRecoveryModal } from '../../features/auth/components/PasswordRecoveryModal'
+import { useAppDispatch } from '../../store'
+import { authSlice } from '../../features/auth/authStore'
+import { useLoginMutation } from '../../api/auth/authApi'
 
 export const LoginPage = () => {
-  const setAuth = useAuthStore((s) => s.setAuth);
-  const form = useForm({
-    initialValues: { email: "", password: "", userType: "Client" },
-  });
+  const dispatch = useAppDispatch()
 
-  const [registrationOpened, registrationHandlers] = useDisclosure(false);
-  const [recoverOpened, recoverHandlers] = useDisclosure(false);
+  const [login] = useLoginMutation()
+
+  const form = useForm({
+    initialValues: { email: '', password: '', userType: 'Client' },
+  })
+
+  const [registrationOpened, registrationHandlers] = useDisclosure(false)
+  const [recoverOpened, recoverHandlers] = useDisclosure(false)
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const { data } = await authApi.login(values);
-      setAuth(data);
+      const data = await login({ ...values }).unwrap()
+      dispatch(authSlice.actions.setAuth(data))
     } catch (e) {
-      console.error("Ошибка входа");
+      console.error('Ошибка входа')
     }
-  };
+  }
 
   return (
     <>
@@ -42,21 +46,21 @@ export const LoginPage = () => {
         <Box
           style={{
             flex: 1,
-            position: "relative",
-            backgroundColor: "#fff",
-            overflow: "hidden",
+            position: 'relative',
+            backgroundColor: '#fff',
+            overflow: 'hidden',
           }}
         >
           <div
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundImage: "url(/login-bg.jpg)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              backgroundImage: 'url(/login-bg.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
               opacity: 0.25,
               zIndex: 1,
             }}
@@ -66,7 +70,7 @@ export const LoginPage = () => {
             p={40}
             h="100%"
             justify="space-between"
-            style={{ position: "relative", zIndex: 2 }}
+            style={{ position: 'relative', zIndex: 2 }}
           >
             <Group gap="xl">
               <img src="/logo.png" alt="Россети" style={{ height: 48 }} />
@@ -74,7 +78,7 @@ export const LoginPage = () => {
                 fw={700}
                 size="28px"
                 c="#005B9C"
-                style={{ fontFamily: "DIN Pro" }}
+                style={{ fontFamily: 'DIN Pro' }}
               >
                 АИС Управление испытаниями
               </Text>
@@ -83,21 +87,21 @@ export const LoginPage = () => {
             <Text
               size="16px"
               c="#005B9C"
-              style={{ fontFamily: "PF Din Text Cond Pro" }}
+              style={{ fontFamily: 'PF Din Text Cond Pro' }}
             >
-              Разработано Департаментом цифровых технологий АО "Россети
-              Научно-технический центр" ®
+              Разработано Департаментом цифровых технологий АО 'Россети
+              Научно-технический центр' ®
             </Text>
           </Stack>
         </Box>
 
-        <Center style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Center style={{ flex: 1, backgroundColor: '#fff' }}>
           <Stack w={400} gap={32}>
             <Title
               order={1}
               ta="center"
               c="#005B9C"
-              style={{ fontFamily: "DIN Pro", fontSize: 36 }}
+              style={{ fontFamily: 'DIN Pro', fontSize: 36 }}
             >
               Вход в систему
             </Title>
@@ -114,7 +118,7 @@ export const LoginPage = () => {
                       color="#ADB5BD"
                     />
                   }
-                  {...form.getInputProps("email")}
+                  {...form.getInputProps('email')}
                 />
                 <Stack gap={4}>
                   <PasswordInput
@@ -127,13 +131,13 @@ export const LoginPage = () => {
                         color="#ADB5BD"
                       />
                     }
-                    {...form.getInputProps("password")}
+                    {...form.getInputProps('password')}
                   />
                   <Anchor
                     size="sm"
                     c="#ADB5BD"
                     onClick={recoverHandlers.open}
-                    style={{ alignSelf: "flex-start" }}
+                    style={{ alignSelf: 'flex-start' }}
                   >
                     Восстановить пароль
                   </Anchor>
@@ -164,5 +168,5 @@ export const LoginPage = () => {
         onClose={recoverHandlers.close}
       />
     </>
-  );
-};
+  )
+}

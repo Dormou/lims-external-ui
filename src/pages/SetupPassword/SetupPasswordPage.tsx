@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import {
   PasswordInput,
   Button,
@@ -9,49 +8,56 @@ import {
   Text,
   Box,
   Center,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Icon } from "@iconify/react";
-import { useAuthStore } from "../features/auth/authStore";
-import { apiClient } from "../api/apiClient";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { Icon } from '@iconify/react'
+import { useAppDispatch } from '../../store'
+import { useSetupPasswordMutation } from '../../api/auth/authApi'
+import { authSlice } from '../../features/auth/authStore'
 
 export const SetupPasswordPage = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const setAuth = useAuthStore((s) => s.setAuth);
-  const token = searchParams.get("token");
+  const dispatch = useAppDispatch()
+
+  const [setupPassword] = useSetupPasswordMutation()
+
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const token = searchParams.get('token')
 
   const form = useForm({
-    initialValues: { password: "", confirmPassword: "" },
+    initialValues: { password: '', confirmPassword: '' },
     validate: {
-      password: (val) => (val.length < 6 ? "Пароль слишком короткий" : null),
+      password: (val) => (val.length < 6 ? 'Пароль слишком короткий' : null),
       confirmPassword: (val, values) =>
-        val !== values.password ? "Пароли не совпадают" : null,
+        val !== values.password ? 'Пароли не совпадают' : null,
     },
-  });
+  })
 
   const handleSubmit = async (values: typeof form.values) => {
+    if (!token) return
+
     try {
-      const { data } = await apiClient.post("/auth/setup-password", {
+      const data = await setupPassword({
         token,
         password: values.password,
-      });
-      setAuth(data); // Сразу авторизуем пользователя
-      navigate("/"); // Редирект на главную
+      }).unwrap()
+
+      dispatch(authSlice.actions.setAuth(data))
+      navigate('/')
     } catch (e) {
-      console.error("Ошибка установки пароля");
+      console.error('Ошибка установки пароля')
     }
-  };
+  }
 
   return (
     <Group gap={0} h="100vh" align="stretch">
-      <Box style={{ flex: 1, position: "relative", backgroundColor: "#fff" }}>
+      <Box style={{ flex: 1, position: 'relative', backgroundColor: '#fff' }}>
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             inset: 0,
-            backgroundImage: "url(/login-bg.jpg)",
-            backgroundSize: "cover",
+            backgroundImage: 'url(/login-bg.jpg)',
+            backgroundSize: 'cover',
             opacity: 0.25,
           }}
         />
@@ -63,7 +69,7 @@ export const SetupPasswordPage = () => {
             </Text>
           </Group>
           <Text size="16px" c="#005B9C">
-            Разработано Департаментом цифровых технологий АО "Россети НТЦ" ®
+            Разработано Департаментом цифровых технологий АО 'Россети НТЦ' ®
           </Text>
         </Stack>
       </Box>
@@ -74,7 +80,7 @@ export const SetupPasswordPage = () => {
             order={1}
             ta="center"
             c="#005B9C"
-            style={{ fontFamily: "DIN Pro", fontSize: 36 }}
+            style={{ fontFamily: 'DIN Pro', fontSize: 36 }}
           >
             Установка пароля
           </Title>
@@ -87,7 +93,7 @@ export const SetupPasswordPage = () => {
                 leftSection={
                   <Icon icon="mdi:lock-outline" width={20} color="#ADB5BD" />
                 }
-                {...form.getInputProps("password")}
+                {...form.getInputProps('password')}
               />
               <PasswordInput
                 placeholder="Повторите пароль"
@@ -99,7 +105,7 @@ export const SetupPasswordPage = () => {
                     color="#ADB5BD"
                   />
                 }
-                {...form.getInputProps("confirmPassword")}
+                {...form.getInputProps('confirmPassword')}
               />
               <Button
                 type="submit"
@@ -115,5 +121,5 @@ export const SetupPasswordPage = () => {
         </Stack>
       </Center>
     </Group>
-  );
-};
+  )
+}
