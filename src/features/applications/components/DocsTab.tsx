@@ -6,30 +6,33 @@ import { applicationsSlice } from '../applicationStore'
 export const DocsTab = () => {
   const dispatch = useAppDispatch()
 
-  const { 
-    regulatoryDocument,
-    additionalDocuments 
-  } = useAppSelector((state) => state.applicationsSlice)
+  const { regulatoryDocument, additionalDocuments } = useAppSelector(
+    (state) => state.applicationsSlice
+  )
 
   return (
-    <Stack gap='xl' w='100%' style={{ maxWidth: '600px', margin: '0 auto' }}>
+    <Stack gap="xl" w="100%" style={{ maxWidth: '600px', margin: '0 auto' }}>
       <FileInput
-        label='Нормативный документ, в соответствии с которым изготовлен(-ы) объект(-ы) испытаний'
+        label="Нормативный документ, в соответствии с которым изготовлен(-ы) объект(-ы) испытаний"
         required
-        placeholder='Выберите файл'
-        leftSection={<Icon icon='mdi:file-document-outline' width={20} />}
+        placeholder="Выберите файл"
+        leftSection={<Icon icon="mdi:file-document-outline" width={20} />}
         value={regulatoryDocument}
-        onChange={(file) => dispatch(applicationsSlice.actions.setRegulatoryFile(file))}
+        onChange={(file) =>
+          dispatch(applicationsSlice.actions.setRegulatoryFile(file))
+        }
         clearable
       />
 
       <FileInput
-        label='Дополнительные документы'
-        placeholder='Можно выбрать несколько файлов'
-        leftSection={<Icon icon='mdi:file-multiple-outline' width={20} />}
+        label="Дополнительные документы"
+        placeholder="Можно выбрать несколько файлов"
+        leftSection={<Icon icon="mdi:file-multiple-outline" width={20} />}
         multiple
         value={additionalDocuments}
-        onChange={(payload) => dispatch(applicationsSlice.actions.setAdditionalFiles(payload))}
+        onChange={(payload) =>
+          dispatch(applicationsSlice.actions.setAdditionalFiles(payload))
+        }
         clearable
       />
     </Stack>

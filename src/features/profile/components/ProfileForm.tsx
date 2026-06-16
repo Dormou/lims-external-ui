@@ -14,10 +14,10 @@ import { useForm } from '@mantine/form'
 import { formatDate } from '../../../utils'
 import { ProfileSection } from './ProfileSection'
 import {
-  useUpdateHeadMutation, 
-  useUpdateOrganizationMutation, 
-  useUpdateTechContactMutation, 
-  useUpdateUserMutation 
+  useUpdateHeadMutation,
+  useUpdateOrganizationMutation,
+  useUpdateTechContactMutation,
+  useUpdateUserMutation,
 } from '../../../api/clients/clientsApi'
 import { SecuritySection } from './SecuritySection'
 import type { UserProfile } from '../../../api/clients/types/userProfile'
@@ -115,16 +115,16 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
   if (!profile) return <Loader />
   else
     return (
-      <Stack gap={40} w='100%'>
+      <Stack gap={40} w="100%">
         <Group gap={24}>
-          <Avatar size={80} radius='xl' color='#005B9C'>
-            <Icon icon='mdi:user' width={40} />
+          <Avatar size={80} radius="xl" color="#005B9C">
+            <Icon icon="mdi:user" width={40} />
           </Avatar>
           <Stack gap={4}>
             <Title order={1} style={{ fontFamily: 'DIN Pro' }}>
               {`${userForm.values.lastName} ${userForm.values.firstName} ${userForm.values.patronymic || ''}`}
             </Title>
-            <Text c='dimmed' size='sm'>
+            <Text c="dimmed" size="sm">
               Дата регистрации:
               {profile?.registrationDate
                 ? formatDate(profile.registrationDate)
@@ -134,56 +134,56 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
         </Group>
 
         <ProfileSection
-          title='Информация о пользователе'
-          description='Данные, необходимые для получения доступа к системе'
+          title="Информация о пользователе"
+          description="Данные, необходимые для получения доступа к системе"
           isDirty={userForm.isDirty()}
           onSave={handleSaveUser}
           onReset={() => userForm.reset()}
         >
-          <Grid gap='xl'>
+          <Grid gap="xl">
             <Grid.Col span={6}>
               <TextInput
-                label='Фамилия'
-                placeholder='Введите фамилию'
+                label="Фамилия"
+                placeholder="Введите фамилию"
                 required
                 {...userForm.getInputProps('lastName')}
               />
               <TextInput
-                label='Имя'
-                placeholder='Введите имя'
+                label="Имя"
+                placeholder="Введите имя"
                 required
                 {...userForm.getInputProps('firstName')}
-                mt='md'
+                mt="md"
               />
               <TextInput
-                label='Отчество (при наличии)'
-                placeholder='Введите отчество'
+                label="Отчество (при наличии)"
+                placeholder="Введите отчество"
                 {...userForm.getInputProps('patronymic')}
-                mt='md'
+                mt="md"
               />
             </Grid.Col>
             <Grid.Col span={6}>
               <TextInput
-                label='Email'
-                placeholder='Введите email'
+                label="Email"
+                placeholder="Введите email"
                 required
                 {...userForm.getInputProps('email')}
               />
               <TextInput
-                label='Телефон'
-                placeholder='Введите телефон'
+                label="Телефон"
+                placeholder="Введите телефон"
                 {...userForm.getInputProps('phoneNumber')}
-                mt='md'
+                mt="md"
               />
-              <Stack gap={8} mt='md'>
+              <Stack gap={8} mt="md">
                 <Checkbox
-                  label='Я являюсь контактным лицом по техническим вопросам'
+                  label="Я являюсь контактным лицом по техническим вопросам"
                   {...userForm.getInputProps('iAmTechContact', {
                     type: 'checkbox',
                   })}
                 />
                 <Checkbox
-                  label='Я являюсь руководителем организации (или иным лицом, уполномоченным на подписание документов)'
+                  label="Я являюсь руководителем организации (или иным лицом, уполномоченным на подписание документов)"
                   {...userForm.getInputProps('iAmHead', {
                     type: 'checkbox',
                   })}
@@ -194,80 +194,80 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
         </ProfileSection>
 
         <ProfileSection
-          title='Информация об организации'
-          description='Данные, необходимые для формирования документов'
+          title="Информация об организации"
+          description="Данные, необходимые для формирования документов"
           isDirty={organizationForm.isDirty()}
           onSave={handleSaveOrganization}
           onReset={() => organizationForm.reset()}
         >
           <TextInput
-            label='Полное наименование'
-            placeholder='Введите полное наименование'
+            label="Полное наименование"
+            placeholder="Введите полное наименование"
             required
             {...organizationForm.getInputProps('organizationFullName')}
           />
           <TextInput
-            label='Сокращённое наименование'
-            placeholder='Введите сокращенное наименование'
+            label="Сокращённое наименование"
+            placeholder="Введите сокращенное наименование"
             {...organizationForm.getInputProps('organizationShortName')}
-            mt='md'
+            mt="md"
           />
           <TextInput
-            label='Юридический адрес'
-            placeholder='Введите юридический адрес'
+            label="Юридический адрес"
+            placeholder="Введите юридический адрес"
             {...organizationForm.getInputProps('organizationLegalAddress')}
-            mt='md'
+            mt="md"
           />
           <TextInput
-            label='Почтовый адрес'
-            placeholder='Введите почтовый адрес'
+            label="Почтовый адрес"
+            placeholder="Введите почтовый адрес"
             {...organizationForm.getInputProps('organizationPostalAddress')}
-            mt='md'
+            mt="md"
           />
 
-          <Grid gap='xl'>
+          <Grid gap="xl">
             <Grid.Col span={6}>
               <TextInput
-                label='ИНН/КПП'
-                placeholder='Введите ИНН/КПП'
+                label="ИНН/КПП"
+                placeholder="Введите ИНН/КПП"
                 required
                 {...organizationForm.getInputProps('innKpp')}
               />
               <TextInput
-                label='Email'
-                placeholder='Введите email'
+                label="Email"
+                placeholder="Введите email"
                 {...organizationForm.getInputProps('organizationEmail')}
-                mt='md'
+                mt="md"
               />
             </Grid.Col>
             <Grid.Col span={6}>
               <TextInput
-                label='ОГРН'
-                placeholder='Введите ОГРН'
+                label="ОГРН"
+                placeholder="Введите ОГРН"
                 {...organizationForm.getInputProps('ogrn')}
               />
               <TextInput
-                label='Телефон'
-                placeholder='Введите телефон'
+                label="Телефон"
+                placeholder="Введите телефон"
                 {...organizationForm.getInputProps('organizationPhoneNumber')}
-                mt='md'
+                mt="md"
               />
             </Grid.Col>
           </Grid>
         </ProfileSection>
 
         <ProfileSection
-          title='Информация о руководителе организации'
-          description='Данные руководителя организации или иного лица, удостоверенного на подписание документов от имени организации'
+          title="Информация о руководителе организации"
+          description="Данные руководителя организации или иного лица, удостоверенного на подписание документов от имени организации"
           isDirty={headForm.isDirty()}
           onSave={handleSaveHead}
           onReset={() => headForm.reset()}
         >
-          <Grid gap='xl'>
+          <Grid gap="xl">
             <Grid.Col span={6}>
               <TextInput
-                label='Фамилия'
-                placeholder='Введите фамилию'
+                label="Фамилия"
+                placeholder="Введите фамилию"
                 disabled={iAmHead}
                 value={
                   iAmHead ? userForm.values.lastName : headForm.values.lastName
@@ -277,8 +277,8 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 }
               />
               <TextInput
-                label='Имя'
-                placeholder='Введите имя'
+                label="Имя"
+                placeholder="Введите имя"
                 disabled={iAmHead}
                 value={
                   iAmHead
@@ -290,8 +290,8 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 }
               />
               <TextInput
-                label='Отчество (при наличии)'
-                placeholder='Введите отчество'
+                label="Отчество (при наличии)"
+                placeholder="Введите отчество"
                 disabled={iAmHead}
                 value={
                   iAmHead
@@ -305,13 +305,13 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
             </Grid.Col>
             <Grid.Col span={6}>
               <TextInput
-                label='Должность'
-                placeholder='Введите должность'
+                label="Должность"
+                placeholder="Введите должность"
                 {...headForm.getInputProps('headPosition')}
               />
               <TextInput
-                label='Основание'
-                placeholder='Введите наименование и реквизиты документа'
+                label="Основание"
+                placeholder="Введите наименование и реквизиты документа"
                 {...headForm.getInputProps('headDocument')}
               />
             </Grid.Col>
@@ -319,17 +319,17 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
         </ProfileSection>
 
         <ProfileSection
-          title='Информация о контактном лице по техническим вопросам'
-          description='Данные лица, уполномоченного на предоставление технических сведений'
+          title="Информация о контактном лице по техническим вопросам"
+          description="Данные лица, уполномоченного на предоставление технических сведений"
           isDirty={!iAmTechContact && techContactForm.isDirty()}
           onSave={handleSaveTechContact}
           onReset={() => techContactForm.reset()}
         >
-          <Grid gap='xl'>
+          <Grid gap="xl">
             <Grid.Col span={6}>
               <TextInput
-                label='Фамилия'
-                placeholder='Введите фамилию'
+                label="Фамилия"
+                placeholder="Введите фамилию"
                 disabled={iAmTechContact}
                 value={
                   iAmTechContact
@@ -341,8 +341,8 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 }
               />
               <TextInput
-                label='Имя'
-                placeholder='Введите имя'
+                label="Имя"
+                placeholder="Введите имя"
                 disabled={iAmTechContact}
                 value={
                   iAmTechContact
@@ -354,8 +354,8 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 }
               />
               <TextInput
-                label='Отчество (при наличии)'
-                placeholder='Введите отчество'
+                label="Отчество (при наличии)"
+                placeholder="Введите отчество"
                 disabled={iAmTechContact}
                 value={
                   iAmTechContact
@@ -369,8 +369,8 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
             </Grid.Col>
             <Grid.Col span={6}>
               <TextInput
-                label='Email'
-                placeholder='Введите email'
+                label="Email"
+                placeholder="Введите email"
                 disabled={iAmTechContact}
                 value={
                   iAmTechContact
@@ -382,8 +382,8 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
                 }
               />
               <TextInput
-                label='Телефон'
-                placeholder='Введите телефон'
+                label="Телефон"
+                placeholder="Введите телефон"
                 disabled={iAmTechContact}
                 value={
                   iAmTechContact

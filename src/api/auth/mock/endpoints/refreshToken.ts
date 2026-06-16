@@ -3,13 +3,17 @@ import type { LoginResponse } from '../../types/responses'
 
 const ENDPOINT_URL = 'auth/refresh'
 
-export const refreshTokenHandler: HttpHandler = http.post<never, { refreshToken: string }, LoginResponse>(ENDPOINT_URL, async ({ request }) => {
+export const refreshTokenHandler: HttpHandler = http.post<
+  never,
+  { refreshToken: string },
+  LoginResponse
+>(ENDPOINT_URL, async ({ request }) => {
   setTimeout(() => undefined, 1000)
 
   try {
     const data = await request.json()
 
-    if (data.refreshToken !== 'admin-refresh-token') 
+    if (data.refreshToken !== 'admin-refresh-token')
       return HttpResponse.json(undefined, { status: 401 })
 
     return HttpResponse.json<LoginResponse>({
@@ -21,12 +25,11 @@ export const refreshTokenHandler: HttpHandler = http.post<never, { refreshToken:
         fullName: {
           firstName: 'Admin',
           lastName: 'User',
-          patronymic: null
-        }
-      }
+          patronymic: null,
+        },
+      },
     })
-  }
-  catch (error) {
+  } catch (error) {
     HttpResponse.json(undefined, { status: 400 })
   }
 })

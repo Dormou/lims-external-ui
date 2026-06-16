@@ -21,11 +21,11 @@ export const PreformStep = () => {
   }
 
   return (
-    <Stack gap={24} align='center'>
+    <Stack gap={24} align="center">
       <Text
         py={24}
-        ta='center'
-        c='#212529'
+        ta="center"
+        c="#212529"
         style={{
           fontFamily: 'PF Din Text Cond Pro',
           fontWeight: 300,
@@ -53,7 +53,7 @@ export const PreformStep = () => {
         30 дней.
       </Text>
 
-      <Button variant='filled' onClick={handleStart}>
+      <Button variant="filled" onClick={handleStart}>
         Заполнить заявку
       </Button>
     </Stack>

@@ -14,7 +14,7 @@ export const Footer = () => {
       }}
     >
       <Text
-        c='white'
+        c="white"
         style={{
           fontFamily: 'PF Din Text Cond Pro, sans-serif',
           fontWeight: 400,

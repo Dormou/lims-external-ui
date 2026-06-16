@@ -11,7 +11,7 @@ export const MainLayout = () => {
       </AppShell.Header>
 
       <AppShell.Main>
-        <div className='main-content-container'>
+        <div className="main-content-container">
           <Outlet />
         </div>
       </AppShell.Main>

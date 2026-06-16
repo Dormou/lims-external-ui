@@ -11,7 +11,7 @@
 //   const id = new URL(request.url).searchParams.get('id')
 
 //   if (!id) return HttpResponse.json(undefined, { status: 422 })
-  
+
 //   setTimeout(() => undefined, 1000)
 
 //   const dataIndexToUpdate = ApplicationsData.findIndex((data) => data.id === id)
@@ -25,7 +25,7 @@
 //   const updatedApplication = await request.json()
 
 //   ApplicationsData[dataIndexToUpdate] = updatedApplication
-//   ApplicationsInfoData[infoIndexToUpdate] = { 
+//   ApplicationsInfoData[infoIndexToUpdate] = {
 //     ...ApplicationsInfoData[infoIndexToUpdate],
 //     updatedAt: new Date(),
 //     equipmentType: ReferencesEquipmentTypes.find((type) => type.equipmentTypeId === updatedApplication.equipmentTypeId)?.equipmentTypeName ?? '',

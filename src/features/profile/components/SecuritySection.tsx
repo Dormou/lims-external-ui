@@ -24,9 +24,7 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
 
   const [changePassword] = useChangePasswordMutation()
 
-  const monthsAgo = lastUpdate
-    ? dayjs().diff(lastUpdate, 'month')
-    : 0
+  const monthsAgo = lastUpdate ? dayjs().diff(lastUpdate, 'month') : 0
   const timeAgoText =
     monthsAgo < 1
       ? 'меньше месяца назад'
@@ -73,15 +71,15 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
 
   return (
     <Box pt={20}>
-      <Title order={3} c='#005B9C' mb={16}>
+      <Title order={3} c="#005B9C" mb={16}>
         Безопасность
       </Title>
       <Divider mb={24} />
 
       {!isPasswordEditing ? (
-        <Group justify='space-between' align='flex-end'>
+        <Group justify="space-between" align="flex-end">
           <Stack gap={4}>
-            <Text size='sm'>
+            <Text size="sm">
               Последнее изменение пароля:{' '}
               {lastUpdate ? formatDate(lastUpdate) : ''}
               {lastUpdate && (
@@ -92,14 +90,14 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
             </Text>
 
             {isExpired && (
-              <Text size='xs' c='red'>
+              <Text size="xs" c="red">
                 Рекомендуется менять пароль каждые 3 месяца
               </Text>
             )}
           </Stack>
           <Button
-            variant='outline'
-            size='md'
+            variant="outline"
+            size="md"
             onClick={() => setIsPasswordEditing(true)}
           >
             Изменить пароль
@@ -107,33 +105,33 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
         </Group>
       ) : (
         <form onSubmit={passwordForm.onSubmit(handleSavePassword)}>
-          <Grid gap='xl' align='flex-start'>
+          <Grid gap="xl" align="flex-start">
             <Grid.Col span={4}>
               <PasswordInput
-                label='Текущий пароль'
-                placeholder='Введите текущий пароль'
+                label="Текущий пароль"
+                placeholder="Введите текущий пароль"
                 {...passwordForm.getInputProps('oldPassword')}
               />
             </Grid.Col>
             <Grid.Col span={4}>
               <PasswordInput
-                label='Новый пароль'
-                placeholder='Введите новый пароль'
+                label="Новый пароль"
+                placeholder="Введите новый пароль"
                 {...passwordForm.getInputProps('newPassword')}
               />
             </Grid.Col>
             <Grid.Col span={4}>
               <PasswordInput
-                label='Подтверждение пароля'
-                placeholder='Повторите новый пароль'
+                label="Подтверждение пароля"
+                placeholder="Повторите новый пароль"
                 {...passwordForm.getInputProps('confirmPassword')}
               />
             </Grid.Col>
           </Grid>
 
-          <Group justify='flex-end' mt='xl'>
+          <Group justify="flex-end" mt="xl">
             <Button
-              variant='outline'
+              variant="outline"
               onClick={() => {
                 setIsPasswordEditing(false)
                 passwordForm.reset()
@@ -141,7 +139,7 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
             >
               Отмена
             </Button>
-            <Button type='submit' variant='filled'>
+            <Button type="submit" variant="filled">
               Сохранить пароль
             </Button>
           </Group>

@@ -9,7 +9,9 @@ export const SigningStep = () => {
 
   const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
 
-  const { applicationId, signedFile, generatedFile } = useAppSelector((state) => state.applicationsSlice)
+  const { applicationId, signedFile, generatedFile } = useAppSelector(
+    (state) => state.applicationsSlice
+  )
 
   const handleSend = async () => {
     if (!applicationId || !signedFile) return
@@ -26,52 +28,52 @@ export const SigningStep = () => {
   }
 
   return (
-    <Stack gap={24} align='center' w='100%'>
+    <Stack gap={24} align="center" w="100%">
       <Text
         style={{
           fontFamily: 'PF Din Text Cond Pro',
           fontSize: '20px',
           fontWeight: 300,
         }}
-        ta='center'
+        ta="center"
       >
         По вашим данным сформирована заявка.
       </Text>
 
       <Group
-        p='xs'
+        p="xs"
         style={{
           border: '1px solid #005B9C',
           borderRadius: '8px',
           minWidth: '450px',
         }}
-        justify='space-between'
+        justify="space-between"
       >
-        <Group gap='sm'>
+        <Group gap="sm">
           <Icon
-            icon='mdi:file-pdf-box'
+            icon="mdi:file-pdf-box"
             width={32}
             height={32}
-            color='#005B9C'
+            color="#005B9C"
           />
           <Stack gap={0}>
-            <Text size='sm' fw={500}>
+            <Text size="sm" fw={500}>
               {generatedFile?.fileName || 'Заявка на испытания.pdf'}
             </Text>
-            <Text size='xs' c='dimmed'>
+            <Text size="xs" c="dimmed">
               {generatedFile?.fileExtension?.toUpperCase() || 'PDF'} •{' '}
               {generatedFile?.fileSize || 'Размер неизвестен'}
             </Text>
           </Stack>
         </Group>
         <Button
-          variant='subtle'
-          size='xs'
-          component='a'
+          variant="subtle"
+          size="xs"
+          component="a"
           href={`/api/applications/${applicationId}/raw-file`}
           download
         >
-          <Icon icon='mdi:download' width={20} height={20} />
+          <Icon icon="mdi:download" width={20} height={20} />
         </Button>
       </Group>
 
@@ -82,7 +84,7 @@ export const SigningStep = () => {
           fontWeight: 300,
           maxWidth: '800px',
         }}
-        ta='center'
+        ta="center"
       >
         Пожалуйста, скачайте сформированный файл, распечатайте его на фирменном
         бланке вашей организации, поставьте подпись руководителя организации
@@ -90,25 +92,31 @@ export const SigningStep = () => {
         скан подписанного документа в форму ниже.
       </Text>
 
-      <Box w='100%' style={{ maxWidth: '600px' }}>
+      <Box w="100%" style={{ maxWidth: '600px' }}>
         <FileInput
-          label='Подписанная заявка'
+          label="Подписанная заявка"
           required
-          placeholder='Нажмите, чтобы выбрать файл'
-          leftSection={<Icon icon='mdi:file-upload-outline' width={20} />}
+          placeholder="Нажмите, чтобы выбрать файл"
+          leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
           value={signedFile}
-          onChange={(payload) => dispatch(applicationsSlice.actions.setSignedFile(payload))}
+          onChange={(payload) =>
+            dispatch(applicationsSlice.actions.setSignedFile(payload))
+          }
           clearable
         />
       </Box>
 
-      <Group gap='md' mt='xl'>
-        <Button variant='outline' size='lg' onClick={() => dispatch(applicationsSlice.actions.setStep(1))}>
+      <Group gap="md" mt="xl">
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={() => dispatch(applicationsSlice.actions.setStep(1))}
+        >
           Редактировать заявку
         </Button>
         <Button
-          variant='filled'
-          size='lg'
+          variant="filled"
+          size="lg"
           disabled={!signedFile}
           loading={isLoading}
           onClick={handleSend}

@@ -1,74 +1,74 @@
 import { baseQueryWithReauth } from '../baseQuery'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import type { 
+import type {
   GetClientConfirmedResponse,
-  GetProfileResponse 
+  GetProfileResponse,
 } from './types/responses'
 
-import type { 
+import type {
   RegisterClientRequest,
-  UpdateHeadRequest, 
-  UpdateOrganizationRequest, 
-  UpdateTechContactRequest, 
-  UpdateUserRequest 
+  UpdateHeadRequest,
+  UpdateOrganizationRequest,
+  UpdateTechContactRequest,
+  UpdateUserRequest,
 } from './types/requests'
 
 export const clientsApi = createApi({
   reducerPath: 'clients',
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Profile'],
-  endpoints: builder => {
-    return ({
+  endpoints: (builder) => {
+    return {
       registerClient: builder.mutation<void, RegisterClientRequest>({
-        query: data => ({
+        query: (data) => ({
           url: '/clients',
           method: 'POST',
-          body: data
-        })
+          body: data,
+        }),
       }),
       getProfile: builder.query<GetProfileResponse, void>({
         query: () => ({ url: '/clients/me' }),
-        providesTags: ['Profile']
+        providesTags: ['Profile'],
       }),
       updateUser: builder.mutation<void, UpdateUserRequest>({
-        query: data => ({ 
-          url: '/clients/me', 
-          method: 'PUT', 
-          body: data 
+        query: (data) => ({
+          url: '/clients/me',
+          method: 'PUT',
+          body: data,
         }),
-        invalidatesTags: ['Profile']
+        invalidatesTags: ['Profile'],
       }),
       updateOrganization: builder.mutation<void, UpdateOrganizationRequest>({
-        query: data => ({ 
+        query: (data) => ({
           url: '/clients/me/organization',
-          method: 'PUT', 
-          body: data 
+          method: 'PUT',
+          body: data,
         }),
-        invalidatesTags: ['Profile']
+        invalidatesTags: ['Profile'],
       }),
       updateHead: builder.mutation<void, UpdateHeadRequest>({
-        query: data => ({ 
+        query: (data) => ({
           url: '/clients/me/head',
-          method: 'PUT', 
-          body: data 
+          method: 'PUT',
+          body: data,
         }),
-        invalidatesTags: ['Profile']
+        invalidatesTags: ['Profile'],
       }),
       updateTechContact: builder.mutation<void, UpdateTechContactRequest>({
-        query: data => ({ 
+        query: (data) => ({
           url: '/clients/me/tech-contact',
-          method: 'PUT', 
-          body: data 
+          method: 'PUT',
+          body: data,
         }),
-        invalidatesTags: ['Profile']
+        invalidatesTags: ['Profile'],
       }),
       // Узнать подтвержденность заявителя (используется для заявки)
       getClientConfirmed: builder.query<GetClientConfirmedResponse, void>({
-        query: () => 'clients/confirmed'
-      })
-    })
-  }
+        query: () => 'clients/confirmed',
+      }),
+    }
+  },
 })
 
 export const {
@@ -78,5 +78,5 @@ export const {
   useUpdateTechContactMutation,
   useUpdateUserMutation,
   useUpdateOrganizationMutation,
-  useLazyGetClientConfirmedQuery
+  useLazyGetClientConfirmedQuery,
 } = clientsApi

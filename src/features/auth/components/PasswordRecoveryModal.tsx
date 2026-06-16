@@ -33,7 +33,7 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
 
   const handleRecover = async (values: typeof form.values) => {
     try {
-      await recoverPassword({email: values.email}).unwrap()  
+      await recoverPassword({ email: values.email }).unwrap()
     } catch (error: any) {
       if (error.response?.status === 404) {
         form.setFieldError('email', 'Пользователя с таким email не существует')
@@ -53,42 +53,42 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
       onClose={handleClose}
       size={500}
       padding={40}
-      radius='md'
+      radius="md"
       withCloseButton={false}
     >
-      <Group justify='flex-end' mb={isSuccess ? 0 : 20}>
-        <ActionIcon variant='subtle' color='gray' onClick={handleClose}>
+      <Group justify="flex-end" mb={isSuccess ? 0 : 20}>
+        <ActionIcon variant="subtle" color="gray" onClick={handleClose}>
           <IconX size={24} />
         </ActionIcon>
       </Group>
 
       {!isSuccess ? (
         <form onSubmit={form.onSubmit(handleRecover)}>
-          <Stack gap={32} align='center'>
+          <Stack gap={32} align="center">
             <Title order={2} style={{ fontFamily: 'DIN Pro', fontSize: 24 }}>
               Восстановление пароля
             </Title>
 
             <TextInput
-              label='Email'
-              placeholder='Введите email'
-              w='100%'
+              label="Email"
+              placeholder="Введите email"
+              w="100%"
               {...form.getInputProps('email')}
             />
 
-            <Button type='submit' size='lg' px={40} loading={isLoading}>
+            <Button type="submit" size="lg" px={40} loading={isLoading}>
               Восстановить пароль
             </Button>
           </Stack>
         </form>
       ) : (
-        <Stack align='center' gap={24} py={20}>
+        <Stack align="center" gap={24} py={20}>
           <Title order={2} style={{ fontFamily: 'DIN Pro', fontSize: 24 }}>
             Восстановление пароля
           </Title>
           <Text
-            ta='center'
-            size='lg'
+            ta="center"
+            size="lg"
             style={{ fontFamily: 'PF Din Text Cond Pro' }}
           >
             На адрес{' '}
@@ -98,18 +98,18 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
             отправлено письмо с инструкцией по установке нового пароля.
           </Text>
           <Text
-            ta='center'
-            c='dimmed'
-            size='md'
+            ta="center"
+            c="dimmed"
+            size="md"
             style={{ fontFamily: 'PF Din Text Cond Pro' }}
           >
             Если письмо не пришло, проверьте папку 'Спам' или обратитесь в
             службу технической поддержки{' '}
-            <Anchor href='mailto:support@ntc-tech.ru'>
+            <Anchor href="mailto:support@ntc-tech.ru">
               support@ntc-tech.ru
             </Anchor>
           </Text>
-          <Button size='md' px={60} onClick={handleClose}>
+          <Button size="md" px={60} onClick={handleClose}>
             OK
           </Button>
         </Stack>

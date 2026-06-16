@@ -8,7 +8,7 @@
 //   const id = new URL(request.url).searchParams.get('id')
 
 //   if (!id) return HttpResponse.json(undefined, { status: 422 })
-  
+
 //   setTimeout(() => undefined, 1000)
 
 //   return HttpResponse.json(undefined, { status: 200 })

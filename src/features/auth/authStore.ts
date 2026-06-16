@@ -12,7 +12,7 @@ interface AuthSliceState {
 const initialState: AuthSliceState = {
   accessToken: localStorage.getItem('access_token') ?? null,
   refreshToken: localStorage.getItem('refresh_token') ?? null,
-  user: null
+  user: null,
 }
 
 export const authSlice = createSlice({
@@ -35,8 +35,8 @@ export const authSlice = createSlice({
       state.accessToken = null
       state.refreshToken = null
       state.user = null
-    }
-  }
+    },
+  },
 })
 
 export default authSlice.reducer

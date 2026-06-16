@@ -6,14 +6,21 @@ import { TestsTab } from './TestsTab'
 import { DocsTab } from './DocsTab'
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store'
-import { useGenerateApplicationMutation, useSaveDraftMutation } from '../../../api/applications/applicationsApi'
+import {
+  useGenerateApplicationMutation,
+  useSaveDraftMutation,
+} from '../../../api/applications/applicationsApi'
 import { useGetMetadataQuery } from '../../../api/references/referencesApi'
 import { applicationsSlice } from '../applicationStore'
-import type { EquipmentTypeMeta, ParameterMeta, TestMeta } from '../../../api/applications/types/types'
+import type {
+  EquipmentTypeMeta,
+  ParameterMeta,
+  TestMeta,
+} from '../../../api/applications/types/types'
 
 export const CreateFormStep = () => {
   const dispatch = useAppDispatch()
-  
+
   const [isGenerating, setIsGenerating] = useState(false)
 
   const { data: metadata } = useGetMetadataQuery()
@@ -27,12 +34,12 @@ export const CreateFormStep = () => {
     if (!metadata)
       return {
         parameters: [],
-        tests: []
+        tests: [],
       }
 
     const branch = metadata.find((b) => b.branchId === state.branchId)
     const equipment = branch?.equipmentTypes.find(
-      (t: EquipmentTypeMeta) => t.equipmentTypeId === state.equipmentTypeId,
+      (t: EquipmentTypeMeta) => t.equipmentTypeId === state.equipmentTypeId
     )
 
     return {
@@ -63,17 +70,22 @@ export const CreateFormStep = () => {
 
     //Проверяем General Info
     const isGeneralValid =
-      !!state.branchId && !!state.equipmentTypeId && !!state.producerName && !!state.producerAddress
+      !!state.branchId &&
+      !!state.equipmentTypeId &&
+      !!state.producerName &&
+      !!state.producerAddress
 
     // Проверяем, что у всех объектов есть имена
-    const areObjectsNamed = state.objects.every((obj) => obj.name.trim().length > 0)
+    const areObjectsNamed = state.objects.every(
+      (obj) => obj.name.trim().length > 0
+    )
 
     // Проверяем таблицу параметров
     const areParametersValid = metaParams.every((param) =>
       state.objects.every((obj) => {
         const val = state.parameters[param.parameterId]?.[obj.id] || ''
         return validateField(val, param)
-      }),
+      })
     )
 
     // Проверяем наличие обязательных документов
@@ -98,12 +110,10 @@ export const CreateFormStep = () => {
 
     const samples = state.objects.map((obj: any) => {
       // Собираем параметры для данного объекта
-      const parameterValues = Object.keys(state.parameters).map(
-        (paramId) => ({
-          parameterId: paramId,
-          parameterValue: state.parameters[paramId]?.[obj.id] ?? null,
-        }),
-      )
+      const parameterValues = Object.keys(state.parameters).map((paramId) => ({
+        parameterId: paramId,
+        parameterValue: state.parameters[paramId]?.[obj.id] ?? null,
+      }))
 
       // Собираем тесты для данного объекта
       const testValues = Object.keys(state.tests).map((testId) => ({
@@ -135,7 +145,10 @@ export const CreateFormStep = () => {
     setIsGenerating(true)
 
     try {
-      await saveDraft({id: state.applicationId, formData: createFormData()}).unwrap()
+      await saveDraft({
+        id: state.applicationId,
+        formData: createFormData(),
+      }).unwrap()
       const fileData = await generateApplication(state.applicationId).unwrap()
       dispatch(applicationsSlice.actions.setGeneratedFile(fileData))
       dispatch(applicationsSlice.actions.setStep(2))
@@ -173,8 +186,12 @@ export const CreateFormStep = () => {
     >
       <Tabs
         value={state.activeTab}
-        onChange={(val) => dispatch(applicationsSlice.actions.setActiveTab(val as any || 'general'))}
-        variant='custom'
+        onChange={(val) =>
+          dispatch(
+            applicationsSlice.actions.setActiveTab((val as any) || 'general')
+          )
+        }
+        variant="custom"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -183,43 +200,41 @@ export const CreateFormStep = () => {
         }}
       >
         <Tabs.List style={{ flexShrink: 0 }}>
-          <Tabs.Tab value='general'>Общая информация</Tabs.Tab>
-          <Tabs.Tab value='params'>Характеристики объектов испытаний</Tabs.Tab>
-          <Tabs.Tab value='tests'>Требования к испытаниям</Tabs.Tab>
-          <Tabs.Tab value='docs'>Техническая документация</Tabs.Tab>
+          <Tabs.Tab value="general">Общая информация</Tabs.Tab>
+          <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
+          <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
+          <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
         </Tabs.List>
 
         <Box style={{ padding: '24px 0' }}>
-          <Tabs.Panel
-            value='general'
-          >
+          <Tabs.Panel value="general">
             <GeneralInfoTab />
           </Tabs.Panel>
-          <Tabs.Panel value='params'>
+          <Tabs.Panel value="params">
             <ParametersTab />
           </Tabs.Panel>
-          <Tabs.Panel value='tests'>
+          <Tabs.Panel value="tests">
             <TestsTab />
           </Tabs.Panel>
-          <Tabs.Panel value='docs'>
+          <Tabs.Panel value="docs">
             <DocsTab />
           </Tabs.Panel>
         </Box>
       </Tabs>
 
-      <Group justify='center'>
+      <Group justify="center">
         <Tooltip
-          label='Пожалуйста, заполните обязательные поля формы и данные в Личном кабинете'
+          label="Пожалуйста, заполните обязательные поля формы и данные в Личном кабинете"
           disabled={isFormValid}
           multiline
           w={300}
           withArrow
-          position='top'
+          position="top"
         >
           <div style={{ display: 'inline-block' }}>
             <Button
-              variant='filled'
-              size='lg'
+              variant="filled"
+              size="lg"
               disabled={!isFormValid}
               loading={isGenerating}
               onClick={handleGenerate}

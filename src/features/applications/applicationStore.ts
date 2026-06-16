@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuidV4 } from 'uuid'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { FileMeta, TestingObject } from '../../api/applications/types/types'
+import type {
+  FileMeta,
+  TestingObject,
+} from '../../api/applications/types/types'
 
 export type ApplicationTabs = 'general' | 'params' | 'tests' | 'docs'
 
@@ -66,10 +69,17 @@ export const applicationsSlice = createSlice({
     setApplicationId: (state, action: PayloadAction<string>) => {
       state.applicationId = action.payload
     },
-    updateGeneral: (state, action: PayloadAction<{ 
-      value: string, 
-      param: 'branchId' | 'equipmentTypeId' | 'producerName' | 'producerAddress'
-    }>) => {
+    updateGeneral: (
+      state,
+      action: PayloadAction<{
+        value: string
+        param:
+          | 'branchId'
+          | 'equipmentTypeId'
+          | 'producerName'
+          | 'producerAddress'
+      }>
+    ) => {
       state[action.payload.param] = action.payload.value
     },
     setIsUserConfirmed: (state, action: PayloadAction<boolean>) => {
@@ -84,14 +94,19 @@ export const applicationsSlice = createSlice({
     removeObject: (state, action: PayloadAction<string>) => {
       state.objects = state.objects.filter((obj) => obj.id !== action.payload)
     },
-    updateObjectName: (state, action: PayloadAction<{ id: string, name: string }>) => {
+    updateObjectName: (
+      state,
+      action: PayloadAction<{ id: string; name: string }>
+    ) => {
       const foundObj = state.objects.find((obj) => obj.id === action.payload.id)
-      if (foundObj)
-        foundObj.name = action.payload.name
+      if (foundObj) foundObj.name = action.payload.name
     },
 
     // Работа с таблицами (Вкладки 2 и 3)
-    setParameterValue: (state, action: PayloadAction<{ paramId: string, objId: string, value: string }>) => {
+    setParameterValue: (
+      state,
+      action: PayloadAction<{ paramId: string; objId: string; value: string }>
+    ) => {
       state.parameters = {
         ...state.parameters,
         [action.payload.paramId]: {
@@ -100,7 +115,10 @@ export const applicationsSlice = createSlice({
         },
       }
     },
-    setTestValue: (state, action: PayloadAction<{ testId: string, objId: string, value: boolean }>) => {
+    setTestValue: (
+      state,
+      action: PayloadAction<{ testId: string; objId: string; value: boolean }>
+    ) => {
       state.tests = {
         ...state.tests,
         [action.payload.testId]: {
@@ -126,7 +144,7 @@ export const applicationsSlice = createSlice({
       state.signedFileMeta = action.payload
     },
 
-    loadApplicationData: (state, action: PayloadAction<any>) => { 
+    loadApplicationData: (state, action: PayloadAction<any>) => {
       const draftData = action.payload.draft || {
         branchId: '',
         equipmentTypeId: '',
@@ -138,14 +156,14 @@ export const applicationsSlice = createSlice({
       const objects = (draftData.samples || []).map(
         (sample: any, idx: number) => ({
           id: `loaded-obj-${idx}`,
-          name: sample.name || ''
+          name: sample.name || '',
         })
       )
 
-      const parameters: Record<string, Record<string, string>> = {};
-      const tests: Record<string, Record<string, boolean>> = {};
+      const parameters: Record<string, Record<string, string>> = {}
+      const tests: Record<string, Record<string, boolean>> = {}
 
-      (draftData.samples || []).forEach((sample: any, sampleIdx: number) => {
+      ;(draftData.samples || []).forEach((sample: any, sampleIdx: number) => {
         const objId = `loaded-obj-${sampleIdx}`
 
         sample.parameterValues?.forEach((pv: any) => {
@@ -169,7 +187,8 @@ export const applicationsSlice = createSlice({
       state.equipmentTypeId = draftData.equipmentTypeId || ''
       state.producerName = draftData.producerName || ''
       state.producerAddress = draftData.producerAddress || ''
-      state.objects = objects.length > 0 ? objects : [{ id: crypto.randomUUID(), name: '' }]
+      state.objects =
+        objects.length > 0 ? objects : [{ id: crypto.randomUUID(), name: '' }]
       state.parameters = parameters
       state.tests = tests
 
@@ -181,9 +200,9 @@ export const applicationsSlice = createSlice({
         : null
     },
     reset: (state) => {
-      state = {...state, ...initialState}
-    }
-  }
+      state = { ...state, ...initialState }
+    },
+  },
 })
 
 export default applicationsSlice.reducer

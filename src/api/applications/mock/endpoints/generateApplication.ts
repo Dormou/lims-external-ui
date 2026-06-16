@@ -13,7 +13,7 @@
 //   const id = new URL(request.url).searchParams.get('id')
 
 //   if (!id) return HttpResponse.json(undefined, { status: 422 })
-  
+
 //   const application = await request.json()
 
 //   // Валидация заявки
@@ -40,14 +40,14 @@
 //   const dataIndexToUpdate = ApplicationsData.findIndex((data) => data.id === id)
 //     if (dataIndexToUpdate === -1)
 //       return HttpResponse.json(undefined, { status: 404 })
-  
+
 //   const infoIndexToUpdate = ApplicationsInfoData.findIndex((data) => data.id === id)
 //     if (infoIndexToUpdate === -1)
 //       return HttpResponse.json(undefined, { status: 404 })
 
 //   // Обновление информации о заявке со сменой статуса
 //   ApplicationsData[dataIndexToUpdate] = application
-//   ApplicationsInfoData[infoIndexToUpdate] = { 
+//   ApplicationsInfoData[infoIndexToUpdate] = {
 //     ...ApplicationsInfoData[infoIndexToUpdate],
 //     updatedAt: new Date(),
 //     status: 'Сформирована',

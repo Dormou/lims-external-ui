@@ -3,14 +3,18 @@ import type { GetProfileResponse } from '../../types/responses'
 
 const ENDPOINT_URL = 'clients/me'
 
-export const getProfileHandler: HttpHandler = http.get<never, never, GetProfileResponse>(ENDPOINT_URL, async () => {
+export const getProfileHandler: HttpHandler = http.get<
+  never,
+  never,
+  GetProfileResponse
+>(ENDPOINT_URL, async () => {
   setTimeout(() => undefined, 1000)
 
   return HttpResponse.json<GetProfileResponse>({
     fullName: {
       firstName: 'Иван',
       lastName: 'Иванов',
-      patronymic: null
+      patronymic: null,
     },
     registrationDate: new Date().toISOString(),
     passwordChangeDate: new Date().toISOString(),
@@ -35,6 +39,6 @@ export const getProfileHandler: HttpHandler = http.get<never, never, GetProfileR
     techContactLastName: null,
     techContactPatronymic: null,
     techContactEmail: null,
-    techContactPhoneNumber: null
+    techContactPhoneNumber: null,
   })
 })

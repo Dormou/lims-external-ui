@@ -2,7 +2,12 @@ import { Table, TextInput, Select, Text, ScrollArea } from '@mantine/core'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
 import { useGetMetadataQuery } from '../../../api/references/referencesApi'
-import type { EquipmentTypeMeta, ParameterMeta, TestMeta, ValueType } from '../../../api/applications/types/types'
+import type {
+  EquipmentTypeMeta,
+  ParameterMeta,
+  TestMeta,
+  ValueType,
+} from '../../../api/applications/types/types'
 
 export const ParametersTab = () => {
   const dispatch = useAppDispatch()
@@ -15,12 +20,12 @@ export const ParametersTab = () => {
     if (!metadata)
       return {
         parameters: [],
-        tests: []
+        tests: [],
       }
 
     const branch = metadata.find((b) => b.branchId === state.branchId)
     const equipment = branch?.equipmentTypes.find(
-      (t: EquipmentTypeMeta) => t.equipmentTypeId === state.equipmentTypeId,
+      (t: EquipmentTypeMeta) => t.equipmentTypeId === state.equipmentTypeId
     )
 
     return {
@@ -42,10 +47,16 @@ export const ParametersTab = () => {
         <Select
           data={param.allowedValues || []}
           value={value}
-          onChange={(val) => 
-            dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: val || ''}))
+          onChange={(val) =>
+            dispatch(
+              applicationsSlice.actions.setParameterValue({
+                paramId: param.parameterId,
+                objId: objId,
+                value: val || '',
+              })
+            )
           }
-          placeholder='Выберите значение'
+          placeholder="Выберите значение"
         />
       )
     }
@@ -65,7 +76,13 @@ export const ParametersTab = () => {
           value={value}
           placeholder={placeholder}
           onChange={(e) =>
-            dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: e.currentTarget.value}))
+            dispatch(
+              applicationsSlice.actions.setParameterValue({
+                paramId: param.parameterId,
+                objId: objId,
+                value: e.currentTarget.value,
+              })
+            )
           }
           error={error}
         />
@@ -80,7 +97,13 @@ export const ParametersTab = () => {
           value={value}
           placeholder={placeholder}
           onChange={(e) =>
-            dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: e.currentTarget.value}))
+            dispatch(
+              applicationsSlice.actions.setParameterValue({
+                paramId: param.parameterId,
+                objId: objId,
+                value: e.currentTarget.value,
+              })
+            )
           }
           error={error}
         />
@@ -95,7 +118,13 @@ export const ParametersTab = () => {
           value={value}
           placeholder={placeholder}
           onChange={(e) =>
-            dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: e.currentTarget.value}))
+            dispatch(
+              applicationsSlice.actions.setParameterValue({
+                paramId: param.parameterId,
+                objId: objId,
+                value: e.currentTarget.value,
+              })
+            )
           }
           error={error}
         />
@@ -105,24 +134,30 @@ export const ParametersTab = () => {
     return (
       <TextInput
         value={value}
-        placeholder='Введите значение'
+        placeholder="Введите значение"
         onChange={(e) =>
-          dispatch(applicationsSlice.actions.setParameterValue({paramId: param.parameterId, objId: objId, value: e.currentTarget.value}))
+          dispatch(
+            applicationsSlice.actions.setParameterValue({
+              paramId: param.parameterId,
+              objId: objId,
+              value: e.currentTarget.value,
+            })
+          )
         }
       />
     )
   }
 
   return (
-    <ScrollArea mt='xl'>
-      <Table variant='simple' withColumnBorders withTableBorder>
+    <ScrollArea mt="xl">
+      <Table variant="simple" withColumnBorders withTableBorder>
         <Table.Thead>
-          <Table.Tr bg='#F1F3F5'>
+          <Table.Tr bg="#F1F3F5">
             <Table.Th w={250}>Параметр</Table.Th>
             {state.objects.map((obj, idx) => (
-              <Table.Th key={obj.id} ta='center'>
+              <Table.Th key={obj.id} ta="center">
                 Объект №{idx + 1}
-                <Text size='xs' c='dimmed' fw={400}>
+                <Text size="xs" c="dimmed" fw={400}>
                   {obj.name || 'Без названия'}
                 </Text>
               </Table.Th>
@@ -133,11 +168,11 @@ export const ParametersTab = () => {
           {activeParams.map((param) => (
             <Table.Tr key={param.parameterId}>
               <Table.Td>
-                <Text size='sm' fw={500}>
+                <Text size="sm" fw={500}>
                   {param.parameterName}
                 </Text>
                 {param.parameterUnit && (
-                  <Text size='xs' c='dimmed'>
+                  <Text size="xs" c="dimmed">
                     {param.parameterUnit}
                   </Text>
                 )}
@@ -146,7 +181,7 @@ export const ParametersTab = () => {
                 <Table.Td key={obj.id}>
                   {renderInput(
                     { ...param, valueType: param.valueType as ValueType },
-                    obj.id,
+                    obj.id
                   )}
                 </Table.Td>
               ))}

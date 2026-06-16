@@ -1,5 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
+import {
+  useDispatch,
+  useSelector,
+  type TypedUseSelectorHook,
+} from 'react-redux'
 
 import { authApi } from './api/auth/authApi'
 import { clientsApi } from './api/clients/clientsApi'
@@ -17,19 +21,18 @@ const rootReducer = combineReducers({
   [referencesApi.reducerPath]: referencesApi.reducer,
   appSlice,
   authSlice,
-  applicationsSlice
+  applicationsSlice,
 })
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-    .concat([
+    getDefaultMiddleware().concat([
       authApi.middleware,
       clientsApi.middleware,
       applicationsApi.middleware,
       referencesApi.middleware,
-    ])
+    ]),
 })
 
 export type RootState = ReturnType<typeof store.getState>

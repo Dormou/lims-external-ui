@@ -16,8 +16,8 @@ export const appSlice = createSlice({
   reducers: {
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload
-    }
-  }
+    },
+  },
 })
 
 export default appSlice.reducer

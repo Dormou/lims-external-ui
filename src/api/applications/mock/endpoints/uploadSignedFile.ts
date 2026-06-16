@@ -11,7 +11,7 @@
 //   const id = new URL(request.url).searchParams.get('id')
 
 //   if (!id) return HttpResponse.json(undefined, { status: 422 })
-  
+
 //   setTimeout(() => undefined, 1000)
 
 //   const requestData = await request.json()
@@ -23,8 +23,8 @@
 //   const infoIndexToUpdate = ApplicationsInfoData.findIndex((data) => data.id === id)
 //     if (infoIndexToUpdate === -1)
 //       return HttpResponse.json(undefined, { status: 404 })
-  
-//   ApplicationsInfoData[infoIndexToUpdate] = { 
+
+//   ApplicationsInfoData[infoIndexToUpdate] = {
 //     ...ApplicationsInfoData[infoIndexToUpdate],
 //     updatedAt: new Date(),
 //     status: 'Отправлена'

@@ -9,5 +9,5 @@ export const authMockHandlers = [
   logoutHandler,
   recoverPasswordHandler,
   refreshTokenHandler,
-  changePasswordHandler
+  changePasswordHandler,
 ]

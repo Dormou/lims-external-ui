@@ -1,8 +1,12 @@
 export type ApplicationStatus = 'Черновик' | 'Сформирована' | 'Отправлена'
 
-export type ValueType = 
-  | 'Integer' | 'Decimal' | 'String' 
-  | 'IntegerList' | 'DecimalList' | 'StringList' 
+export type ValueType =
+  | 'Integer'
+  | 'Decimal'
+  | 'String'
+  | 'IntegerList'
+  | 'DecimalList'
+  | 'StringList'
   | 'Constant'
 
 export type ApplicationInfo = {
