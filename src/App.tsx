@@ -1,7 +1,7 @@
 import '@mantine/core/styles.css'
 import { MantineProvider } from '@mantine/core'
 import { theme } from './theme'
-import { CreateApplicationManager } from './features/applications/components/CreateApplicationManager'
+import { CreateApplicationPage } from './pages/CreateApplication/CreateApplicationPage'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { useAppSelector } from './store'
 import { MainLayout } from './components/MainLayout'
@@ -38,7 +38,7 @@ function App() {
               <Route path={RoutesPath.Profile} element={<ProfilePage />} />
               <Route
                 path={RoutesPath.CreateApplication}
-                element={<CreateApplicationManager />}
+                element={<CreateApplicationPage />}
               />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
