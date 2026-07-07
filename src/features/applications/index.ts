@@ -1,3 +1,5 @@
+export { applicationsSlice } from './applicationStore'
+
 export { useAutoSave } from './hooks/useAutoSave'
 export { useUserConfirmationPolling } from './hooks/useUserConfirmationPolling.tsx'
 
