@@ -16,10 +16,10 @@ import { useAutoSave } from '../../features/applications/hooks/useAutoSave'
 import { CreateFormStep } from '../../features/applications/components/CreateFormStep'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { SigningStep } from '../../features/applications/components/SigningStep'
-import { useUserConfirmationPolling } from '../../features/applications/hooks/useUserConfirmationPollling'
+import { useUserConfirmationPolling } from '../../entities/clients/hooks/useUserConfirmationPollling'
 import { SuccessStep } from '../../features/applications/components/SuccessStep'
 import { useAppDispatch, useAppSelector } from '../../store'
-import { useLazyGetApplicationQuery } from '../../api/applications/applicationsApi'
+import { useLazyGetApplicationQuery } from '../../features/applications/api/applicationsApi'
 import { applicationsSlice } from '../../features/applications/applicationStore'
 
 export const CreateApplicationPage = () => {

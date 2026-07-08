@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import { v4 as uuidV4 } from 'uuid'
+
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type {
   FileMeta,
   TestingObject,
-} from '../../api/applications/types/types'
+} from './api/types/types'
 
 export type ApplicationTabs = 'general' | 'params' | 'tests' | 'docs'
 

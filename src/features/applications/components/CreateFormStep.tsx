@@ -1,22 +1,27 @@
+import { useState } from 'react'
+
 import { Box, Tabs, Group, Tooltip, Button } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
+
 import { GeneralInfoTab } from './GeneralInfoTab'
 import { ParametersTab } from './ParametersTab'
 import { TestsTab } from './TestsTab'
 import { DocsTab } from './DocsTab'
-import { useState } from 'react'
+
 import { useAppDispatch, useAppSelector } from '../../../store'
+import { applicationsSlice } from '../applicationStore'
+
 import {
   useGenerateApplicationMutation,
   useSaveDraftMutation,
-} from '../../../api/applications/applicationsApi'
-import { useGetMetadataQuery } from '../../../api/references/referencesApi'
-import { applicationsSlice } from '../applicationStore'
+} from '../api/applicationsApi'
+import { useGetMetadataQuery } from '../../../entities/reference/api/referencesApi'
+
 import type {
   EquipmentTypeMeta,
   ParameterMeta,
   TestMeta,
-} from '../../../api/applications/types/types'
+} from '../api/types/types'
 
 export const CreateFormStep = () => {
   const dispatch = useAppDispatch()

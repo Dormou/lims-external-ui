@@ -1,7 +1,7 @@
 import { Stack, Text, Button } from '@mantine/core'
 import { applicationsSlice } from '../applicationStore'
 import { useAppDispatch } from '../../../store'
-import { useCreateDraftMutation } from '../../../api/applications/applicationsApi'
+import { useCreateDraftMutation } from '../api/applicationsApi'
 
 export const PreformStep = () => {
   const dispatch = useAppDispatch()

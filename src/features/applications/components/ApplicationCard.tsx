@@ -1,6 +1,7 @@
-import { Paper, Title, Stack, Text, Divider, Group } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
-import type { ApplicationInfo } from '../../../api/applications/types/types'
+import { Paper, Title, Stack, Text, Divider, Group } from '@mantine/core'
+
+import type { ApplicationInfo } from '../api/types/types'
 
 interface ApplicationCardProps {
   app: ApplicationInfo
@@ -17,6 +18,7 @@ export const ApplicationCard = ({ app }: ApplicationCardProps) => {
       radius="md"
       shadow="sm"
       onClick={() => navigate(`/create-application?id=${app.id}`)}
+      
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -25,9 +27,11 @@ export const ApplicationCard = ({ app }: ApplicationCardProps) => {
         cursor: 'pointer',
         transition: 'transform 0.2s ease',
       }}
+
       onMouseEnter={(e) =>
         isDraft && (e.currentTarget.style.transform = 'translateY(-4px)')
       }
+
       onMouseLeave={(e) =>
         isDraft && (e.currentTarget.style.transform = 'translateY(0)')
       }

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { UserInfo } from '../../api/auth/types/userInfo'
-import type { LoginResponse } from '../../api/auth/types/responses'
+import type { UserInfo } from './api/types/userInfo'
+import type { LoginResponse } from './api/types/responses'
 
 interface AuthSliceState {
   accessToken: string | null
@@ -25,7 +26,6 @@ export const authSlice = createSlice({
 
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken
-
       state.user = action.payload.userInfo
     },
     logout: (state) => {

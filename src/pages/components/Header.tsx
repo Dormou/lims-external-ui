@@ -1,9 +1,13 @@
+import { useMemo } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
 import { Text, Menu, UnstyledButton, Box, Anchor, Image } from '@mantine/core'
 import { Icon } from '@iconify/react'
-import { useLogoutMutation } from '../api/auth/authApi'
-import { useNavigate } from 'react-router-dom'
-import { useGetProfileQuery } from '../api/clients/clientsApi'
-import { useMemo } from 'react'
+
+import { useLogoutMutation } from '../../features/auth/api/authApi'
+import { useGetProfileQuery } from '../../entities/clients/api/clientsApi.ts'
+
 import classes from './Header.module.css'
 
 export const Header = () => {

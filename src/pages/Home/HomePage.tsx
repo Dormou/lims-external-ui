@@ -14,7 +14,7 @@ import { IconSearch, IconPlus } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { ApplicationCard } from '../../features/applications/components/ApplicationCard'
 import { Icon } from '@iconify/react'
-import { useGetAllApplicationsQuery } from '../../api/applications/applicationsApi'
+import { useGetAllApplicationsQuery } from '../../features/applications/api/applicationsApi'
 
 export const HomePage = () => {
   const navigate = useNavigate()

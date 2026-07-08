@@ -1,5 +1,5 @@
 import { Table, Checkbox, Text, ScrollArea } from '@mantine/core'
-import { useGetMetadataQuery } from '../../../api/references/referencesApi'
+import { useGetMetadataQuery } from '../../../entities/reference/api/referencesApi'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
 

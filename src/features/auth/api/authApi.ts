@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { baseQueryWithReauth } from '../../api/baseQuery'
-import { authSlice } from '../../features/auth/authStore'
+import { baseQueryWithReauth } from '../../../shared/api/baseQuery'
+import { authSlice } from '../authStore'
 
 import type {
   ChangePasswordRequest,

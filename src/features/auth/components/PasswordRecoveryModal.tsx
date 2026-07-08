@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import {
   Modal,
   TextInput,
@@ -12,7 +13,8 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { IconX } from '@tabler/icons-react'
-import { useRecoverPasswordMutation } from '../../../api/auth/authApi'
+
+import { useRecoverPasswordMutation } from '../api/authApi'
 
 interface Props {
   opened: boolean

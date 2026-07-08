@@ -1,5 +1,5 @@
 import { http, HttpHandler, HttpResponse } from 'msw'
-import type { RecoverPasswordRequest } from '../../types/requests'
+import type { RecoverPasswordRequest } from '../../../../../api/auth/types/requests'
 
 const ENDPOINT_URL = 'auth/recover-password'
 

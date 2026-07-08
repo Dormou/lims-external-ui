@@ -1,6 +1,6 @@
 import { Stack, Text, Group, Button } from '@mantine/core'
 import { Icon } from '@iconify/react'
-import { formatDate } from '../../../utils'
+import { formatDate } from '../../../shared/utils/utils'
 import { useAppSelector } from '../../../store'
 
 export const SuccessStep = () => {

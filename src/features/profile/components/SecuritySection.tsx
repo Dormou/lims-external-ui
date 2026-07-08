@@ -13,10 +13,10 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { clientsApi } from '../../../api/clients/clientsApi'
-import { formatDate, getMonthNoun } from '../../../utils'
+import { formatDate, getMonthNoun } from '../../../shared/utils/utils'
 import { useAppDispatch } from '../../../store'
 import { authSlice } from '../../auth/authStore'
-import { useChangePasswordMutation } from '../../../api/auth/authApi'
+import { useChangePasswordMutation } from '../../auth/api/authApi'
 import dayjs from 'dayjs'
 
 export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {

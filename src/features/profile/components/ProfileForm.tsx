@@ -11,7 +11,7 @@ import {
   Text,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { formatDate } from '../../../utils'
+import { formatDate } from '../../../shared/utils/utils'
 import { ProfileSection } from './ProfileSection'
 import {
   useUpdateHeadMutation,

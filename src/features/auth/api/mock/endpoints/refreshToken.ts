@@ -1,5 +1,5 @@
 import { http, HttpHandler, HttpResponse } from 'msw'
-import type { LoginResponse } from '../../types/responses'
+import type { LoginResponse } from '../../../../../api/auth/types/responses'
 
 const ENDPOINT_URL = 'auth/refresh'
 

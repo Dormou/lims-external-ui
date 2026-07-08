@@ -1,6 +1,6 @@
 import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
 import { Icon } from '@iconify/react'
-import { useUploadSignedFileMutation } from '../../../api/applications/applicationsApi'
+import { useUploadSignedFileMutation } from '../api/applicationsApi'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
 

@@ -1,13 +1,13 @@
 import { Table, TextInput, Select, Text, ScrollArea } from '@mantine/core'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
-import { useGetMetadataQuery } from '../../../api/references/referencesApi'
+import { useGetMetadataQuery } from '../../../entities/reference/api/referencesApi'
 import type {
   EquipmentTypeMeta,
   ParameterMeta,
   TestMeta,
   ValueType,
-} from '../../../api/applications/types/types'
+} from '../api/types/types'
 
 export const ParametersTab = () => {
   const dispatch = useAppDispatch()

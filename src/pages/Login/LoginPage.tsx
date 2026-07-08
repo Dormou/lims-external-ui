@@ -17,7 +17,7 @@ import { RegistrationModal } from '../../features/auth/components/RegistrationMo
 import { PasswordRecoveryModal } from '../../features/auth/components/PasswordRecoveryModal'
 import { useAppDispatch } from '../../store'
 import { authSlice } from '../../features/auth/authStore'
-import { useLoginMutation } from '../../api/auth/authApi'
+import { useLoginMutation } from '../../features/auth/api/authApi'
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch()

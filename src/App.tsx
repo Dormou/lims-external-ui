@@ -4,7 +4,7 @@ import { theme } from './theme'
 import { CreateApplicationPage } from './pages/CreateApplication/CreateApplicationPage'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { useAppSelector } from './store'
-import { MainLayout } from './components/MainLayout'
+import { MainLayout } from './pages/components/MainLayout'
 import { RoutesPath } from './types/routesPath'
 
 import { LoginPage } from './pages/Login/LoginPage'

@@ -5,12 +5,13 @@ import {
   type TypedUseSelectorHook,
 } from 'react-redux'
 
-import { authApi } from './api/auth/authApi'
-import { clientsApi } from './api/clients/clientsApi'
-import { applicationsApi } from './api/applications/applicationsApi'
-import { referencesApi } from './api/references/referencesApi'
-
 import appSlice from './AppStore'
+
+import { authApi } from './features/auth/api/authApi'
+import { applicationsApi } from './features/applications/api/applicationsApi'
+import { referencesApi } from './entities/reference/api/referencesApi'
+import { clientsApi } from './entities/clients/api/clientsApi'
+
 import authSlice from './features/auth/authStore'
 import applicationsSlice from './features/applications/applicationStore'
 
@@ -32,7 +33,7 @@ export const store = configureStore({
       clientsApi.middleware,
       applicationsApi.middleware,
       referencesApi.middleware,
-    ]),
+    ])
 })
 
 export type RootState = ReturnType<typeof store.getState>

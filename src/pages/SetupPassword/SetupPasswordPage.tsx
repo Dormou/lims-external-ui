@@ -12,7 +12,7 @@ import {
 import { useForm } from '@mantine/form'
 import { Icon } from '@iconify/react'
 import { useAppDispatch } from '../../store'
-import { useSetupPasswordMutation } from '../../api/auth/authApi'
+import { useSetupPasswordMutation } from '../../features/auth/api/authApi'
 import { authSlice } from '../../features/auth/authStore'
 
 export const SetupPasswordPage = () => {

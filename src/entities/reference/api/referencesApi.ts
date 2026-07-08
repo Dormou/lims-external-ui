@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { baseQueryWithReauth } from '../baseQuery'
+import { baseQueryWithReauth } from '../../../shared/api/baseQuery'
 
 import type { GetMetadataResponse } from './types/responses'
 

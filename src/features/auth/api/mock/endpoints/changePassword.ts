@@ -1,23 +1,23 @@
 import { http, HttpHandler, HttpResponse } from 'msw'
-import type { LoginRequest } from '../../types/requests'
-import type { LoginResponse } from '../../types/responses'
+import type { ChangePasswordRequest } from '../../../../../api/auth/types/requests'
+import type { ChangePasswordResponse } from '../../../../../api/auth/types/responses'
 
-const ENDPOINT_URL = 'auth/login'
+const ENDPOINT_URL = 'auth/change-password'
 
-export const loginHandler: HttpHandler = http.post<
+export const changePasswordHandler: HttpHandler = http.post<
   never,
-  LoginRequest,
-  LoginResponse
+  ChangePasswordRequest,
+  ChangePasswordResponse
 >(ENDPOINT_URL, async ({ request }) => {
   setTimeout(() => undefined, 1000)
 
   try {
     const data = await request.json()
 
-    if (data.email !== 'admin@ntc-power.ru' || data.password !== 'test1234')
+    if (data.oldPassword !== 'test1234')
       return HttpResponse.json(undefined, { status: 401 })
 
-    return HttpResponse.json<LoginResponse>({
+    return HttpResponse.json<ChangePasswordResponse>({
       accessToken: 'admin-token',
       refreshToken: 'admin-refresh-token',
       expiresInSeconds: 99999,

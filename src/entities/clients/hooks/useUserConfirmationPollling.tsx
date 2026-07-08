@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
-import { applicationsSlice } from '../applicationStore'
+
 import { useAppDispatch, useAppSelector } from '../../../store'
-import { useLazyGetClientConfirmedQuery } from '../../../api/clients/clientsApi'
+import { applicationsSlice } from '../../../features/applications/applicationStore'
+
+import { useLazyGetClientConfirmedQuery } from '../api/clientsApi'
 
 export const useUserConfirmationPolling = (intervalMs: number = 10000) => {
   const [getClientConfirmed] = useLazyGetClientConfirmedQuery()
