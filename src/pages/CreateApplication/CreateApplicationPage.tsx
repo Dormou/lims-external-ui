@@ -21,6 +21,7 @@ import { SuccessStep } from '../../features/applications/components/SuccessStep'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { useLazyGetApplicationQuery } from '../../api/applications/applicationsApi'
 import { applicationsSlice } from '../../features/applications/applicationStore'
+import styles from './CreateApplicationPage.module.css'
 
 export const CreateApplicationPage = () => {
   const dispatch = useAppDispatch()
@@ -63,35 +64,31 @@ export const CreateApplicationPage = () => {
 
   return (
     <Stack gap={24} h="100%" w="100%">
-      <Group h={45} justify="center" pos="relative" style={{ flexShrink: 0 }}>
+      <Group h={45} justify="center" pos="relative" className={styles.group}>
         <UnstyledButton
           onClick={() => {
             navigate('/')
           }}
-          style={{
-            position: 'absolute',
-            left: 0,
-            display: 'flex',
-            alignItems: 'center',
-          }}
+          className={styles.backButton}
         >
           <Icon
             icon="mdi:chevron-left"
             width="24"
             height="24"
-            color="#005B9C"
+            color="var(--mantine-color-primaryBlue-6)"
           />
           <Box px={24} py={8}>
             <Text
-              c="#005B9C"
-              style={{ fontFamily: 'PF Din Text Cond Pro', fontSize: '24px' }}
+              c="primaryBlue"
+              fz='xl'
+              fw={400}
             >
               Назад
             </Text>
           </Box>
         </UnstyledButton>
 
-        <Title c="#212529" order={2} style={{ fontFamily: 'DIN Pro' }}>
+        <Title c="black" order={2}>
           Новая заявка
         </Title>
       </Group>
@@ -101,14 +98,7 @@ export const CreateApplicationPage = () => {
           <Loader size="xl" />
         </Center>
       ) : (
-        <Box
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            height: '80vh',
-          }}
-        >
+        <Box className={styles.stepsContainer}>
           {currentStep === 0 && <PreformStep />}
           {currentStep === 1 && <CreateFormStep />}
           {currentStep === 2 && <SigningStep />}
