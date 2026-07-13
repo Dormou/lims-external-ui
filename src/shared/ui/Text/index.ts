@@ -1,0 +1,1 @@
+export { textConfig } from './text-config';

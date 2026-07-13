@@ -1,0 +1,87 @@
+/* ============================================
+   Button / Кнопки
+   ============================================ */
+
+/* Базовые стили */
+.root {
+  font-weight: 400;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* --- Filled (залитая) --- */
+.root[data-variant="filled"] {
+  background-color: var(--mantine-color-primaryBlue-6);
+  color: var(--mantine-color-white-6);
+  border: none;
+}
+
+.root[data-variant="filled"]:hover:not(:disabled) {
+  background-color: var(--mantine-color-primaryLight-6);
+}
+
+.root[data-variant="filled"]:active:not(:disabled) {
+  background-color: var(--mantine-color-primaryDark-6);
+}
+
+.root[data-variant="filled"]:disabled,
+.root[data-variant="filled"][data-disabled] {
+  background-color: var(--mantine-color-darkGray-6);
+  cursor: not-allowed;
+}
+
+/* --- Outline (контурная) --- */
+.root[data-variant="outline"] {
+  border: 1.5px solid var(--mantine-color-primaryBlue-6);
+  background-color: var(--mantine-color-white-6);
+  color: var(--mantine-color-primaryBlue-6);
+}
+
+.root[data-variant="outline"]:hover:not(:disabled) {
+  background-color: var(--mantine-color-complementaryLight-6);
+}
+
+.root[data-variant="outline"]:active:not(:disabled) {
+  background-color: var(--mantine-color-complementaryDark-6);
+}
+
+.root[data-variant="outline"]:disabled,
+.root[data-variant="outline"][data-disabled] {
+  border-color: var(--mantine-color-darkGray-6);
+  background-color: var(--mantine-color-lightGray-6);
+  color: var(--mantine-color-darkGray-6);
+  cursor: not-allowed;
+}
+
+/* --- Subtle (текстовая) --- */
+.root[data-variant="subtle"] {
+  background-color: transparent;
+  color: var(--mantine-color-primaryBlue-6);
+  border: none;
+}
+
+.root[data-variant="subtle"]:hover:not(:disabled) {
+  background-color: var(--mantine-color-complementaryLight-6);
+}
+
+.root[data-variant="subtle"]:active:not(:disabled) {
+  background-color: var(--mantine-color-complementaryDark-6);
+}
+
+.root[data-variant="subtle"]:disabled,
+.root[data-variant="subtle"][data-disabled] {
+  background-color: transparent;
+  color: var(--mantine-color-darkGray-6);
+  cursor: not-allowed;
+}
+
+/* ============================================
+   ActionIcon / Иконки-кнопки
+   ============================================ */
+
+/* Базовые стили (уже есть в .root) */
+
+/* Outline */
+.root[data-variant="outline"] {
+  border-radius: var(--mantine-radius-sm);
+  /* Остальное из секции Button Outline */
+}

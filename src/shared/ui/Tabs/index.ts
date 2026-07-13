@@ -1,0 +1,1 @@
+export { tabsConfig } from './tabs-config';
