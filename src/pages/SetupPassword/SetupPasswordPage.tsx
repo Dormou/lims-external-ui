@@ -8,12 +8,14 @@ import {
   Text,
   Box,
   Center,
+  Image,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { Icon } from '@iconify/react'
 import { useAppDispatch } from '../../store'
 import { useSetupPasswordMutation } from '../../api/auth/authApi'
 import { authSlice } from '../../features/auth/authStore'
+import styles from './SetupPasswordPage.module.css'
 
 export const SetupPasswordPage = () => {
   const dispatch = useAppDispatch()
@@ -50,38 +52,37 @@ export const SetupPasswordPage = () => {
   }
 
   return (
-    <Group gap={0} h="100vh" align="stretch">
-      <Box style={{ flex: 1, position: 'relative', backgroundColor: '#fff' }}>
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: 'url(/login-bg.jpg)',
-            backgroundSize: 'cover',
-            opacity: 0.25,
-          }}
-        />
-        <Stack p={40} h="100%" justify="space-between" pos="relative">
-          <Group gap="xl">
-            <img src="/logo.png" alt="Россети" style={{ height: 48 }} />
-            <Text fw={700} size="28px" c="#005B9C">
-              АИС Управление испытаниями
-            </Text>
-          </Group>
-          <Text size="16px" c="#005B9C">
-            Разработано Департаментом цифровых технологий АО 'Россети НТЦ' ®
-          </Text>
-        </Stack>
-      </Box>
+      <Group gap={0} h="100vh" align="stretch">
+        <Box flex={1} pos="relative" bg="white" className={styles.contentBox}>
+          <Box className={styles.passwordChangeBackground} />
 
-      <Center style={{ flex: 1 }}>
-        <Stack w={400} gap={32}>
-          <Title
-            order={1}
-            ta="center"
-            c="#005B9C"
-            style={{ fontFamily: 'DIN Pro', fontSize: 36 }}
+          <Stack
+            p={40}
+            h="100%"
+            justify="space-between"
+            pos="relative"
+            className={styles.backGroundStack}
           >
+            <Group gap="xl">
+              <Image src="/logo.png" alt="Россети" h={48} w="auto" />
+              <Text fw={700} size="xxl" c="primaryBlue">
+                АИС Управление испытаниями
+              </Text>
+            </Group>
+
+            <Text
+              size="md"
+              c="primaryBlue"
+            >
+              Разработано Департаментом цифровых технологий АО 'Россети
+              Научно-технический центр' ®
+            </Text>
+          </Stack>
+        </Box>
+
+        <Center flex={1} bg="white">
+          <Stack w={400} gap={32}>
+            <Title order={1} ta="center" c="primaryBlue">
             Установка пароля
           </Title>
 
@@ -91,7 +92,7 @@ export const SetupPasswordPage = () => {
                 placeholder="Введите пароль"
                 size="md"
                 leftSection={
-                  <Icon icon="mdi:lock-outline" width={20} color="#ADB5BD" />
+                  <Icon icon="mdi:lock-outline" width={20} color="dimmed" />
                 }
                 {...form.getInputProps('password')}
               />
@@ -102,7 +103,7 @@ export const SetupPasswordPage = () => {
                   <Icon
                     icon="mdi:lock-check-outline"
                     width={20}
-                    color="#ADB5BD"
+                    color="dimmed"
                   />
                 }
                 {...form.getInputProps('confirmPassword')}

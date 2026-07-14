@@ -1,10 +1,8 @@
 import {
   Group,
   Title,
-  Box,
   Stack,
-  UnstyledButton,
-  Text,
+  Button,
   Center,
   Loader,
 } from '@mantine/core'
@@ -21,7 +19,6 @@ import { SuccessStep } from '../../features/applications/components/SuccessStep'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { useLazyGetApplicationQuery } from '../../api/applications/applicationsApi'
 import { applicationsSlice } from '../../features/applications/applicationStore'
-import styles from './CreateApplicationPage.module.css'
 
 export const CreateApplicationPage = () => {
   const dispatch = useAppDispatch()
@@ -64,29 +61,17 @@ export const CreateApplicationPage = () => {
 
   return (
     <Stack gap={24} h="100%" w="100%">
-      <Group h={45} justify="center" pos="relative" className={styles.group}>
-        <UnstyledButton
-          onClick={() => {
-            navigate('/')
-          }}
-          className={styles.backButton}
+      <Group h={45} justify="center" pos="relative" flex="0 0 auto">
+        <Button
+          variant="subtle"
+          color="primaryBlue"
+          leftSection={<Icon icon="mdi:chevron-left" width="24" height="24" />}
+          onClick={() => navigate('/')}
+          pos="absolute"
+          left={0}
         >
-          <Icon
-            icon="mdi:chevron-left"
-            width="24"
-            height="24"
-            color="var(--mantine-color-primaryBlue-6)"
-          />
-          <Box px={24} py={8}>
-            <Text
-              c="primaryBlue"
-              fz='xl'
-              fw={400}
-            >
-              Назад
-            </Text>
-          </Box>
-        </UnstyledButton>
+          Назад
+        </Button>
 
         <Title c="black" order={2}>
           Новая заявка
@@ -98,12 +83,12 @@ export const CreateApplicationPage = () => {
           <Loader size="xl" />
         </Center>
       ) : (
-        <Box className={styles.stepsContainer}>
+        <Stack align="center" h="80vh">
           {currentStep === 0 && <PreformStep />}
           {currentStep === 1 && <CreateFormStep />}
           {currentStep === 2 && <SigningStep />}
           {currentStep === 3 && <SuccessStep />}
-        </Box>
+        </Stack>
       )}
     </Stack>
   )

@@ -15,7 +15,8 @@ declare module "@mantine/core" {
       | "white"
       | "lightGray"
       | "darkGray"
-      | "black",
+      | "black"
+      | "dimmed",
       MantineColorsTuple
     >;
   }
