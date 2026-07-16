@@ -17,6 +17,7 @@ import type {
   ParameterMeta,
   TestMeta,
 } from '../../../api/applications/types/types'
+import { getUXTID } from '@/processes/pages/ApplicationsPage.test'
 
 export const CreateFormStep = () => {
   const dispatch = useAppDispatch()
@@ -200,7 +201,7 @@ export const CreateFormStep = () => {
         }}
       >
         <Tabs.List style={{ flexShrink: 0 }}>
-          <Tabs.Tab value="general">Общая информация</Tabs.Tab>
+          <Tabs.Tab ux-test-id={getUXTID("tab-general-info")} value="general">Общая информация</Tabs.Tab>
           <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
           <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
           <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>

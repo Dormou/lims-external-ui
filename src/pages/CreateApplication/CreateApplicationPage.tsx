@@ -21,6 +21,7 @@ import { SuccessStep } from '../../features/applications/components/SuccessStep'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { useLazyGetApplicationQuery } from '../../api/applications/applicationsApi'
 import { applicationsSlice } from '../../features/applications/applicationStore'
+import { getUXTID } from '@/processes/pages/ApplicationsPage.test'
 
 export const CreateApplicationPage = () => {
   const dispatch = useAppDispatch()
@@ -83,6 +84,7 @@ export const CreateApplicationPage = () => {
           />
           <Box px={24} py={8}>
             <Text
+              ux-test-id={getUXTID("back")}
               c="#005B9C"
               style={{ fontFamily: 'PF Din Text Cond Pro', fontSize: '24px' }}
             >
@@ -109,7 +111,7 @@ export const CreateApplicationPage = () => {
             height: '80vh',
           }}
         >
-          {currentStep === 0 && <PreformStep />}
+          {currentStep === 0 && <PreformStep ux-test-id={getUXTID("add-application-preform")}/>}
           {currentStep === 1 && <CreateFormStep />}
           {currentStep === 2 && <SigningStep />}
           {currentStep === 3 && <SuccessStep />}

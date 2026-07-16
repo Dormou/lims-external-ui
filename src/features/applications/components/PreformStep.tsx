@@ -2,6 +2,7 @@ import { Stack, Text, Button } from '@mantine/core'
 import { applicationsSlice } from '../applicationStore'
 import { useAppDispatch } from '../../../store'
 import { useCreateDraftMutation } from '../../../api/applications/applicationsApi'
+import { getUXTID } from '@/processes/pages/ApplicationsPage.test'
 
 export const PreformStep = () => {
   const dispatch = useAppDispatch()
@@ -23,6 +24,7 @@ export const PreformStep = () => {
   return (
     <Stack gap={24} align="center">
       <Text
+        ux-test-id={getUXTID("application-description")}
         py={24}
         ta="center"
         c="#212529"
@@ -53,7 +55,7 @@ export const PreformStep = () => {
         30 дней.
       </Text>
 
-      <Button variant="filled" onClick={handleStart}>
+      <Button ux-test-id={getUXTID("go-write-application-btn")} variant="filled" onClick={handleStart}>
         Заполнить заявку
       </Button>
     </Stack>

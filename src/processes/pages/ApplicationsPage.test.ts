@@ -1,4 +1,4 @@
-import { RoutesPath } from "../../types/routesPath";
+import { RoutesPath } from "@/types/routesPath";
 
 export type UXTID = 
 "add-application-preform" 
@@ -42,9 +42,8 @@ export type UXTID =
 | "doc-technical-conditions"
 | "doc-strop-scheme"
 | "doc-additional-documents"
-| "doc-\w\+"
 
-const getUXTID = (value: UXTID) => () => value
+export const getUXTID = (value: UXTID) => () => value
 
 //type lol = typeof (() => getUXIDs(UXID.))
 
@@ -108,7 +107,7 @@ describe(`Бизнес процесс подачи заявки`, () => {
             .click()
             
     })
-
+//
     it(`заполняет все вкладки и создаёт заявку`, () => {
         /*---------------------------------------------------*/
         /* ---------- Вкладка 1: Общая информация ---------- */
