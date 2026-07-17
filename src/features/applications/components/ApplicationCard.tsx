@@ -1,6 +1,7 @@
 import { Paper, Title, Stack, Text, Divider, Group } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import type { ApplicationInfo } from '../../../api/applications/types/types'
+import styles from './ApplicationCard.module.css'
 
 interface ApplicationCardProps {
   app: ApplicationInfo
@@ -16,15 +17,11 @@ export const ApplicationCard = ({ app }: ApplicationCardProps) => {
       p="md"
       radius="md"
       shadow="sm"
+      display="flex"
+      h="100%"
+      mih={220}
+      className={styles.appCardContent}
       onClick={() => navigate(`/create-application?id=${app.id}`)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        minHeight: 220,
-        cursor: 'pointer',
-        transition: 'transform 0.2s ease',
-      }}
       onMouseEnter={(e) =>
         isDraft && (e.currentTarget.style.transform = 'translateY(-4px)')
       }
@@ -32,7 +29,7 @@ export const ApplicationCard = ({ app }: ApplicationCardProps) => {
         isDraft && (e.currentTarget.style.transform = 'translateY(0)')
       }
     >
-      <Title order={4} c="#005B9C" mb="md">
+      <Title order={4} c="primaryBlue" mb="md">
         {app.equipmentType}
       </Title>
 
@@ -53,7 +50,7 @@ export const ApplicationCard = ({ app }: ApplicationCardProps) => {
       <Divider my="sm" />
 
       <Group justify="space-between" align="center">
-        <Text fw={500} size="sm" c={isDraft ? '#ADB5BD' : '#005B9C'}>
+        <Text fw={500} size="sm" c={isDraft ? 'dimmed' : 'primaryBlue'}>
           {app.status}
         </Text>
         <Text size="xs" c="dimmed">

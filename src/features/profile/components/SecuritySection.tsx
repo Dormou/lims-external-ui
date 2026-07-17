@@ -71,7 +71,7 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
 
   return (
     <Box pt={20}>
-      <Title order={3} c="#005B9C" mb={16}>
+      <Title order={3} c="primaryBlue" mb={16}>
         Безопасность
       </Title>
       <Divider mb={24} />
@@ -83,14 +83,14 @@ export const SecuritySection = ({ lastUpdate }: { lastUpdate: string }) => {
               Последнее изменение пароля:{' '}
               {lastUpdate ? formatDate(lastUpdate) : ''}
               {lastUpdate && (
-                <Text span c={isExpired ? 'red' : 'dimmed'} inherit ml={4}>
+                <Text span c={isExpired ? 'errorRed' : 'dimmed'} inherit ml={4}>
                   ({timeAgoText})
                 </Text>
               )}
             </Text>
 
             {isExpired && (
-              <Text size="xs" c="red">
+              <Text size="xs" c="errorRed">
                 Рекомендуется менять пароль каждые 3 месяца
               </Text>
             )}

@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react'
 import { useUploadSignedFileMutation } from '../../../api/applications/applicationsApi'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { applicationsSlice } from '../applicationStore'
+import styles from './SigningStep.module.css'
 
 export const SigningStep = () => {
   const dispatch = useAppDispatch()
@@ -30,11 +31,8 @@ export const SigningStep = () => {
   return (
     <Stack gap={24} align="center" w="100%">
       <Text
-        style={{
-          fontFamily: 'PF Din Text Cond Pro',
-          fontSize: '20px',
-          fontWeight: 300,
-        }}
+        fw={300}
+        size="xl"
         ta="center"
       >
         По вашим данным сформирована заявка.
@@ -42,11 +40,9 @@ export const SigningStep = () => {
 
       <Group
         p="xs"
-        style={{
-          border: '1px solid #005B9C',
-          borderRadius: '8px',
-          minWidth: '450px',
-        }}
+        bd="1px solid primaryBlue"
+        miw={450}
+        className={styles.groupInfo}
         justify="space-between"
       >
         <Group gap="sm">
@@ -54,7 +50,7 @@ export const SigningStep = () => {
             icon="mdi:file-pdf-box"
             width={32}
             height={32}
-            color="#005B9C"
+            color="primaryBlue"
           />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
@@ -78,12 +74,9 @@ export const SigningStep = () => {
       </Group>
 
       <Text
-        style={{
-          fontFamily: 'PF Din Text Cond Pro',
-          fontSize: '20px',
-          fontWeight: 300,
-          maxWidth: '800px',
-        }}
+        fw={300}
+        size="xl"
+        maw={800}
         ta="center"
       >
         Пожалуйста, скачайте сформированный файл, распечатайте его на фирменном
@@ -92,7 +85,7 @@ export const SigningStep = () => {
         скан подписанного документа в форму ниже.
       </Text>
 
-      <Box w="100%" style={{ maxWidth: '600px' }}>
+      <Box w="100%" maw={600}>
         <FileInput
           label="Подписанная заявка"
           required

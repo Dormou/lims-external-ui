@@ -117,11 +117,11 @@ export const ProfileForm = ({ profile }: { profile: UserProfile }) => {
     return (
       <Stack gap={40} w="100%">
         <Group gap={24}>
-          <Avatar size={80} radius="xl" color="#005B9C">
+          <Avatar size={80} radius="xl" color="primaryBlue">
             <Icon icon="mdi:user" width={40} />
           </Avatar>
           <Stack gap={4}>
-            <Title order={1} style={{ fontFamily: 'DIN Pro' }}>
+            <Title order={1}>
               {`${userForm.values.lastName} ${userForm.values.firstName} ${userForm.values.patronymic || ''}`}
             </Title>
             <Text c="dimmed" size="sm">

@@ -57,7 +57,7 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
       withCloseButton={false}
     >
       <Group justify="flex-end" mb={isSuccess ? 0 : 20}>
-        <ActionIcon variant="subtle" color="gray" onClick={handleClose}>
+        <ActionIcon variant="subtle" color="dimmed" onClick={handleClose}>
           <IconX size={24} />
         </ActionIcon>
       </Group>
@@ -65,7 +65,7 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
       {!isSuccess ? (
         <form onSubmit={form.onSubmit(handleRecover)}>
           <Stack gap={32} align="center">
-            <Title order={2} style={{ fontFamily: 'DIN Pro', fontSize: 24 }}>
+            <Title size='xl' fw={500}>
               Восстановление пароля
             </Title>
 
@@ -76,32 +76,31 @@ export const PasswordRecoveryModal = ({ opened, onClose }: Props) => {
               {...form.getInputProps('email')}
             />
 
-            <Button type="submit" size="lg" px={40} loading={isLoading}>
+            <Button variant="filled" type="submit" size="lg" >
               Восстановить пароль
             </Button>
           </Stack>
         </form>
       ) : (
         <Stack align="center" gap={24} py={20}>
-          <Title order={2} style={{ fontFamily: 'DIN Pro', fontSize: 24 }}>
+          <Title size='xl' fw={500}>
             Восстановление пароля
           </Title>
           <Text
             ta="center"
-            size="lg"
-            style={{ fontFamily: 'PF Din Text Cond Pro' }}
+            size="xl"
+            fw={300}
           >
             На адрес{' '}
-            <Text span fw={700}>
+            <Text size="xl" fw={700}>
               {form.values.email}
             </Text>{' '}
             отправлено письмо с инструкцией по установке нового пароля.
           </Text>
           <Text
             ta="center"
-            c="dimmed"
-            size="md"
-            style={{ fontFamily: 'PF Din Text Cond Pro' }}
+            size="xl"
+            fw={300}
           >
             Если письмо не пришло, проверьте папку 'Спам' или обратитесь в
             службу технической поддержки{' '}

@@ -22,7 +22,7 @@ export const TestsTab = () => {
     <ScrollArea mt="xl">
       <Table withColumnBorders withTableBorder>
         <Table.Thead>
-          <Table.Tr bg="gray.0">
+          <Table.Tr bg="complementaryBlue">
             <Table.Th w={300}>Наименование испытания</Table.Th>
             {objects.map((obj, idx) => (
               <Table.Th key={obj.id} ta="center">

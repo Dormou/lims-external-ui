@@ -2,6 +2,7 @@ import { Stack, Text, Group, Button } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { formatDate } from '../../../utils'
 import { useAppSelector } from '../../../store'
+import styles from './SuccessStep.module.css'
 
 export const SuccessStep = () => {
   const { applicationId, signedFileMeta } = useAppSelector(
@@ -17,11 +18,8 @@ export const SuccessStep = () => {
   return (
     <Stack gap={24} align="center" w="100%">
       <Text
-        style={{
-          fontFamily: 'PF Din Text Cond Pro',
-          fontSize: '20px',
-          fontWeight: 300,
-        }}
+        fw={300}
+        size="xl"
         ta="center"
       >
         Вы направили заявку {fileCreatedDate}. Пожалуйста, ожидайте ответ на
@@ -30,16 +28,14 @@ export const SuccessStep = () => {
 
       <Group
         p="xs"
-        style={{
-          border: '1px solid #005B9C',
-          borderRadius: '8px',
-          minWidth: '450px',
-          backgroundColor: '#F8F9FA',
-        }}
+        bg='white'
+        bd="1px solid primaryBlue"
+        miw={450}
+        className={styles.groupInfo}
         justify="space-between"
       >
         <Group gap="sm">
-          <Icon icon="mdi:file-check" width={32} height={32} color="#005B9C" />
+          <Icon icon="mdi:file-check" width={32} height={32} color="primaryBlue" />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
               {signedFileMeta?.fileName || 'Подписанная_заявка.pdf'}

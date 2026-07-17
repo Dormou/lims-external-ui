@@ -19,7 +19,7 @@ export const ProfileSection = ({
 }: ProfileSectionProps) => {
   return (
     <Box>
-      <Title order={3} c="#005B9C" mb={4}>
+      <Title order={3} c="primaryBlue" mb={4}>
         {title}
       </Title>
       {description && (
@@ -32,7 +32,7 @@ export const ProfileSection = ({
 
       {isDirty && (
         <Group justify="flex-end" mt="md">
-          <Button variant="outline" color="gray" onClick={onReset}>
+          <Button variant="outline" onClick={onReset}>
             Сбросить изменения
           </Button>
           <Button variant="filled" onClick={onSave}>

@@ -25,12 +25,9 @@ export const PreformStep = () => {
       <Text
         py={24}
         ta="center"
-        c="#212529"
-        style={{
-          fontFamily: 'PF Din Text Cond Pro',
-          fontWeight: 300,
-          fontSize: '20px',
-        }}
+        c="black"
+        fw={300}
+        size='xl'
       >
         В форме подачи заявки вам необходимо заполнить четыре раздела: Общая
         информация, Характеристики объектов испытаний, Требования к испытаниям и

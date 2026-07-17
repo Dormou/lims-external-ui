@@ -14,6 +14,7 @@ import {
 import { useForm } from '@mantine/form'
 import { IconX } from '@tabler/icons-react'
 import { useRegisterClientMutation } from '../../../api/clients/clientsApi'
+import styles from './RegistrationModal.module.css'
 
 export const RegistrationModal = ({
   opened,
@@ -81,7 +82,7 @@ export const RegistrationModal = ({
       withCloseButton={false}
     >
       <Group justify="flex-end" mb={isSuccess ? 0 : 32}>
-        <ActionIcon variant="subtle" color="gray" onClick={handleClose}>
+        <ActionIcon variant="subtle" color="dimmed" onClick={handleClose}>
           <IconX size={24} />
         </ActionIcon>
       </Group>
@@ -89,10 +90,10 @@ export const RegistrationModal = ({
       {!isSuccess ? (
         <form onSubmit={form.onSubmit(handleRegister)}>
           <Title
-            order={2}
+            size='xl'
+            fw={500}
             ta="center"
             mb={32}
-            style={{ fontFamily: 'DIN Pro', fontSize: 24 }}
           >
             Регистрация в АИС Управление испытаниями
           </Title>
@@ -101,12 +102,11 @@ export const RegistrationModal = ({
             <Grid.Col span={6}>
               <Stack gap={16}>
                 <Title
-                  order={4}
-                  c="#005B9C"
-                  style={{
-                    borderBottom: '2px solid #005B9C',
-                    paddingBottom: 8,
-                  }}
+                  size='xl'
+                  fw={500}
+                  c="primaryBlue"
+                  pb={8}
+                  className={styles.gridTitles}
                 >
                   Информация о пользователе
                 </Title>
@@ -139,12 +139,11 @@ export const RegistrationModal = ({
             <Grid.Col span={6}>
               <Stack gap={16}>
                 <Title
-                  order={4}
-                  c="#005B9C"
-                  style={{
-                    borderBottom: '2px solid #005B9C',
-                    paddingBottom: 8,
-                  }}
+                  size='xl'
+                  fw={500}
+                  c="primaryBlue"
+                  pb={8}
+                  className={styles.gridTitles}
                 >
                   Информация об организации
                 </Title>
@@ -188,16 +187,16 @@ export const RegistrationModal = ({
       ) : (
         <Stack align="center" gap={24} py={20}>
           <Title
-            order={2}
+            size='xl'
+            fw={500}
             ta="center"
-            style={{ fontFamily: 'DIN Pro', fontSize: 24 }}
           >
             Регистрация в АИС Управление испытаниями
           </Title>
           <Text
             ta="center"
-            size="lg"
-            style={{ fontFamily: 'PF Din Text Cond Pro' }}
+            size="xl"
+            fw={300}
           >
             На адрес{' '}
             <Text span fw={700}>
@@ -208,9 +207,8 @@ export const RegistrationModal = ({
           </Text>
           <Text
             ta="center"
-            c="dimmed"
-            size="md"
-            style={{ fontFamily: 'PF Din Text Cond Pro' }}
+            size="xl"
+            fw={300}
           >
             Если письмо не пришло, проверьте папку 'Спам' или обратитесь в
             службу технической поддержки{' '}
