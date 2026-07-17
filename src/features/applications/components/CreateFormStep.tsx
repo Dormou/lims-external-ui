@@ -17,6 +17,7 @@ import type {
   ParameterMeta,
   TestMeta,
 } from '../../../api/applications/types/types'
+import styles from './CreateFormStep.module.css'
 
 export const CreateFormStep = () => {
   const dispatch = useAppDispatch()
@@ -160,7 +161,7 @@ export const CreateFormStep = () => {
           notifications.show({
             title: 'Ошибка валидации заявки',
             message: errText,
-            color: 'red',
+            color: 'errorRed',
             autoClose: 5000,
           })
         })
@@ -168,7 +169,7 @@ export const CreateFormStep = () => {
         notifications.show({
           title: 'Ошибка',
           message: 'Не удалось сформировать заявку. Попробуйте позже.',
-          color: 'red',
+          color: 'errorRed',
         })
       }
     } finally {
@@ -177,14 +178,15 @@ export const CreateFormStep = () => {
   }
   return (
     <Box
-      style={{
-        display: 'flex',
-        flexGrow: 1,
-        flexDirection: 'column',
-        width: '100%',
-      }}
+      display="flex"
+      w="100%"
+      flex="1 1 auto"
+      className={styles.createFormStepContent}
     >
       <Tabs
+        display="flex"
+        flex="1 1 auto"
+        className={styles.tabsContent}
         value={state.activeTab}
         onChange={(val) =>
           dispatch(
@@ -192,21 +194,15 @@ export const CreateFormStep = () => {
           )
         }
         variant="custom"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
-          overflow: 'hidden',
-        }}
       >
-        <Tabs.List style={{ flexShrink: 0 }}>
+        <Tabs.List flex="0 0 auto">
           <Tabs.Tab value="general">Общая информация</Tabs.Tab>
           <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
           <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
           <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
         </Tabs.List>
 
-        <Box style={{ padding: '24px 0' }}>
+        <Box py={24}>
           <Tabs.Panel value="general">
             <GeneralInfoTab />
           </Tabs.Panel>
@@ -231,7 +227,7 @@ export const CreateFormStep = () => {
           withArrow
           position="top"
         >
-          <div style={{ display: 'inline-block' }}>
+          <Box display="inline-block">
             <Button
               variant="filled"
               size="lg"
@@ -242,7 +238,7 @@ export const CreateFormStep = () => {
             >
               Сформировать заявку
             </Button>
-          </div>
+          </Box>
         </Tooltip>
       </Group>
     </Box>

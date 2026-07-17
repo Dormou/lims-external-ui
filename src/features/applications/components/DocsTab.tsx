@@ -11,7 +11,7 @@ export const DocsTab = () => {
   )
 
   return (
-    <Stack gap="xl" w="100%" style={{ maxWidth: '600px', margin: '0 auto' }}>
+    <Stack gap="xl" w="100%" maw={600} mx="auto">
       <FileInput
         label="Нормативный документ, в соответствии с которым изготовлен(-ы) объект(-ы) испытаний"
         required

@@ -152,7 +152,7 @@ export const ParametersTab = () => {
     <ScrollArea mt="xl">
       <Table variant="simple" withColumnBorders withTableBorder>
         <Table.Thead>
-          <Table.Tr bg="#F1F3F5">
+          <Table.Tr bg="complementaryBlue">
             <Table.Th w={250}>Параметр</Table.Th>
             {state.objects.map((obj, idx) => (
               <Table.Th key={obj.id} ta="center">

@@ -1,0 +1,1 @@
+export { textInputConfig, passwordInputConfig, selectConfig, multiSelectConfig, pillConfig } from './input-config';

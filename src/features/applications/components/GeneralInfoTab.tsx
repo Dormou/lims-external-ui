@@ -153,7 +153,7 @@ export const GeneralInfoTab = () => {
               label={`Полное наименование объекта испытаний №${index + 1}`}
               placeholder="Введите полное наименование образца/типопредставителя согласно технической документации"
               required
-              style={{ flex: 1 }}
+              flex={1}
               value={obj.name}
               onChange={(e) =>
                 dispatch(
@@ -166,7 +166,7 @@ export const GeneralInfoTab = () => {
             />
             {objects.length > 1 && (
               <ActionIcon
-                color="red"
+                color="errorRed"
                 variant="subtle"
                 size="lg"
                 onClick={() =>

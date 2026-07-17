@@ -1,29 +1,20 @@
-import { Text } from '@mantine/core'
+import { Text, Box } from '@mantine/core';
+import styles from './Footer.module.css';
 
 export const Footer = () => {
   return (
-    <footer
-      style={{
-        height: '48px',
-        backgroundColor: '#005B9C',
-        boxShadow: '0 -2px 4px #ADB5BD',
-        padding: '8px 32px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
+    <Box
+      component="footer"
+      h={48}
+      bg="white"
+      px={32}
+      display="flex"
+      className={styles.footerContent}
     >
-      <Text
-        c="white"
-        style={{
-          fontFamily: 'PF Din Text Cond Pro, sans-serif',
-          fontWeight: 400,
-          fontSize: '16px',
-        }}
-      >
-        Разработано Департаментом цифровых технологий АО 'Россети
-        Научно-технический центр' ®
+      <Text c="dimmed" size="md">
+        Разработано Департаментом цифровых технологий АО "Россети
+        Научно-технический центр" ®
       </Text>
-    </footer>
-  )
-}
+    </Box>
+  );
+};
