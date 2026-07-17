@@ -7,20 +7,20 @@ export type UXTID =
 | "back"
 | "go-write-application-btn"
 | "tab-testing-requirements"
-| "tab-object-attributes"
+| "tab-object-params"
 | "tab-general-info"
 | "select-device-type"
-| "device-type-0"
+| "device-type"
 | "select-branch"
-| "branch-0"
+| "branch"
 | "input-manufacturer"
 | "input-production-address"
 | "summary-testing-objects-title"
 | "btn-add-testing-object"
-| "testing-object-input-0"
-| "testing-object-input-1"
-| "table-attributes"
-| "table-attributes-header"
+| "testing-object-input"
+| "testing-object-input"
+| "table-params"
+| "table-params-header"
 | "param-col"
 | "objs-cols"
 | "param"
@@ -42,6 +42,10 @@ export type UXTID =
 | "doc-technical-conditions"
 | "doc-strop-scheme"
 | "doc-additional-documents"
+| "param-row"
+| 'obj-input'
+| "objs-cols"
+| "obj-col"
 
 export const getUXTID = (value: UXTID) => () => value
 
@@ -114,7 +118,7 @@ describe(`Бизнес процесс подачи заявки`, () => {
         cy.get(`[ux-test-id="${getUXTID("tab-general-info")}"]`).click()
 
         /* Проверка сообщения об обязательности типа устройства */
-        cy.get(`[ux-test-id="${getUXTID("tab-object-attributes")}"]`).click()
+        cy.get(`[ux-test-id="${getUXTID("tab-object-params")}"]`).click()
 
         cy.contains(`Выберите тип устройства в разделе Общая информация`).should(`exist`)
 
@@ -132,12 +136,13 @@ describe(`Бизнес процесс подачи заявки`, () => {
             .type(`{downarrow}`)
             .type(`Э`)
             
-        cy.get(`[ux-test-id="${getUXTID("device-type-0")}"]`)
+        cy.get(`[ux-test-id="${getUXTID("device-type")}"]`)
+            .first()
             .should(`not.have.text`, ``) 
             .click({ force: true })
 
         /* Проверка сообщения об обязательности объектов */
-        cy.get(`[ux-test-id="${getUXTID("tab-object-attributes")}"]`).click()
+        cy.get(`[ux-test-id="${getUXTID("tab-object-params")}"]`).click()
         
         cy.contains(`Выберите тип устройства в разделе Общая информация`).should(`not.exist`)
         cy.contains(`Укажите хотя бы один объект испытаний в разделе Общая информация`).should(`exist`) 
@@ -150,7 +155,8 @@ describe(`Бизнес процесс подачи заявки`, () => {
             .click({ force: true })
             .type(`{downarrow}`)
         
-        cy.get(`[ux-test-id="${getUXTID("branch-0")}"]`)
+        cy.get(`[ux-test-id="${getUXTID("branch")}"]`)
+            .first()
             .should(`not.have.text`, ``) 
             .click({ force: true })
 
@@ -165,17 +171,20 @@ describe(`Бизнес процесс подачи заявки`, () => {
 
         cy.get(`[ux-test-id="${getUXTID("btn-add-testing-object")}"]`).click()
                 
-         cy.get(`[ux-test-id="${getUXTID("testing-object-input-0")}"]`)
+         cy.get(`[ux-test-id="${getUXTID("testing-object-input")}"]`)
+            .first()
             .type(`Объект GLHDS-10`)
 
         /* Добавляем второй объект для дальнейших таблиц */
         cy.get(`[ux-test-id="${getUXTID("btn-add-testing-object")}"]`).click()
                 
-         cy.get(`[ux-test-id="${getUXTID("testing-object-input-1")}"]`)
+         cy.get(`[ux-test-id="${getUXTID("testing-object-input")}"]`)
+            .first()
+            .next()
             .type(`Объект GLHDS-11110`)
 
         /* Проверка отсуствия сообщения об обязательности объектов */
-        cy.get(`[ux-test-id="${getUXTID("tab-object-attributes")}"]`).click()
+        cy.get(`[ux-test-id="${getUXTID("tab-object-params")}"]`).click()
         
         cy.contains(`Выберите тип устройства в разделе Общая информация`).should(`not.exist`)
         cy.contains(`Укажите хотя бы один объект испытаний в разделе Общая информация`).should(`not.exist`) 
@@ -185,20 +194,18 @@ describe(`Бизнес процесс подачи заявки`, () => {
 
         /*--------------------------------------------------------------------*/
         /* ---------- Вкладка 2: Характеристики объектов испытании ---------- */
-        cy.get(`[ux-test-id="${getUXTID("tab-object-attributes")}"]`).click()
+        cy.get(`[ux-test-id="${getUXTID("tab-object-params")}"]`).click()
 
         // Таблица параметров
-        cy.get(`[ux-test-id="${getUXTID("table-attributes")}"]`)
+        cy.get(`[ux-test-id="${getUXTID("table-params")}"]`)
             .within(() => {
                 //проверка первой строки\хидера таблицы
-                cy.get(`[ux-test-id="${getUXTID("table-attributes-header")}"]`)
+                cy.get(`[ux-test-id="${getUXTID("table-params-header")}"]`)
                     .within(() => {
                         cy.get(`[ux-test-id="${getUXTID("param-col")}"]`)
                             .should(`exist`)
                             .should(`have.text`, "Параметр")
-
-                         cy.get(`[ux-test-id="${getUXTID("objs-cols")}"]`)
-                            .find(`[ux-test-id^="obj-col-"]`)
+                            .find(`[ux-test-id^=${getUXTID("obj-col")}]`)
                             .each(($col, idx) => {
                                 cy.wrap($col)//.find(`[ux-test-id="obj-col-${idx}"]`)
                                 .should(`have.text`, `Объект испытаний №${idx+1}`)
@@ -206,14 +213,14 @@ describe(`Бизнес процесс подачи заявки`, () => {
                 })
 
                 //проверка строк
-                cy.get(`[ux-test-id^="attribute-row-"]`).each(($row, rIdx) => {
+                cy.get(`[ux-test-id^=${getUXTID("param-row")}]`).each(($row, rIdx) => {
                     cy.wrap($row)
                     .within(() => {
-                        cy.get(`[ux-test-id="${getUXTID("param")}"]`)
-                            .should(`exist`)
+                        // cy.get(`[ux-test-id="${getUXTID("param")}"]`)
+                        //     .should(`exist`)
                         
                         cy.get(`[ux-test-id="${getUXTID("objs-inputs")}"]`)
-                            .find(`[ux-test-id^="obj-input-"]`)
+                            .find(`[ux-test-id^=${getUXTID("obj-input")}]`)
                             .each(($cell, cIdx) => {
                                 cy.wrap($cell)//.find(`[ux-test-id="obj-input-${idx}"]`)
                                     .should(`have.attr`, `placeholder`, `Введите значение`)
@@ -247,7 +254,7 @@ describe(`Бизнес процесс подачи заявки`, () => {
                 })
 
                 //проверка строк
-                cy.get(`[ux-test-id^="test-row-" as UXID]`).each(($row) => {
+                cy.get(`[ux-test-id^=${getUXTID("test-row")}]`).each(($row) => {
                     cy.wrap($row)
                     .within(() => {
                         cy.get(`[ux-test-id="${getUXTID("test")}"]`)

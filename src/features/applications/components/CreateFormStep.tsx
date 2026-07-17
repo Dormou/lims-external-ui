@@ -202,9 +202,9 @@ export const CreateFormStep = () => {
       >
         <Tabs.List style={{ flexShrink: 0 }}>
           <Tabs.Tab ux-test-id={getUXTID("tab-general-info")} value="general">Общая информация</Tabs.Tab>
-          <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
-          <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
-          <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
+          <Tabs.Tab ux-test-id={getUXTID("tab-object-params")} value="params">Характеристики объектов испытаний</Tabs.Tab>
+          <Tabs.Tab ux-test-id={getUXTID("tab-testing-requirements")} value="tests">Требования к испытаниям</Tabs.Tab>
+          <Tabs.Tab ux-test-id={getUXTID("tab-technical-docs")} value="docs">Техническая документация</Tabs.Tab>
         </Tabs.List>
 
         <Box style={{ padding: '24px 0' }}>

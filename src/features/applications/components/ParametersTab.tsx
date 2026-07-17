@@ -8,6 +8,7 @@ import type {
   TestMeta,
   ValueType,
 } from '../../../api/applications/types/types'
+import { getUXTID } from '@/processes/pages/ApplicationsPage.test'
 
 export const ParametersTab = () => {
   const dispatch = useAppDispatch()
@@ -150,12 +151,12 @@ export const ParametersTab = () => {
 
   return (
     <ScrollArea mt="xl">
-      <Table variant="simple" withColumnBorders withTableBorder>
-        <Table.Thead>
-          <Table.Tr bg="#F1F3F5">
-            <Table.Th w={250}>Параметр</Table.Th>
+      <Table ux-test-id={getUXTID("table-params-header")} variant="simple" withColumnBorders withTableBorder>      
+        <Table.Thead ux-test-id={getUXTID("table-params-header")}>
+          <Table.Tr ux-testid={getUXTID("param-row")} bg="#F1F3F5">
+            <Table.Th ux-test-id={getUXTID("param-col")} w={250}>Параметр</Table.Th>
             {state.objects.map((obj, idx) => (
-              <Table.Th key={obj.id} ta="center">
+              <Table.Th ux-test-id={getUXTID("obj-col")} key={obj.id} ta="center">
                 Объект №{idx + 1}
                 <Text size="xs" c="dimmed" fw={400}>
                   {obj.name || 'Без названия'}
@@ -166,8 +167,8 @@ export const ParametersTab = () => {
         </Table.Thead>
         <Table.Tbody>
           {activeParams.map((param) => (
-            <Table.Tr key={param.parameterId}>
-              <Table.Td>
+            <Table.Tr ux-test-id={getUXTID("param-row")} key={param.parameterId}>
+              <Table.Td ux-test-id={getUXTID("objs-inputs")}>
                 <Text size="sm" fw={500}>
                   {param.parameterName}
                 </Text>
@@ -178,7 +179,7 @@ export const ParametersTab = () => {
                 )}
               </Table.Td>
               {state.objects.map((obj) => (
-                <Table.Td key={obj.id}>
+                <Table.Td ux-test-id={getUXTID("obj-input")} key={obj.id}>
                   {renderInput(
                     { ...param, valueType: param.valueType as ValueType },
                     obj.id
