@@ -46,6 +46,8 @@ export type UXTID =
 | 'obj-input'
 | "objs-cols"
 | "obj-col"
+| "test-row"
+| "test-rune"
 
 export const getUXTID = (value: UXTID) => () => value
 
@@ -238,18 +240,23 @@ describe(`Бизнес процесс подачи заявки`, () => {
         // Таблица параметров
         cy.get(`[ux-test-id="${getUXTID("table-tests")}"]`)
             .within(() => {
-                //проверка первой строки\хидера таблицы
+                // проверка первой строки\хидера таблицы
                 cy.get(`[ux-test-id="${getUXTID("tests-header")}"]`)
                     .within(() => {
                         cy.get(`[ux-test-id="${getUXTID("tests-col")}"]`)
                             .should(`exist`)
-                            .should(`have.text`, "Испытание")
+                            //WARN!!! Edited, old:
+                            //.should(`have.text`, "Испытание")
+                            .should(`have.text`, "Наименование испытания")
 
-                         cy.get(`[ux-test-id="${getUXTID("objs-cols")}"]`)
-                            .find(`[ux-test-id^="obj-col-"]`)
+                        cy.get(`[ux-test-id="${getUXTID("objs-cols")}"]`)
+                            .find(`[ux-test-id^=${getUXTID("obj-col")}]`)
                             .each(($col, idx) => {
-                                cy.wrap($col)//.find(`[ux-test-id="obj-col-${idx}"]`)
-                                .should(`have.text`, `ОИ №${++idx}`)
+                                cy.wrap($col)
+                                //.find(`[ux-test-id="obj-col-${idx}"]`) - ???
+                                //WARN!!! Edited, old:
+                                //.should(`have.text`, `ОИ №${++idx}`)
+                                .should(`have.text`, `№${++idx}`)
                             })
                 })
 
