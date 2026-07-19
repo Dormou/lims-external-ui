@@ -1,0 +1,14 @@
+export const CREATE_APPLICATION_ENDPOINTS = {
+  getClientConfirmed: '/clients/confirmed',
+  getMetadata: '/references/application-info',
+  createDraft: '/applications',
+  saveDraft: (applicationId: string) => `/applications/${applicationId}`,
+  generateApplication: (applicationId: string) =>
+    `/applications/${applicationId}/form-file`,
+  downloadApplicationFile: (applicationId: string) =>
+    `/applications/${applicationId}/raw-file`,
+  uploadSignedFile: (applicationId: string) =>
+    `/applications/${applicationId}/signed-file`,
+  downloadSignedFile: (applicationId: string) =>
+    `/applications/${applicationId}/signed-file`,
+}

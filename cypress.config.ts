@@ -1,6 +1,6 @@
 import { loadEnv } from 'vite'
 import { defineConfig } from 'cypress'
-import { RoutesPath } from './src/types/routesPath'
+import { RoutesPath } from './src/shared/config'
 
 const generatePathsE2Etests = () =>
   Object.keys(RoutesPath).map(

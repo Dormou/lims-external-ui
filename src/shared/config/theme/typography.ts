@@ -1,4 +1,4 @@
-import { rem } from "@mantine/core";
+import { rem } from '@mantine/core'
 
 export const typography = {
   fontFamily: {
@@ -24,4 +24,4 @@ export const typography = {
       h4: { fontSize: rem(18), fontWeight: '300', lineHeight: '1.2' },
     },
   },
-};
+}

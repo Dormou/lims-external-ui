@@ -1,0 +1,28 @@
+/* Контейнер табов */
+.list[data-variant='custom'] {
+  border-bottom: none;
+  gap: 24px;
+}
+
+/* Вкладка */
+.tab[data-variant='custom'] {
+  border: none;
+  background: transparent;
+  padding: 4px 16px;
+  font-weight: 400;
+  color: var(--mantine-color-darkGray-6);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+/* Активная вкладка */
+.tab[data-variant='custom'][data-active] {
+  color: var(--mantine-color-primaryBlue-6);
+  border-bottom-color: var(--mantine-color-primaryBlue-6);
+}
+
+/* Ховер на неактивной */
+.tab[data-variant='custom']:hover:not([data-active]) {
+  color: var(--mantine-color-primaryLight-6);
+  border-bottom-color: var(--mantine-color-lightGray-6);
+}
