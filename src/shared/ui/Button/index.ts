@@ -1,1 +1,0 @@
-export { buttonConfig, actionIconConfig } from './button-config';

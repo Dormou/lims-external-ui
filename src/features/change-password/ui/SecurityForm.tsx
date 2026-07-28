@@ -1,0 +1,152 @@
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import {
+  PasswordInput,
+  Button,
+  Group,
+  Stack,
+  Title,
+  Text,
+  Divider,
+  Box,
+  Grid,
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { setAuth, useChangePasswordMutation } from '@/entities/auth'
+import { useGetProfileQuery } from '@/entities/user'
+import { rootApi } from '@/shared/api'
+import { formatDate, getMonthNoun } from '@/shared/lib'
+import dayjs from 'dayjs'
+
+export const SecurityForm = () => {
+  const dispatch = useDispatch()
+
+  const { data } = useGetProfileQuery()
+
+  const [changePassword] = useChangePasswordMutation()
+
+  const lastUpdate = data?.passwordChangeDate
+  const monthsAgo = lastUpdate ? dayjs().diff(lastUpdate, 'month') : 0
+  const timeAgoText =
+    monthsAgo < 1
+      ? 'меньше месяца назад'
+      : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`
+  const isExpired = monthsAgo >= 3
+
+  const [isPasswordEditing, setIsPasswordEditing] = useState(false)
+
+  const passwordForm = useForm({
+    initialValues: {
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
+    validate: {
+      newPassword: (val) => (val.length < 6 ? 'Пароль слишком короткий' : null),
+      confirmPassword: (val, values) =>
+        val !== values.newPassword ? 'Пароли не совпадают' : null,
+    },
+  })
+
+  const handleSavePassword = async (values: typeof passwordForm.values) => {
+    try {
+      const saveResponse = await changePassword({
+        oldPassword: values.oldPassword,
+        newPassword: values.newPassword,
+      }).unwrap()
+
+      // Обновление данных авторизации
+      dispatch(setAuth(saveResponse))
+
+      // Обновление данных профиля
+      dispatch(rootApi.util.invalidateTags(['Profile']))
+
+      // Очистка формы
+      passwordForm.reset()
+      setIsPasswordEditing(false)
+
+      // Можно добавить уведомление об успехе
+    } catch (e) {
+      console.error('Ошибка смены пароля')
+    }
+  }
+
+  return (
+    <Box pt={20}>
+      <Title order={3} c="primaryBlue" mb={16}>
+        Безопасность
+      </Title>
+      <Divider mb={24} />
+
+      {!isPasswordEditing ? (
+        <Group justify="space-between" align="flex-end">
+          <Stack gap={4}>
+            <Text size="sm">
+              Последнее изменение пароля:{' '}
+              {lastUpdate ? formatDate(lastUpdate) : ''}
+              {lastUpdate && (
+                <Text span c={isExpired ? 'errorRed' : 'dimmed'} inherit ml={4}>
+                  ({timeAgoText})
+                </Text>
+              )}
+            </Text>
+
+            {isExpired && (
+              <Text size="xs" c="errorRed">
+                Рекомендуется менять пароль каждые 3 месяца
+              </Text>
+            )}
+          </Stack>
+          <Button
+            variant="outline"
+            size="md"
+            onClick={() => setIsPasswordEditing(true)}
+          >
+            Изменить пароль
+          </Button>
+        </Group>
+      ) : (
+        <form onSubmit={passwordForm.onSubmit(handleSavePassword)}>
+          <Grid gap="xl" align="flex-start">
+            <Grid.Col span={4}>
+              <PasswordInput
+                label="Текущий пароль"
+                placeholder="Введите текущий пароль"
+                {...passwordForm.getInputProps('oldPassword')}
+              />
+            </Grid.Col>
+            <Grid.Col span={4}>
+              <PasswordInput
+                label="Новый пароль"
+                placeholder="Введите новый пароль"
+                {...passwordForm.getInputProps('newPassword')}
+              />
+            </Grid.Col>
+            <Grid.Col span={4}>
+              <PasswordInput
+                label="Подтверждение пароля"
+                placeholder="Повторите новый пароль"
+                {...passwordForm.getInputProps('confirmPassword')}
+              />
+            </Grid.Col>
+          </Grid>
+
+          <Group justify="flex-end" mt="xl">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsPasswordEditing(false)
+                passwordForm.reset()
+              }}
+            >
+              Отмена
+            </Button>
+            <Button type="submit" variant="filled">
+              Сохранить пароль
+            </Button>
+          </Group>
+        </form>
+      )}
+    </Box>
+  )
+}

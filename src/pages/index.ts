@@ -1,0 +1,5 @@
+export { CreateApplicationPage } from './CreateApplication/CreateApplicationPage'
+export { HomePage } from './Home/HomePage'
+export { LoginPage } from './Login/LoginPage'
+export { ProfilePage } from './Profile/ProfilePage'
+export { SetupPasswordPage } from './SetupPassword/SetupPasswordPage'
