@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom'
 import { AppShell } from '@mantine/core'
 import { Header } from '../header/Header'
 import { Footer } from '../footer/Footer'
-import { SupportModal } from '../support-modal/SupportModal'
 
 export const MainLayout = () => {
   return (
@@ -20,8 +19,6 @@ export const MainLayout = () => {
       <AppShell.Footer withBorder={false}>
         <Footer />
       </AppShell.Footer>
-
-      <SupportModal />
 
     </AppShell>
   )
