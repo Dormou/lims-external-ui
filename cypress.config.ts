@@ -1,6 +1,7 @@
 import { loadEnv } from 'vite'
+
 import { defineConfig } from 'cypress'
-import { RoutesPath } from './src/types/routesPath'
+import { RoutesPath } from '@/types/routesPath'
 
 const generatePathsE2Etests = () =>
   Object.keys(RoutesPath).map(
@@ -16,7 +17,7 @@ const viteEnv = loadEnv(
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('file:preprocessor', vitePreprocessor())
     },
     specPattern: generatePathsE2Etests(),
     baseUrl: `http://localhost:${viteEnv.VITE_SERVER_PORT}`,
