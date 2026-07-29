@@ -1,0 +1,55 @@
+/* Фиксированная кнопка в правом нижнем углу экрана */
+.floatingButton {
+  position: fixed;
+  bottom: var(--mantine-spacing-xl);
+  right: var(--mantine-spacing-xl);
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 0;
+  background-color: var(--mantine-color-darkGray-6) !important;
+  transition: all 200ms ease;
+}
+
+.floatingButton:hover {
+  background-color: var(--mantine-color-lightGray-6) !important;
+  color: var(--mantine-color-primaryBlue-6);
+  transform: translateY(-4px);
+}
+
+/* Ссылка на email техподдержки */
+.supportEmail {
+  font-weight: 500;
+  color: var(--mantine-color-primaryBlue-6);
+  text-decoration: none;
+}
+
+.supportEmail:hover {
+  text-decoration: underline;
+}
+
+.content {
+  padding: var(--mantine-spacing-lg) !important;
+}
+
+.header {
+  padding: 0 0 var(--mantine-spacing-lg) 0 !important;
+  min-height: auto !important;
+  align-items: center !important;
+}
+
+.title {
+  width: 100% !important;
+  margin-right: -20px !important;
+}
+
+.body {
+    padding: 0;
+}
+
+.modalTitle {
+  flex: 1;
+  text-align: center;
+  color: var(--mantine-color-black-6);
+}

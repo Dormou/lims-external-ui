@@ -1,5 +1,7 @@
 import { Stack, Group, Text, Box, Image } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
+
+import { SupportModal } from '../support-modal/SupportModal'
 import styles from './OuterLayout.module.css'
 
 export const OuterLayout = () => {
@@ -28,6 +30,9 @@ export const OuterLayout = () => {
         </Stack>
       </Box>
       <Outlet />
+
+      <SupportModal />
+
     </Group>
   )
 }

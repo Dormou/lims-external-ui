@@ -13,7 +13,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@iconify/react": "^6.0.2",
     "@mantine/core": "^9.1.1",
-    "@mantine/dropzone": "^9.5.0",
+    "@mantine/dropzone": "^9.2.0",
     "@mantine/form": "^9.2.0",
     "@mantine/hooks": "^9.1.1",
     "@mantine/notifications": "^9.2.0",
