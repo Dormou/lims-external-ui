@@ -15,6 +15,7 @@ import {
   CreateApplicationPage,
   HomePage,
   ProfilePage,
+  DownloadDocumentsPage,
 } from '@/pages'
 
 export const Routes = () => {
@@ -33,6 +34,10 @@ export const Routes = () => {
             <Route
               path="*"
               element={<Navigate to={RoutesPath.Login} replace />}
+            />
+            <Route
+              path={RoutesPath.DownloadDocuments}
+              element={<DownloadDocumentsPage />}
             />
           </Route>
         ) : (
