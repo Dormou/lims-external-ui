@@ -58,6 +58,7 @@ const extendedApi = rootApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Profile'],
     }),
     setupPassword: builder.mutation<
       SetupPasswordResponse,

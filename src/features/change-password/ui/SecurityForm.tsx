@@ -14,7 +14,6 @@ import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { setAuth, useChangePasswordMutation } from '@/entities/auth'
 import { useGetProfileQuery } from '@/entities/user'
-import { rootApi } from '@/shared/api'
 import { formatDate, getMonthNoun } from '@/shared/lib'
 import dayjs from 'dayjs'
 
@@ -64,9 +63,6 @@ export const SecurityForm = () => {
 
       // Обновление данных авторизации
       dispatch(setAuth(saveResponse))
-
-      // Обновление данных профиля
-      dispatch(rootApi.util.invalidateTags(['Profile']))
 
       // Очистка формы
       passwordForm.reset()
