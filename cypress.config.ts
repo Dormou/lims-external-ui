@@ -1,12 +1,19 @@
 import { loadEnv } from 'vite'
 
 import { defineConfig } from 'cypress'
-import { RoutesPath } from '@/types/routesPath'
+import vitePreprocessor from 'cypress-vite'
 
-const generatePathsE2Etests = () =>
-  Object.keys(RoutesPath).map(
-    (routeName) => `src/pages/${routeName}/${routeName}Page.test.ts`
-  )
+import { RoutesPath } from './src/shared/config/routesPath'
+
+const FSDLayers = { 
+  pages: 'слой страниц', 
+  features: 'слой фич' 
+} as const
+
+
+const generatePathsE2Etests = () => Object.keys(FSDLayers).map(fsdl =>
+    Object.keys(RoutesPath).map(routeName => `src/processes/${fsdl}/${routeName}/${routeName}Page.test.ts`)
+).flat()
 
 const viteEnv = loadEnv(
   process.env.NODE_ENV || 'development',

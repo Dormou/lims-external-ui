@@ -1,0 +1,18 @@
+/* Box c с фоновым изображением для страниц авторизации */
+.contentBox {
+  overflow: hidden;
+}
+
+/* Полупрозрачный фоновый оверлей для страниц авторизации */
+.authBackground {
+  position: absolute;
+  inset: 0;
+  background: url('/login-bg.jpg') center / cover;
+  opacity: 0.25;
+  z-index: 1;
+}
+
+/* Stack для фонового изображения */
+.backGroundStack {
+  z-index: 2;
+}

@@ -26,6 +26,11 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [react(), command === 'build' && removeMockServiceWorker()],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src'),
+      },
+    },
     server: {
       port: serverPort,
       open: true,
@@ -40,7 +45,7 @@ export default defineConfig(({ command }) => {
     // исключение мок данных из сборки
     build: {
       rollupOptions: {
-        external: ['src/api/**/mock/**/*', 'src/mock.ts', 'cypress.config.ts'],
+        external: ['src/**/mock/**/*', 'cypress.config.ts'],
       },
     },
   }

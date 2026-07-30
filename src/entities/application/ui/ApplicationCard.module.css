@@ -1,0 +1,5 @@
+.appCardContent {
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}

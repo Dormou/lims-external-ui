@@ -1,0 +1,33 @@
+.header {
+  align-items: center;
+  gap: 40px;
+  box-shadow: 0 2px 4px var(--mantine-color-darkGray-6);
+  z-index: 10;
+}
+
+.headerLogo {
+  filter: brightness(0) invert(1);
+}
+
+.headerTitle {
+  user-select: none;
+}
+
+.userFrame {
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.menuDropdown {
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 4px var(--mantine-color-dimmed) !important;
+  border: none !important;
+}
+
+.menuItemInner {
+  justify-content: space-between;
+  align-items: center;
+}
