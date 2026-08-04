@@ -13,6 +13,8 @@ export const loginHandler: HttpHandler = http.post<
   try {
     const data = await request.json()
 
+    console.log('loginHandler', data)
+    
     if (data.email !== 'admin@ntc-power.ru' || data.password !== 'test1234')
       return HttpResponse.json(undefined, { status: 401 })
 

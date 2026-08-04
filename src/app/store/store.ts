@@ -6,7 +6,7 @@ import { applicationsApi } from '@/shared/api'
 import { referencesApi } from '@/shared/api'
 
 import { authSlice } from '@/entities/auth'
-import { createApplicationSlice } from '@/features/create-application'
+import { createApplicationSlice } from '@/features/create-application-form'
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,

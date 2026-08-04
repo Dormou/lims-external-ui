@@ -24,7 +24,7 @@ export const TestsTab = () => {
         <Table.Thead>
           <Table.Tr bg="complementaryBlue">
             <Table.Th w={300}>Наименование испытания</Table.Th>
-            {objects.map((obj, idx) => (
+            {objects.map((obj: any, idx: any) => (
               <Table.Th key={obj.id} ta="center">
                 №{idx + 1}
               </Table.Th>
@@ -40,7 +40,7 @@ export const TestsTab = () => {
                   {test.testMethod}
                 </Text>
               </Table.Td>
-              {objects.map((obj) => (
+              {objects.map((obj: any) => (
                 <Table.Td key={obj.id} ta="center">
                   <Checkbox
                     checked={tests[test.testId]?.[obj.id] || false}
