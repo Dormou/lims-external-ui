@@ -1,9 +1,7 @@
 import type { FileMeta } from './fileMeta'
 
 export type Application = {
-  id: string
-  status: string
-  updatedAt: string
+  producerName: any
   draft: {
     branchId: string | null
     equipmentTypeId: string | null

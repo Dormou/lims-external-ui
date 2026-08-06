@@ -1,12 +1,12 @@
-// import { http, HttpHandler, HttpResponse } from 'msw'
-// import type { GetClientConfirmedResponse } from '../../types/Responses'
+import { http, HttpHandler, HttpResponse } from 'msw'
+import type { GetClientConfirmedResponse } from '@/features/create-application-form/api/types/responses'
 
-// const ENDPOINT_URL = 'clients/confirmed'
+const ENDPOINT_URL = 'clients/confirmed'
 
-// export const getClientConfirmedHandler: HttpHandler = http.get<never, never, GetClientConfirmedResponse>(ENDPOINT_URL, async () => {
-//   setTimeout(() => undefined, 1000)
+export const getClientConfirmedHandler: HttpHandler = http.get<never, never, GetClientConfirmedResponse>(ENDPOINT_URL, async () => {
+  setTimeout(() => undefined, 1000)
 
-//   return HttpResponse.json<GetClientConfirmedResponse>({
-//     confirmed: true
-//   })
-// })
+  return HttpResponse.json<GetClientConfirmedResponse>({
+    confirmed: true
+  })
+})

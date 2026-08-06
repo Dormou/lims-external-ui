@@ -15,6 +15,8 @@ import {
   updateUserHandler,
 } from '@/entities/user'
 
+import { getClientConfirmedHandler } from '@/temp/mock/getClientConfirmedHandler'
+
 export const worker = setupWorker(
   ...[
     loginHandler,
@@ -28,5 +30,6 @@ export const worker = setupWorker(
     updateOrganizationHandler,
     updateTechContactHandler,
     updateUserHandler,
+    getClientConfirmedHandler,
   ]
 )

@@ -22,6 +22,7 @@ import { ParametersTab } from '../tabs/ParametersTab'
 import { TestsTab } from '../tabs/TestsTab'
 import { DocsTab } from '../tabs/DocsTab'
 import styles from './CreateFormStep.module.css'
+import { getUXTID } from '@/processes/UXTID'
 
 export const CreateFormStep = () => {
   const dispatch = useDispatch()
@@ -182,6 +183,7 @@ export const CreateFormStep = () => {
   }
   return (
     <Box
+      ux-test-id={getUXTID("add-application-preform")}
       display="flex"
       w="100%"
       flex="1 1 auto"

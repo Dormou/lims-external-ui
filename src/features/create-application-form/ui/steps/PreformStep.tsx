@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { Stack, Text, Button } from '@mantine/core'
 import { setApplicationId, setStep } from '../../model/createApplicationSlice'
 import { useCreateDraftMutation } from '../../api/createApplicationApi'
+import { getUXTID } from '@/processes/UXTID'
 
 export const PreformStep = () => {
   const dispatch = useDispatch()
@@ -44,7 +45,7 @@ export const PreformStep = () => {
         30 дней.
       </Text>
 
-      <Button variant="filled" onClick={handleStart}>
+      <Button ux-test-id={getUXTID("add-application")} variant="filled" onClick={handleStart}>
         Заполнить заявку
       </Button>
     </Stack>
