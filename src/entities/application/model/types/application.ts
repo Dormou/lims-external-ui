@@ -1,20 +1,14 @@
+import type { ApplicationDraft } from './applicationDraft'
+import type { ApplicationStatus } from './applicationStatus'
 import type { FileMeta } from './fileMeta'
 
 export type Application = {
   id: string
-  status: string
-  updatedAt: string
-  draft: {
-    branchId: string | null
-    equipmentTypeId: string | null
-    producerName: string | null
-    producerAddress: string | null
-    samples: any[]
-  }
+  status: ApplicationStatus
+  updatedAt: Date
+  draft: ApplicationDraft | null
   regulatoryDocument: FileMeta | null
-  specification: FileMeta | null
-  shema: FileMeta | null
-  additionalDocuments: FileMeta[]
+  additionalDocuments: FileMeta[] | null
   rawFile: FileMeta | null
   signedFile: FileMeta | null
 }

@@ -25,6 +25,6 @@ const proxyBaseQuery: BaseQueryFn<
 export const rootApi = createApi({
   reducerPath: 'api',
   baseQuery: proxyBaseQuery,
-  tagTypes: ['Profile'],
+  tagTypes: ['Profile', 'CreateApplication'],
   endpoints: () => ({}),
 })

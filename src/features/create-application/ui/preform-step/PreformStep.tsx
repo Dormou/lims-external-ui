@@ -1,10 +1,10 @@
-import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Stack, Text, Button } from '@mantine/core'
-import { setApplicationId, setStep } from '../../model/createApplicationSlice'
+import { RoutesPath } from '@/shared/config'
 import { useCreateDraftMutation } from '../../api/createApplicationApi'
 
 export const PreformStep = () => {
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [createDraft] = useCreateDraftMutation()
 
@@ -12,8 +12,7 @@ export const PreformStep = () => {
     try {
       const response = await createDraft().unwrap()
 
-      dispatch(setApplicationId(response.id))
-      dispatch(setStep(1))
+      navigate(`${RoutesPath.CreateApplication}?id=${response}`)
     } catch (error) {
       console.error('Не удалось создать черновик:', error)
       // Здесь можно добавить уведомление пользователю

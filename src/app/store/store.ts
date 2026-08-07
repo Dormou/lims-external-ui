@@ -1,8 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { createBaseQueryWithReauth, networkHolder, rootApi } from '@/shared/api'
-
 import { authSlice } from '@/entities/auth'
-import { createApplicationSlice } from '@/features/create-application'
 
 const realBaseQuery = createBaseQueryWithReauth({
   baseUrl:
@@ -21,7 +19,6 @@ networkHolder.activeBaseQuery = realBaseQuery
 const rootReducer = combineReducers({
   [rootApi.reducerPath]: rootApi.reducer,
   auth: authSlice.reducer,
-  createApplication: createApplicationSlice.reducer,
 })
 
 export const store = configureStore({

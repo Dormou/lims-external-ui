@@ -1,19 +1,17 @@
-import { useSelector } from 'react-redux'
 import { Stack, Text, Group, Button } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { formatDate } from '@/shared/lib'
+import { useGetApplication } from '../../lib/useGetApplication'
 import styles from './SuccessStep.module.css'
 
 export const SuccessStep = () => {
-  const { applicationId, signedFileMeta } = useSelector(
-    (state) => state.createApplication
-  )
+  const { applicationData } = useGetApplication()
 
-  const fileCreatedDate = signedFileMeta?.createdAt
-    ? formatDate(signedFileMeta.createdAt)
+  const fileCreatedDate = applicationData?.signedFile?.createdAt
+    ? formatDate(applicationData.signedFile.createdAt)
     : ''
 
-  const downloadSignedUrl = `/api/applications/${applicationId}/signed-file`
+  const downloadSignedUrl = `/api/applications/${applicationData?.id}/signed-file`
 
   return (
     <Stack gap={24} align="center" w="100%">
@@ -39,11 +37,13 @@ export const SuccessStep = () => {
           />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
-              {signedFileMeta?.fileName || 'Подписанная_заявка.pdf'}
+              {applicationData?.signedFile?.fileName ??
+                'Подписанная_заявка.pdf'}
             </Text>
             <Text size="xs" c="dimmed">
-              {signedFileMeta?.fileExtension?.toUpperCase() || 'PDF'} •{' '}
-              {signedFileMeta?.fileSize || 'Размер неизвестен'}
+              {applicationData?.signedFile?.fileExtension?.toUpperCase() ??
+                'PDF'}{' '}
+              • {applicationData?.signedFile?.fileSize ?? 'Размер неизвестен'}
             </Text>
           </Stack>
         </Group>

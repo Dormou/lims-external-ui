@@ -1,100 +1,68 @@
 import { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { notifications } from '@mantine/notifications'
 import { useSaveDraftMutation } from '../api/createApplicationApi'
+import type { UseFormReturn } from 'react-hook-form'
+import type { DraftForm } from '../model/draftSchema'
 
-export const useAutoSave = () => {
-  const currentStep = useSelector(
-    (state) => state.createApplication.currentStep
-  )
-  const id = useSelector((state) => state.createApplication.applicationId)
-  const branchId = useSelector((state) => state.createApplication.branchId)
-  const equipmentTypeId = useSelector(
-    (state) => state.createApplication.equipmentTypeId
-  )
-  const objects = useSelector((state) => state.createApplication.objects)
-  const parameters = useSelector((state) => state.createApplication.parameters)
-  const tests = useSelector((state) => state.createApplication.tests)
-  const producerName = useSelector(
-    (state) => state.createApplication.producerName
-  )
-  const producerAddress = useSelector(
-    (state) => state.createApplication.producerAddress
-  )
-  const regulatoryDocument = useSelector(
-    (state) => state.createApplication.regulatoryDocument
-  )
-  const additionalDocuments = useSelector(
-    (state) => state.createApplication.additionalDocuments
-  )
-
+export function useAutoSave({
+  form,
+  id,
+}: {
+  form: UseFormReturn<DraftForm>
+  id: string | null
+}) {
   const [saveDraft] = useSaveDraftMutation()
 
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Храним последнее отправленное значение, чтобы не слать одинаковые данные
+  const lastSavedValueRef = useRef<string | null>(null)
+
+  // Флаг для пропуска автосохранения
+  const skipSaveRef = useRef(false)
 
   useEffect(() => {
-    if (currentStep !== 1) return
-    if (!id) return
-
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-
-    timeoutRef.current = setTimeout(async () => {
-      const formData = new FormData()
-
-      formData.append('branchId', branchId || '')
-      formData.append('equipmentTypeId', equipmentTypeId || '')
-      formData.append('producerName', producerName || '')
-      formData.append('producerAddress', producerAddress || '')
-
-      const samples = objects.map((obj: any) => {
-        // Собираем параметры для данного объекта
-        const parameterValues = Object.keys(parameters).map((paramId) => ({
-          parameterId: paramId,
-          parameterValue: parameters[paramId]?.[obj.id] ?? null,
-        }))
-
-        // Собираем тесты для данного объекта
-        const testValues = Object.keys(tests).map((testId) => ({
-          testId: testId,
-          testValue: tests[testId]?.[obj.id] ?? false,
-        }))
-
-        return {
-          name: obj.name || '',
-          parameterValues: parameterValues,
-          testValues: testValues,
-        }
-      })
-      formData.append('samples', JSON.stringify(samples))
-
-      if (regulatoryDocument) {
-        formData.append('regulatoryDocument', regulatoryDocument)
+    const intervalId = setInterval(async () => {
+      if (!id || skipSaveRef.current) {
+        console.log('skipped')
+        return
       }
 
-      additionalDocuments?.forEach((file: File) => {
-        formData.append('additionalDocuments', file)
-      })
+      const currentValue = form.getValues()
+      const JSONValue = JSON.stringify(currentValue)
+
+      // Проверяем, изменились ли данные с последнего сохранения
+      if (JSONValue === lastSavedValueRef.current) {
+        console.log('identity')
+        return // Данные те же — не сохраняем
+      }
 
       try {
-        await saveDraft({ id: id, formData: formData }).unwrap()
-      } catch (e) {
-        console.error('Ошибка автосохранения:', e)
-      }
-    }, 2000)
+        console.log('saved')
+        await saveDraft({ id, draft: currentValue }).unwrap()
 
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [
-    currentStep,
-    id,
-    branchId,
-    equipmentTypeId,
-    objects,
-    parameters,
-    tests,
-    producerName,
-    producerAddress,
-    regulatoryDocument,
-    additionalDocuments,
-  ])
+        // Обновляем последнее сохранённое значение
+        lastSavedValueRef.current = JSONValue
+      } catch (e) {
+        notifications.show({
+          title: 'Ошибка автосохранения',
+          message: 'Не удалось сохранить черновик. Проверьте соединение.',
+          color: 'errorRed',
+          autoClose: 5000,
+        })
+        console.error('AutoSave error:', e)
+      }
+    }, 5000) // Интервал 10 секунд
+
+    // Очистка при размонтировании или изменении зависимостей
+    return () => clearInterval(intervalId)
+  }, [form, id, saveDraft])
+
+  const skipSaving = () => {
+    skipSaveRef.current = true
+  }
+
+  const restoreSaving = () => {
+    skipSaveRef.current = false
+  }
+
+  return { skipSaving, restoreSaving }
 }

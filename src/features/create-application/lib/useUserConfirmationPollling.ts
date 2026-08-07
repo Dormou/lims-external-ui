@@ -1,32 +1,20 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setIsUserConfirmed } from '../model/createApplicationSlice'
-import { useLazyGetClientConfirmedQuery } from '../api/createApplicationApi'
+import { useEffect, useState } from 'react'
+import { skipToken } from '@reduxjs/toolkit/query'
+import { useGetClientConfirmedQuery } from '../api/createApplicationApi'
 
 export const useUserConfirmationPolling = (intervalMs: number = 10000) => {
-  const dispatch = useDispatch()
-  const [getClientConfirmed] = useLazyGetClientConfirmedQuery()
+  const [isUserConfirmed, setUserConfirmed] = useState<boolean | undefined>(
+    undefined
+  )
 
-  const isUserConfirmed = useSelector(
-    (state) => state.createApplication.isUserConfirmed
+  const { data } = useGetClientConfirmedQuery(
+    isUserConfirmed ? skipToken : undefined,
+    { pollingInterval: intervalMs }
   )
 
   useEffect(() => {
-    if (isUserConfirmed) return
+    if (data && data.confirmed) setUserConfirmed(true)
+  }, [data])
 
-    const checkStatus = async () => {
-      try {
-        const confirmData = await getClientConfirmed().unwrap()
-        dispatch(setIsUserConfirmed(confirmData.confirmed))
-      } catch (e) {
-        console.error('Ошибка проверки подтверждения пользователя:', e)
-      }
-    }
-
-    checkStatus()
-
-    const intervalId = setInterval(checkStatus, intervalMs)
-
-    return () => clearInterval(intervalId)
-  }, [isUserConfirmed, intervalMs])
+  return { isUserConfirmed: data?.confirmed, confirmComment: data?.comment }
 }

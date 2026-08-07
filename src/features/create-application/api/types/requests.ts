@@ -1,3 +1,5 @@
+import type { DraftForm } from '../../model/draftSchema'
+
 export type UploadSignedFileRequest = {
   applicationId: string
   signedFile: File
@@ -5,5 +7,15 @@ export type UploadSignedFileRequest = {
 
 export type SaveDraftRequest = {
   id: string
-  formData: any
+  draft: DraftForm
+}
+
+export type UploadRegulatoryDocumentRequest = {
+  id: string
+  regulatoryDocument: File
+}
+
+export type UploadAdditionalDocumentsRequest = {
+  id: string
+  additionalDocuments: File[]
 }

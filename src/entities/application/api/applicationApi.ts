@@ -1,9 +1,10 @@
 import { rootApi } from '@/shared/api'
+import { v4 as uuidV4 } from 'uuid'
+import { APPLICATION_ENDPOINTS } from './types/endpoints'
 import type {
   GetAllApplicationsResponse,
   GetApplicationResponse,
 } from './types/responses'
-import { APPLICATION_ENDPOINTS } from './types/endpoints'
 
 const extendedApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,9 +16,24 @@ const extendedApi = rootApi.injectEndpoints({
     getApplication: builder.query<GetApplicationResponse, string>({
       query: (applicationId) =>
         APPLICATION_ENDPOINTS.getApplication(applicationId),
+      providesTags: ['CreateApplication'],
+      transformResponse: (baseQueryReturnValue: GetApplicationResponse) => {
+        return {
+          ...baseQueryReturnValue,
+          draft: baseQueryReturnValue.draft
+            ? {
+                ...baseQueryReturnValue.draft,
+                samples: baseQueryReturnValue.draft.samples.map((sample) => ({
+                  ...sample,
+                  id: uuidV4(),
+                })),
+              }
+            : null,
+        }
+      },
     }),
   }),
 })
 
-export const { useLazyGetApplicationQuery, useGetAllApplicationsQuery } =
+export const { useGetAllApplicationsQuery, useGetApplicationQuery } =
   extendedApi

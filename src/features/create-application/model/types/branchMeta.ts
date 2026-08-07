@@ -19,9 +19,9 @@ export type ParameterMeta = {
   index: number
   parameterUnit?: string | null
   valueType: ValueType
-  allowedValues?: string[]
-  maxValue?: string | null
-  minValue?: string | null
+  allowedValues?: string[] | null
+  maxValue?: number | null
+  minValue?: number | null
 }
 
 export type TestMeta = {

@@ -1,32 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
 import { Icon } from '@iconify/react'
-import {
-  setSignedFile,
-  setSignedFileMeta,
-  setStep,
-} from '../../model/createApplicationSlice'
 import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
+import type { Step } from '../CreateApplicationForm'
+import { useGetApplication } from '../../lib/useGetApplication'
 import styles from './SigningStep.module.css'
 
-export const SigningStep = () => {
-  const dispatch = useDispatch()
-
+export const SigningStep = ({
+  setCurrentStep,
+}: {
+  setCurrentStep: (value: Step) => void
+}) => {
+  const { applicationData } = useGetApplication()
   const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
 
-  const { applicationId, signedFile, generatedFile } = useSelector(
-    (state) => state.createApplication
-  )
+  const [signedFile, setSignedFile] = useState<File | null>(null)
 
   const handleSend = async () => {
-    if (!applicationId || !signedFile) return
+    if (!applicationData || !signedFile) return
     try {
-      const responseData = await uploadSignedFile({
-        applicationId,
+      await uploadSignedFile({
+        applicationId: applicationData?.id ?? '',
         signedFile,
       }).unwrap()
-      dispatch(setSignedFileMeta(responseData))
-      dispatch(setStep(3))
     } catch (e) {
       console.error('Ошибка отправки файла:', e)
     }
@@ -54,11 +50,11 @@ export const SigningStep = () => {
           />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
-              {generatedFile?.fileName || 'Заявка на испытания.pdf'}
+              {applicationData?.rawFile?.fileName ?? 'Заявка на испытания.pdf'}
             </Text>
             <Text size="xs" c="dimmed">
-              {generatedFile?.fileExtension?.toUpperCase() || 'PDF'} •{' '}
-              {generatedFile?.fileSize || 'Размер неизвестен'}
+              {applicationData?.rawFile?.fileExtension?.toUpperCase() ?? 'PDF'}{' '}
+              • {applicationData?.rawFile?.fileSize ?? 'Размер неизвестен'}
             </Text>
           </Stack>
         </Group>
@@ -66,7 +62,7 @@ export const SigningStep = () => {
           variant="subtle"
           size="xs"
           component="a"
-          href={`/api/applications/${applicationId}/raw-file`}
+          href={`/api/applications/${applicationData?.id}/raw-file`}
           download
         >
           <Icon icon="mdi:download" width={20} height={20} />
@@ -87,7 +83,7 @@ export const SigningStep = () => {
           placeholder="Нажмите, чтобы выбрать файл"
           leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
           value={signedFile}
-          onChange={(payload) => dispatch(setSignedFile(payload))}
+          onChange={(payload) => setSignedFile(payload)}
           clearable
         />
       </Box>
@@ -96,7 +92,7 @@ export const SigningStep = () => {
         <Button
           variant="outline"
           size="lg"
-          onClick={() => dispatch(setStep(1))}
+          onClick={() => setCurrentStep('draft')}
         >
           Редактировать заявку
         </Button>
