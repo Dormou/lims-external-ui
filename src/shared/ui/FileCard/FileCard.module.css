@@ -1,0 +1,7 @@
+.fileCard {
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--mantine-color-lightGray-6);
+  border-radius: var(--mantine-radius-sm);
+  gap: 12px;
+}

@@ -19,6 +19,7 @@ export const MainLayout = () => {
       <AppShell.Footer withBorder={false}>
         <Footer />
       </AppShell.Footer>
+
     </AppShell>
   )
 }
