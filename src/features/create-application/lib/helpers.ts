@@ -4,9 +4,10 @@ import type { SampleParameterForm, SampleTestForm } from '../model/draftSchema'
 /** Получить данные о параметрах и тестах от выбраных филиала и типа оборудования */
 export const getActiveMeta = (
   metadata: BranchMeta[] | undefined,
-  branchId: string,
-  equipmentTypeId: string
+  branchId: string | null,
+  equipmentTypeId: string | null
 ) => {
+  if (!branchId || !equipmentTypeId) return null
   return (
     metadata
       ?.find((branch) => branch.branchId === branchId)
@@ -21,7 +22,7 @@ export const getEmptyParams = (
   activeMeta: EquipmentTypeMeta
 ): SampleParameterForm[] => {
   return activeMeta.parameters.map((param) => ({
-    parameterId: param.parameterId,
+    ...param,
     parameterValue:
       param.valueType === 'Constant' && param.allowedValues
         ? param.allowedValues[0]
@@ -34,7 +35,7 @@ export const getEmptyTests = (
   activeMeta: EquipmentTypeMeta
 ): SampleTestForm[] => {
   return activeMeta.tests.map((test) => ({
-    testId: test.testId,
+    ...test,
     testValue: false,
   }))
 }

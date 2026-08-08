@@ -7,7 +7,6 @@ export type ApplicationDraft = {
 }
 
 export type Sample = {
-  id?: string
   name: string | null
   parameterValues: SampleParameter[]
   testValues: SampleTest[]

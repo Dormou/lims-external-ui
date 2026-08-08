@@ -1,17 +1,15 @@
 import { Stack, Text, Group, Button } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { formatDate } from '@/shared/lib'
-import { useGetApplication } from '../../lib/useGetApplication'
+import type { Application } from '@/entities/application'
 import styles from './SuccessStep.module.css'
 
-export const SuccessStep = () => {
-  const { applicationData } = useGetApplication()
-
-  const fileCreatedDate = applicationData?.signedFile?.createdAt
-    ? formatDate(applicationData.signedFile.createdAt)
+export const SuccessStep = ({ application }: { application: Application }) => {
+  const fileCreatedDate = application.signedFile?.createdAt
+    ? formatDate(application.signedFile.createdAt)
     : ''
 
-  const downloadSignedUrl = `/api/applications/${applicationData?.id}/signed-file`
+  const downloadSignedUrl = `/api/applications/${application.id}/signed-file`
 
   return (
     <Stack gap={24} align="center" w="100%">
@@ -37,13 +35,11 @@ export const SuccessStep = () => {
           />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
-              {applicationData?.signedFile?.fileName ??
-                'Подписанная_заявка.pdf'}
+              {application.signedFile?.fileName ?? 'Подписанная_заявка.pdf'}
             </Text>
             <Text size="xs" c="dimmed">
-              {applicationData?.signedFile?.fileExtension?.toUpperCase() ??
-                'PDF'}{' '}
-              • {applicationData?.signedFile?.fileSize ?? 'Размер неизвестен'}
+              {application.signedFile?.fileExtension?.toUpperCase() ?? 'PDF'} •{' '}
+              {application.signedFile?.fileSize ?? 'Размер неизвестен'}
             </Text>
           </Stack>
         </Group>

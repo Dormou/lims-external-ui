@@ -3,6 +3,9 @@ export const CREATE_APPLICATION_ENDPOINTS = {
   getMetadata: '/references/application-info',
   createDraft: '/applications',
   saveDraft: (applicationId: string) => `/applications/${applicationId}`,
+  //!!! Заполнить
+  uploadRegulatoryFile: (applicationId: string) => ``,
+  uploadAdditionalDocuments: (applicationId: string) => ``,
   generateApplication: (applicationId: string) =>
     `/applications/${applicationId}/form-file`,
   downloadApplicationFile: (applicationId: string) =>

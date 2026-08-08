@@ -13,6 +13,8 @@ import type {
   DownloadApplicationFileResponse,
   UploadSignedFileResponse,
   DownloadSignedFileResponse,
+  UploadRegulatoryDocumentResponse,
+  UploadAdditionalDocumentsResponse,
 } from './types/responses'
 
 const extendedApi = rootApi.injectEndpoints({
@@ -37,19 +39,25 @@ const extendedApi = rootApi.injectEndpoints({
       query: (data) => {
         const formData = new FormData()
 
-        formData.append('branchId', data.draft.branchId)
-        formData.append('equipmentTypeId', data.draft.equipmentTypeId)
+        formData.append('branchId', data.draft.branchId ?? '')
+        formData.append('equipmentTypeId', data.draft.equipmentTypeId ?? '')
         formData.append('producerName', data.draft.producerName)
         formData.append('producerAddress', data.draft.producerAddress)
 
         const cleanSamples = data.draft.samples.map((sample) => ({
           name: sample.name,
-          parameterValues: sample.parameterValues.filter(
-            (param) => param.parameterValue !== ''
-          ),
-          testValues: sample.testValues.filter(
-            (test) => test.testValue !== false
-          ),
+          parameterValues: sample.parameterValues
+            .filter((param) => !!param.parameterValue)
+            .map((param) => ({
+              parameterId: param.parameterId,
+              parameterValue: param.parameterValue,
+            })),
+          testValues: sample.testValues
+            .filter((test) => test.testValue !== false)
+            .map((test) => ({
+              testId: test.testId,
+              testValue: test.testValue,
+            })),
         }))
 
         formData.append('samples', JSON.stringify(cleanSamples))
@@ -63,7 +71,7 @@ const extendedApi = rootApi.injectEndpoints({
     }),
     // Загрузить нормативный документ в черновике (!!!временное решение)
     uploadRegulatoryDocument: builder.mutation<
-      void,
+      UploadRegulatoryDocumentResponse,
       UploadRegulatoryDocumentRequest
     >({
       query: (data) => {
@@ -71,16 +79,15 @@ const extendedApi = rootApi.injectEndpoints({
         formData.append('regulatoryDocument', data.regulatoryDocument)
 
         return {
-          url: CREATE_APPLICATION_ENDPOINTS.saveDraft(data.id),
-          method: 'PATCH',
+          url: CREATE_APPLICATION_ENDPOINTS.uploadRegulatoryFile(data.id),
+          method: 'POST',
           body: formData,
         }
       },
-      invalidatesTags: ['CreateApplication'],
     }),
     // Загрузить дополнительные файлы в черновике (!!!временное решение)
     uploadAdditionalDocuments: builder.mutation<
-      void,
+      UploadAdditionalDocumentsResponse,
       UploadAdditionalDocumentsRequest
     >({
       query: (data) => {
@@ -90,12 +97,11 @@ const extendedApi = rootApi.injectEndpoints({
         })
 
         return {
-          url: CREATE_APPLICATION_ENDPOINTS.saveDraft(data.id),
-          method: 'PATCH',
+          url: CREATE_APPLICATION_ENDPOINTS.uploadAdditionalDocuments(data.id),
+          method: 'POST',
           body: formData,
         }
       },
-      invalidatesTags: ['CreateApplication'],
     }),
     // Сформировать заявку
     generateApplication: builder.mutation<GenerateApplicationResponse, string>({

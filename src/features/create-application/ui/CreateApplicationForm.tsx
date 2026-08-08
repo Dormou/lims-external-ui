@@ -1,6 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Stack, Group, Button, Title, Center, Loader } from '@mantine/core'
+import {
+  Stack,
+  Group,
+  Button,
+  Title,
+  Center,
+  Loader,
+  Text,
+} from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { RoutesPath } from '@/shared/config'
 import { DraftStep } from './draft-step/DraftStep'
@@ -36,39 +44,65 @@ export const CreateApplicationForm = () => {
     }
   }, [applicationData])
 
-  return (
-    <Stack gap={24} h="100%" w="100%">
-      <Group h={45} justify="center" pos="relative">
+  if (isApplicationLoading || isMetadataLoading)
+    return (
+      <Center h={400}>
+        <Loader size="xl" />
+      </Center>
+    )
+  else if (currentStep !== 'preform' && !applicationData)
+    return (
+      <Stack h="stretch" justify="center" align="center">
+        <Icon icon="mdi:error-outline" width={48} height={48} opacity={0.3} />
+        <Text c="dimmed" size="xl">
+          Не удалось загрузить заявку, пожалуйста попробуйте позже
+        </Text>
         <Button
           variant="subtle"
           color="primaryBlue"
-          leftSection={<Icon icon="mdi:chevron-left" width="24" height="24" />}
           onClick={() => navigate(RoutesPath.Home)}
-          pos="absolute"
-          left={0}
         >
-          Назад
+          Вернуться на главную
         </Button>
+      </Stack>
+    )
+  else
+    return (
+      <Stack gap={24} h="100%" w="100%">
+        <Group h={45} justify="center" pos="relative">
+          <Button
+            variant="subtle"
+            color="primaryBlue"
+            leftSection={
+              <Icon icon="mdi:chevron-left" width="24" height="24" />
+            }
+            onClick={() => navigate(RoutesPath.Home)}
+            pos="absolute"
+            left={0}
+          >
+            Назад
+          </Button>
 
-        <Title c="black" order={2}>
-          Новая заявка
-        </Title>
-      </Group>
+          <Title c="black" order={2}>
+            Новая заявка
+          </Title>
+        </Group>
 
-      {isApplicationLoading || isMetadataLoading ? (
-        <Center h={400}>
-          <Loader size="xl" />
-        </Center>
-      ) : (
         <Stack align="center" flex="1 1 auto">
           {currentStep == 'preform' && <PreformStep />}
-          {currentStep == 'draft' && <DraftStep />}
-          {currentStep == 'signing' && (
-            <SigningStep setCurrentStep={setCurrentStep} />
+          {currentStep == 'draft' && applicationData && (
+            <DraftStep application={applicationData} />
           )}
-          {currentStep == 'success' && <SuccessStep />}
+          {currentStep == 'signing' && applicationData && (
+            <SigningStep
+              setCurrentStep={setCurrentStep}
+              application={applicationData}
+            />
+          )}
+          {currentStep == 'success' && applicationData && (
+            <SuccessStep application={applicationData} />
+          )}
         </Stack>
-      )}
-    </Stack>
-  )
+      </Stack>
+    )
 }

@@ -3,24 +3,25 @@ import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
 import type { Step } from '../CreateApplicationForm'
-import { useGetApplication } from '../../lib/useGetApplication'
+import type { Application } from '@/entities/application'
 import styles from './SigningStep.module.css'
 
 export const SigningStep = ({
   setCurrentStep,
+  application,
 }: {
   setCurrentStep: (value: Step) => void
+  application: Application
 }) => {
-  const { applicationData } = useGetApplication()
   const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
 
   const [signedFile, setSignedFile] = useState<File | null>(null)
 
   const handleSend = async () => {
-    if (!applicationData || !signedFile) return
+    if (!application || !signedFile) return
     try {
       await uploadSignedFile({
-        applicationId: applicationData?.id ?? '',
+        applicationId: application.id,
         signedFile,
       }).unwrap()
     } catch (e) {
@@ -50,11 +51,11 @@ export const SigningStep = ({
           />
           <Stack gap={0}>
             <Text size="sm" fw={500}>
-              {applicationData?.rawFile?.fileName ?? 'Заявка на испытания.pdf'}
+              {application.rawFile?.fileName ?? 'Заявка на испытания.pdf'}
             </Text>
             <Text size="xs" c="dimmed">
-              {applicationData?.rawFile?.fileExtension?.toUpperCase() ?? 'PDF'}{' '}
-              • {applicationData?.rawFile?.fileSize ?? 'Размер неизвестен'}
+              {application.rawFile?.fileExtension?.toUpperCase() ?? 'PDF'} •{' '}
+              {application.rawFile?.fileSize ?? 'Размер неизвестен'}
             </Text>
           </Stack>
         </Group>
@@ -62,7 +63,7 @@ export const SigningStep = ({
           variant="subtle"
           size="xs"
           component="a"
-          href={`/api/applications/${applicationData?.id}/raw-file`}
+          href={`/api/applications/${application.id}/raw-file`}
           download
         >
           <Icon icon="mdi:download" width={20} height={20} />

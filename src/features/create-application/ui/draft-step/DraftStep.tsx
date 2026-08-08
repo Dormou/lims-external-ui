@@ -1,55 +1,36 @@
-import {
-  FormProvider,
-  useForm,
-  type FieldErrors,
-  type FieldValues,
-} from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { FormProvider, useForm, type FieldErrors } from 'react-hook-form'
+import { useState } from 'react'
 import { Tabs, Group, Tooltip, Button, Stack } from '@mantine/core'
-import { notifications } from '@mantine/notifications'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  draftSchema,
-  type DraftForm,
-  type SampleForm,
-} from '../../model/draftSchema'
-import { useGetApplication } from '../../lib/useGetApplication'
+import { draftSchema } from '../../model/draftSchema'
 import {
   useGenerateApplicationMutation,
-  useGetMetadataQuery,
   useSaveDraftMutation,
 } from '../../api/createApplicationApi'
-import { getActiveMeta, getEmptyParams, getEmptyTests } from '../../lib/helpers'
 import { useUserConfirmationPolling } from '../../lib/useUserConfirmationPollling'
 import { useAutoSave } from '../../lib/useAutoSave'
 import { GeneralInfoTab } from '../draft-tabs/GeneralInfoTab'
 import { ParametersTab } from '../draft-tabs/ParametersTab'
 import { TestsTab } from '../draft-tabs/TestsTab'
 import { DocsTab } from '../draft-tabs/DocsTab'
+import { useDraftRestore } from '../../lib/useDraftRestore'
+import { draftFilesSchema } from '../../model/draftFilesSchema'
+import type { DraftForm } from '../../model/draftSchema'
+import type { DraftFilesForm } from '../../model/draftFilesSchema'
+import type { Application } from '@/entities/application'
 import styles from './DraftStep.module.css'
 
 type Tab = 'general' | 'params' | 'tests' | 'docs'
 
-export const DraftStep = () => {
-  const { applicationId, draftData, applicationData } = useGetApplication()
-  const { data: metadata } = useGetMetadataQuery()
-  const { isUserConfirmed, confirmComment } = useUserConfirmationPolling()
-
+export const DraftStep = ({ application }: { application: Application }) => {
   const [saveDraft, { isLoading: isSaving }] = useSaveDraftMutation()
   const [generateApplication, { isLoading: isGenerating }] =
     useGenerateApplicationMutation()
 
+  // Активная вкладка
   const [activeTab, setActiveTab] = useState<Tab>('general')
 
-  /** Для правильной работы формы на этапах параметров и тестов
-   *  необходимо чтобы оперируемые данные находились до
-   *  загрузки инпутов. Из-за того что параметры и тесты
-   *  не содержаться все сразу в application.draft.samples
-   *  привязка к ним осуществляется на 3 этапах:
-   *  - При загрузке формы
-   *  - При создании нового объекта
-   *  - При смене equipmentTypeId
-   */
+  // Основная форма
   const draftForm = useForm<DraftForm>({
     defaultValues: {
       branchId: '',
@@ -62,183 +43,110 @@ export const DraftStep = () => {
     mode: 'onSubmit',
   })
 
-  const { skipSaving, restoreSaving } = useAutoSave({
-    form: draftForm,
-    id: applicationId,
+  // Форма с файлами
+  const draftFilesForm = useForm<DraftFilesForm>({
+    defaultValues: {
+      regulatoryDocument: null,
+      additionalDocuments: [],
+    },
+    resolver: zodResolver(draftFilesSchema),
+    mode: 'onSubmit',
   })
 
-  // Восстановление формы после загрузки
-  useEffect(() => {
-    if (draftData && metadata) {
-      const { branchId, equipmentTypeId } = draftData
+  // Подтверждение пользователя
+  const { isUserConfirmed, confirmComment } = useUserConfirmationPolling()
+  // Восстановление черновика
+  useDraftRestore(application, draftForm, draftFilesForm)
+  // Автосохранение черновика
+  const { skipSaving, restoreSaving } = useAutoSave(application.id, draftForm)
 
-      if (equipmentTypeId === '') {
-        draftForm.reset({ ...draftData })
-        return
-      }
+  // Проверка валидации формы с файлами
+  const validateFiles = async () => {
+    return draftFilesForm.trigger()
+  }
 
-      const activeMeta = getActiveMeta(metadata, branchId, equipmentTypeId)
-
-      if (activeMeta) {
-        const restoreSamples: SampleForm[] = []
-
-        for (const sample of draftData.samples) {
-          // Восстановление параметров
-          const restoreParams = getEmptyParams(activeMeta)
-          for (const param of sample.parameterValues) {
-            const foundParam = restoreParams.find(
-              (item) => item.parameterId === param.parameterId
-            )
-            if (foundParam) foundParam.parameterValue = param.parameterValue
-          }
-
-          // Восстановление тестов
-          const restoreTests = getEmptyTests(activeMeta)
-          for (const test of sample.testValues) {
-            const foundTest = restoreTests.find(
-              (item) => item.testId === test.testId
-            )
-            if (foundTest) foundTest.testValue = test.testValue
-          }
-          // Собираем восстановленные сэмплы
-          restoreSamples.push({
-            ...sample,
-            parameterValues: restoreParams,
-            testValues: restoreTests,
-          })
-        }
-
-        draftForm.reset({
-          ...draftData,
-          samples: restoreSamples,
-        })
-      } else {
-        notifications.show({
-          title: 'Не удалось восстановить данные заявки',
-          message: 'Нет данных для выбранного филиала или типа оборудования',
-          color: 'errorRed',
-          autoClose: 5000,
-        })
-      }
-    }
-  }, [draftData, metadata])
-
-  // Вызывается только когда форма проходит валидацию
+  // Вызывается только когда основная форма проходит валидацию
   const onValidSubmit = async (data: DraftForm) => {
-    if (!applicationId) return
-
-    //!!! Проверка обязательного файла (пока не находится в черновике - валидация вручную)
-    if (!applicationData?.regulatoryDocument) {
-      notifications.show({
-        title: 'Ошибка валидации заявки',
-        message:
-          'Не выбран нормативный документ в разделе Техническая документация',
-        color: 'errorRed',
-        autoClose: 5000,
-      })
+    // Валидируем форму с файлами
+    if (!(await validateFiles())) {
+      console.log('Исправьте ошибки в разделе Техническая документация')
       return
     }
 
+    // Отключаем автосохранение
     skipSaving()
+
+    // Сохраняем в ручном режиме
     try {
       await saveDraft({
-        id: applicationId,
-        draft: draftForm.getValues(),
+        id: application.id,
+        draft: data,
       }).unwrap()
-    } catch (e) {
-      notifications.show({
-        title: 'Ошибка запроса',
-        message: 'Не удалось сохранить черновик заявки',
-        color: 'errorRed',
-        autoClose: 5000,
-      })
+    } catch (error) {
+      console.log('Не удалось сохранить черновик заявки')
       restoreSaving()
       return
     }
 
+    // Формируем заявку
     try {
-      await generateApplication(applicationId).unwrap()
-    } catch (error: any) {
-      if (error.response?.status === 422 && error.response?.data?.errors) {
-        const backendErrors: string[] = error.response.data.errors
-
-        backendErrors.forEach((errText) => {
-          notifications.show({
-            title: 'Ошибка валидации заявки',
-            message: errText,
-            color: 'errorRed',
-            autoClose: 5000,
-          })
-        })
-      } else {
-        notifications.show({
-          title: 'Ошибка',
-          message: 'Не удалось сформировать заявку. Попробуйте позже.',
-          color: 'errorRed',
-        })
-      }
+      await generateApplication(application.id).unwrap()
+    } catch (error) {
+      console.log('Не удалось сформировать заявку')
     }
+
+    // Восстанавливаем автосохранение
     restoreSaving()
   }
 
-  const getFirstErrorMessage = (
-    errors: FieldErrors<FieldValues>
-  ): string | null => {
-    if (!errors || typeof errors !== 'object') return null
+  // Вызывается при наличии ошибок основной формы
+  const onInvalidSubmit = async (errors: FieldErrors<DraftForm>) => {
+    const isFilesValid = await validateFiles()
 
-    // Проверяем, является ли текущий объект ошибкой со свойством message
-    if ('message' in errors && typeof errors.message === 'string') {
-      return errors.message
+    // Ошибка в разделе Общая информация
+    const generalError = Object.values(errors).find((error) => error.message)
+    if (generalError) {
+      console.log('Исправьте ошибки в разделе Общая информация')
+      return
     }
 
-    // Рекурсивно перебираем все вложенные ключи (поля формы, индексы массивов)
-    for (const key in errors) {
-      if (Object.prototype.hasOwnProperty.call(errors, key)) {
-        // Приводим вложенный элемент к типу FieldErrors, так как структура рекурсивна
-        const nestedError = errors[key] as FieldErrors<FieldValues> | undefined
-
-        if (nestedError) {
-          const result = getFirstErrorMessage(nestedError)
-          if (result) return result // Нашли первую ошибку — сразу возвращаем
-        }
-      }
+    // Ошибка в разделе Характеристики объектов и испытаний
+    const parametersError = Array.isArray(errors.samples)
+    if (parametersError) {
+      console.log(
+        'Исправьте ошибки в разделе Характеристики объектов и испытаний'
+      )
+      return
     }
 
-    return null
-  }
+    // Ошибка в разделе Техническая документация
+    if (!isFilesValid) {
+      console.log('Исправьте ошибки в разделе Техническая документация')
+      return
+    }
 
-  // Вызывается при наличии ошибок формы
-  const onInvalidSubmit = (errors: FieldErrors<DraftForm>) => {
-    const firstError = getFirstErrorMessage(errors)
-    notifications.show({
-      title: 'Ошибка валидации заявки',
-      message: firstError ?? 'Неизвестная ошибка',
-      color: 'errorRed',
-      autoClose: 5000,
-    })
-    console.log(firstError)
+    console.log('Неизвестная ошибка валидации')
   }
 
   return (
-    <FormProvider {...draftForm}>
-      <Stack w="stretch" h="stretch">
-        <Tabs
-          display="flex"
-          flex="1 1 auto"
-          className={styles.tabsContent}
-          value={activeTab}
-          onChange={(value) => setActiveTab((value as Tab) ?? 'general')}
-          variant="custom"
-        >
-          <Tabs.List>
-            <Tabs.Tab value="general">Общая информация</Tabs.Tab>
-            <Tabs.Tab value="params">
-              Характеристики объектов испытаний
-            </Tabs.Tab>
-            <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
-            <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
-          </Tabs.List>
+    <Stack w="stretch" h="stretch">
+      <Tabs
+        display="flex"
+        flex="1 1 auto"
+        className={styles.tabsContent}
+        value={activeTab}
+        onChange={(value) => setActiveTab((value as Tab) ?? 'general')}
+        variant="custom"
+        keepMounted={false}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="general">Общая информация</Tabs.Tab>
+          <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
+          <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
+          <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
+        </Tabs.List>
 
+        <FormProvider {...draftForm}>
           <Tabs.Panel value="general" h="stretch">
             <GeneralInfoTab />
           </Tabs.Panel>
@@ -248,33 +156,35 @@ export const DraftStep = () => {
           <Tabs.Panel value="tests" h="stretch">
             <TestsTab />
           </Tabs.Panel>
-          <Tabs.Panel value="docs" h="stretch">
-            <DocsTab />
-          </Tabs.Panel>
-        </Tabs>
+        </FormProvider>
 
-        <Group justify="center" flex="0 0 auto">
-          <Tooltip
-            label={confirmComment}
-            disabled={isUserConfirmed}
-            multiline
-            w={300}
-            withArrow
-            position="top"
+        <FormProvider {...draftFilesForm}>
+          <Tabs.Panel value="docs" h="stretch">
+            <DocsTab applicationId={application.id} />
+          </Tabs.Panel>
+        </FormProvider>
+      </Tabs>
+      <Group justify="center" flex="0 0 auto">
+        <Tooltip
+          label={confirmComment}
+          disabled={isUserConfirmed}
+          multiline
+          w={300}
+          withArrow
+          position="top"
+        >
+          <Button
+            variant="filled"
+            type="submit"
+            size="lg"
+            disabled={!isUserConfirmed}
+            loading={isGenerating || isSaving}
+            onClick={draftForm.handleSubmit(onValidSubmit, onInvalidSubmit)}
           >
-            <Button
-              variant="filled"
-              type="submit"
-              size="lg"
-              disabled={!isUserConfirmed}
-              loading={isGenerating || isSaving}
-              onClick={draftForm.handleSubmit(onValidSubmit, onInvalidSubmit)}
-            >
-              Сформировать заявку
-            </Button>
-          </Tooltip>
-        </Group>
-      </Stack>
-    </FormProvider>
+            Сформировать заявку
+          </Button>
+        </Tooltip>
+      </Group>
+    </Stack>
   )
 }

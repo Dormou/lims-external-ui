@@ -12,9 +12,13 @@ import {
   Box,
 } from '@mantine/core'
 import { IconTrash, IconPlus } from '@tabler/icons-react'
-import { Controller, FieldArray, useFormContext } from 'react-hook-form'
-import { useEffect, useMemo } from 'react'
-import { v4 as uuidV4 } from 'uuid'
+import {
+  Controller,
+  useFieldArray,
+  useFormContext,
+  useWatch,
+} from 'react-hook-form'
+import { useMemo } from 'react'
 import { useGetMetadataQuery } from '../../api/createApplicationApi'
 import { getActiveMeta, getEmptyParams, getEmptyTests } from '../../lib/helpers'
 import type { DraftForm, SampleForm } from '../../model/draftSchema'
@@ -22,13 +26,17 @@ import type { DraftForm, SampleForm } from '../../model/draftSchema'
 export const GeneralInfoTab = () => {
   const { data: metadata } = useGetMetadataQuery()
 
-  const { getValues, setValue, control, watch, formState } =
+  const { getValues, setValue, control, formState } =
     useFormContext<DraftForm>()
-  const { errors } = formState
 
-  const branchId = watch('branchId')
-  const equipmentTypeId = watch('equipmentTypeId')
+  const branchId = useWatch({ control: control, name: 'branchId' })
 
+  const { fields, append, remove } = useFieldArray({
+    control: control,
+    name: 'samples',
+  })
+
+  // Данные для селекта филиала
   const branchData = useMemo(
     () =>
       metadata?.map((branch) => ({
@@ -38,6 +46,7 @@ export const GeneralInfoTab = () => {
     [metadata]
   )
 
+  // Данные для селекта типа оборудования
   const equipmentData = useMemo(
     () =>
       metadata
@@ -49,39 +58,19 @@ export const GeneralInfoTab = () => {
     [metadata, branchId]
   )
 
-  // Обнуляем параметры и тесты при смене типа оборудования
-  useEffect(() => {
-    const samples = getValues('samples')
-    if (samples.length == 0) return
-
-    const activeMeta = getActiveMeta(metadata, branchId, equipmentTypeId)
-
-    // Смена параметров и тестов
-    if (activeMeta) {
-      samples.forEach((_, index) => {
-        setValue(`samples.${index}.parameterValues`, getEmptyParams(activeMeta))
-        setValue(`samples.${index}.testValues`, getEmptyTests(activeMeta))
-      })
-    }
-    // Полное удаление
-    else {
-      samples.forEach((_, index) => {
-        setValue(`samples.${index}.parameterValues`, [])
-        setValue(`samples.${index}.testValues`, [])
-      })
-    }
-  }, [equipmentTypeId])
-
-  // Создание объекта с пустыми параметрами и тестами в зависимости от текущего типа оборудования
+  // Создание сэмпла с пустыми параметрами и тестами в зависимости от текущего типа оборудования
   const getNewSample = (): SampleForm => {
     const newSample: SampleForm = {
-      id: uuidV4(),
       name: '',
       parameterValues: [],
       testValues: [],
     }
 
-    const activeMeta = getActiveMeta(metadata, branchId, equipmentTypeId)
+    const activeMeta = getActiveMeta(
+      metadata,
+      branchId,
+      getValues('equipmentTypeId')
+    )
     if (activeMeta) {
       newSample.parameterValues = getEmptyParams(activeMeta)
       newSample.testValues = getEmptyTests(activeMeta)
@@ -90,9 +79,32 @@ export const GeneralInfoTab = () => {
     return newSample
   }
 
-  // Очистить поле с типом оборудования
-  const handleRemoveEquipmentType = () => {
-    setValue('equipmentTypeId', '')
+  // Очистить сэмплы
+  const clearSamples = () => {
+    getValues('samples').forEach((_, index) => {
+      setValue(`samples.${index}.parameterValues`, [])
+      setValue(`samples.${index}.testValues`, [])
+    })
+  }
+
+  // Поменять на чистые сэмплы в зависимости от оборудования
+  const swapSamples = (id: string | null) => {
+    if (!id) {
+      clearSamples()
+      return
+    }
+
+    const activeMeta = getActiveMeta(metadata, branchId, id)
+    if (!activeMeta) {
+      console.log('Текущий филиал или тип оборудования не найден в метаданных')
+      clearSamples()
+      return
+    }
+
+    getValues('samples').forEach((_, index) => {
+      setValue(`samples.${index}.parameterValues`, getEmptyParams(activeMeta))
+      setValue(`samples.${index}.testValues`, getEmptyTests(activeMeta))
+    })
   }
 
   return (
@@ -122,9 +134,10 @@ export const GeneralInfoTab = () => {
               value={value}
               onChange={(e) => {
                 onChange(e)
-                handleRemoveEquipmentType()
+                setValue('equipmentTypeId', null)
+                clearSamples()
               }}
-              error={fieldState.error?.message ? ' ' : undefined}
+              error={fieldState.error?.message}
             />
           )}
         />
@@ -151,8 +164,11 @@ export const GeneralInfoTab = () => {
               disabled={!branchId}
               data={equipmentData}
               value={value}
-              onChange={onChange}
-              error={fieldState.error?.message ? ' ' : undefined}
+              onChange={(e) => {
+                onChange(e)
+                swapSamples(e)
+              }}
+              error={fieldState.error?.message}
             />
           )}
         />
@@ -167,7 +183,7 @@ export const GeneralInfoTab = () => {
               required
               value={value}
               onChange={onChange}
-              error={fieldState.error?.message ? ' ' : undefined}
+              error={fieldState.error?.message}
             />
           )}
         />
@@ -182,66 +198,55 @@ export const GeneralInfoTab = () => {
               required
               value={value}
               onChange={onChange}
-              error={fieldState.error?.message ? ' ' : undefined}
+              error={fieldState.error?.message}
             />
           )}
         />
-
-        <FieldArray
-          name="samples"
-          control={control}
-          render={({ fields, append, remove }) => (
-            <>
-              <Group justify="space-between">
-                <Box>
-                  <Title order={5}>
-                    Объекты испытаний (ОИ) {fields.length}
-                  </Title>
-                  <Text c="errorRed" size="xs">
-                    {errors.samples?.message}
-                  </Text>
-                </Box>
-                <Button
-                  variant="outline"
-                  leftSection={<IconPlus size={16} />}
-                  onClick={() => append(getNewSample())}
-                  disabled={fields.length >= 12}
-                >
-                  Добавить объект испытаний
-                </Button>
-              </Group>
-              {fields.map((fieldItem, index) => (
-                <Group key={fieldItem.id} align="flex-end">
-                  <Controller
-                    name={`samples.${index}.name`}
-                    control={control}
-                    render={({ field: { value, onChange }, fieldState }) => (
-                      <TextInput
-                        label={`Полное наименование объекта испытаний №${index + 1}`}
-                        placeholder="Введите полное наименование образца/типопредставителя согласно технической документации"
-                        required
-                        flex={1}
-                        value={value}
-                        onChange={onChange}
-                        error={fieldState.error?.message ? ' ' : undefined}
-                      />
-                    )}
-                  />
-                  {fields.length > 1 && (
-                    <ActionIcon
-                      color="errorRed"
-                      variant="subtle"
-                      size="lg"
-                      onClick={() => remove(index)}
-                    >
-                      <IconTrash size={20} />
-                    </ActionIcon>
-                  )}
-                </Group>
-              ))}
-            </>
-          )}
-        />
+        <Group justify="space-between">
+          <Box>
+            <Title order={5}>Объекты испытаний (ОИ) {fields.length}</Title>
+            <Text c="errorRed" size="xs">
+              {formState.errors.samples?.message}
+            </Text>
+          </Box>
+          <Button
+            variant="outline"
+            leftSection={<IconPlus size={16} />}
+            onClick={() => append(getNewSample())}
+            disabled={fields.length >= 12}
+          >
+            Добавить объект испытаний
+          </Button>
+        </Group>
+        {fields.map((fieldItem, index) => (
+          <Group key={fieldItem.id} align="flex-end">
+            <Controller
+              name={`samples.${index}.name`}
+              control={control}
+              render={({ field: { value, onChange }, fieldState }) => (
+                <TextInput
+                  label={`Полное наименование объекта испытаний №${index + 1}`}
+                  placeholder="Введите полное наименование образца/типопредставителя согласно технической документации"
+                  required
+                  flex={1}
+                  value={value}
+                  onChange={onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
+            {fields.length > 1 && (
+              <ActionIcon
+                color="errorRed"
+                variant="subtle"
+                size="lg"
+                onClick={() => remove(index)}
+              >
+                <IconTrash size={20} />
+              </ActionIcon>
+            )}
+          </Group>
+        ))}
       </Stack>
     </ScrollArea>
   )

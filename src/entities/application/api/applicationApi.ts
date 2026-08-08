@@ -17,20 +17,6 @@ const extendedApi = rootApi.injectEndpoints({
       query: (applicationId) =>
         APPLICATION_ENDPOINTS.getApplication(applicationId),
       providesTags: ['CreateApplication'],
-      transformResponse: (baseQueryReturnValue: GetApplicationResponse) => {
-        return {
-          ...baseQueryReturnValue,
-          draft: baseQueryReturnValue.draft
-            ? {
-                ...baseQueryReturnValue.draft,
-                samples: baseQueryReturnValue.draft.samples.map((sample) => ({
-                  ...sample,
-                  id: uuidV4(),
-                })),
-              }
-            : null,
-        }
-      },
     }),
   }),
 })
