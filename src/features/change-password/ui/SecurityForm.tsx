@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   PasswordInput,
@@ -9,12 +8,12 @@ import {
   Text,
   Divider,
   Box,
-  Grid,
+  Modal,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import { useDisclosure } from '@mantine/hooks'
 import { setAuth, useChangePasswordMutation } from '@/entities/auth'
 import { useGetProfileQuery } from '@/entities/user'
-import { rootApi } from '@/shared/api'
 import { formatDate, getMonthNoun } from '@/shared/lib'
 import dayjs from 'dayjs'
 
@@ -25,6 +24,9 @@ export const SecurityForm = () => {
 
   const [changePassword] = useChangePasswordMutation()
 
+  // Управление видимостью модального окна
+  const [opened, { open, close }] = useDisclosure(false)
+
   const lastUpdate = data?.passwordChangeDate
   const monthsAgo = lastUpdate ? dayjs().diff(lastUpdate, 'month') : 0
   const timeAgoText =
@@ -32,8 +34,6 @@ export const SecurityForm = () => {
       ? 'меньше месяца назад'
       : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`
   const isExpired = monthsAgo >= 3
-
-  const [isPasswordEditing, setIsPasswordEditing] = useState(false)
 
   const passwordForm = useForm({
     initialValues: {
@@ -48,6 +48,12 @@ export const SecurityForm = () => {
     },
   })
 
+  // Очистка и закрытие модального окна
+  const handleCancel = () => {
+    passwordForm.reset()
+    close()
+  }
+
   const handleSavePassword = async (values: typeof passwordForm.values) => {
     try {
       const saveResponse = await changePassword({
@@ -58,12 +64,9 @@ export const SecurityForm = () => {
       // Обновление данных авторизации
       dispatch(setAuth(saveResponse))
 
-      // Обновление данных профиля
-      dispatch(rootApi.util.invalidateTags(['Profile']))
-
       // Очистка формы
       passwordForm.reset()
-      setIsPasswordEditing(false)
+      close()
 
       // Можно добавить уведомление об успехе
     } catch (e) {
@@ -78,75 +81,77 @@ export const SecurityForm = () => {
       </Title>
       <Divider mb={24} />
 
-      {!isPasswordEditing ? (
-        <Group justify="space-between" align="flex-end">
-          <Stack gap={4}>
-            <Text size="sm">
-              Последнее изменение пароля:{' '}
-              {lastUpdate ? formatDate(lastUpdate) : ''}
-              {lastUpdate && (
-                <Text span c={isExpired ? 'errorRed' : 'dimmed'} inherit ml={4}>
-                  ({timeAgoText})
-                </Text>
-              )}
-            </Text>
-
-            {isExpired && (
-              <Text size="xs" c="errorRed">
-                Рекомендуется менять пароль каждые 3 месяца
+      <Group justify="space-between" align="flex-end">
+        <Stack gap={4}>
+          <Text size="sm">
+            Последнее изменение пароля:{' '}
+            {lastUpdate ? formatDate(lastUpdate) : ''}
+            {lastUpdate && (
+              <Text span c={isExpired ? 'errorRed' : 'dimmed'} inherit ml={4}>
+                ({timeAgoText})
               </Text>
             )}
-          </Stack>
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsPasswordEditing(true)}
-          >
-            Изменить пароль
-          </Button>
-        </Group>
-      ) : (
-        <form onSubmit={passwordForm.onSubmit(handleSavePassword)}>
-          <Grid gap="xl" align="flex-start">
-            <Grid.Col span={4}>
-              <PasswordInput
-                label="Текущий пароль"
-                placeholder="Введите текущий пароль"
-                {...passwordForm.getInputProps('oldPassword')}
-              />
-            </Grid.Col>
-            <Grid.Col span={4}>
-              <PasswordInput
-                label="Новый пароль"
-                placeholder="Введите новый пароль"
-                {...passwordForm.getInputProps('newPassword')}
-              />
-            </Grid.Col>
-            <Grid.Col span={4}>
-              <PasswordInput
-                label="Подтверждение пароля"
-                placeholder="Повторите новый пароль"
-                {...passwordForm.getInputProps('confirmPassword')}
-              />
-            </Grid.Col>
-          </Grid>
+          </Text>
 
-          <Group justify="flex-end" mt="xl">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setIsPasswordEditing(false)
-                passwordForm.reset()
-              }}
-            >
-              Отмена
-            </Button>
-            <Button type="submit" variant="filled">
-              Сохранить пароль
-            </Button>
-          </Group>
+          {isExpired && (
+            <Text size="xs" c="errorRed">
+              Рекомендуется менять пароль каждые 3 месяца
+            </Text>
+          )}
+        </Stack>
+        <Button
+          variant="outline"
+          size="md"
+          onClick={open}
+        >
+          Изменить пароль
+        </Button>
+      </Group>
+
+      <Modal
+        opened={opened}
+        onClose={handleCancel}
+        size={500}
+        padding={40}
+        radius="md"
+        withCloseButton={false}
+      >
+        <form onSubmit={passwordForm.onSubmit(handleSavePassword)}>
+          <Stack gap="lg">
+            <Title size="xl" fw={500} ta='center'>
+              Изменение пароля
+            </Title>
+
+            <PasswordInput
+              label='Текущий пароль'
+              placeholder="Введите текущий пароль"
+              {...passwordForm.getInputProps('oldPassword')}
+            />
+
+
+            <PasswordInput
+              label='Новый пароль'
+              placeholder="Введите новый пароль"
+              {...passwordForm.getInputProps('newPassword')}
+            />
+
+            <PasswordInput
+              label='Подтверждение пароля'
+              placeholder="Повторите новый пароль"
+              {...passwordForm.getInputProps('confirmPassword')}
+            />
+
+            <Group justify="flex-end" mt="xl">
+              <Button variant="outline" onClick={handleCancel}>
+                Отмена
+              </Button>
+              <Button type="submit" variant="filled">
+                Сохранить пароль
+              </Button>
+            </Group>
+          </Stack>
         </form>
-      )}
+      </Modal>
     </Box>
   )
 }

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { Routes } from './routes/Routes'
 import { store } from './store'
 import { theme } from '@/shared/config'
+import { SupportModal } from '@/widgets'
 import './styles/App.css'
 
 export const App = () => {
@@ -12,6 +13,7 @@ export const App = () => {
       <MantineProvider theme={theme}>
         {/* <Notification/> */}
         <Routes />
+        <SupportModal />
       </MantineProvider>
     </Provider>
   )
