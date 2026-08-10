@@ -1,4 +1,9 @@
 import { loadEnv } from 'vite'
+<<<<<<< HEAD
+import { defineConfig } from 'cypress'
+import { RoutesPath } from './src/shared/config'
+=======
+>>>>>>> integrate-tests
 
 import { defineConfig } from 'cypress'
 import vitePreprocessor from 'cypress-vite'

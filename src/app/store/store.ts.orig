@@ -1,0 +1,62 @@
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+<<<<<<< HEAD
+import { createBaseQueryWithReauth, networkHolder, rootApi } from '@/shared/api'
+import { authSlice } from '@/entities/auth'
+
+const realBaseQuery = createBaseQueryWithReauth({
+  baseUrl:
+    import.meta.env.VITE_ENABLE_MOCK === 'true'
+      ? `http://localhost:${import.meta.env.VITE_SERVER_PORT}`
+      : '/api',
+  refreshUrl: '/auth/refresh',
+  getToken: (state: RootState) => state.auth.accessToken,
+  getRefreshToken: (state: RootState) => state.auth.refreshToken,
+  onRefreshSuccess: (data) => authSlice.actions.setAuth(data),
+  onRefreshApiError: () => authSlice.actions.logout(),
+})
+
+networkHolder.activeBaseQuery = realBaseQuery
+
+const rootReducer = combineReducers({
+  [rootApi.reducerPath]: rootApi.reducer,
+  auth: authSlice.reducer,
+=======
+
+import { authApi } from '@/shared/api'
+import { clientsApi } from '@/shared/api'
+import { applicationsApi } from '@/shared/api'
+import { referencesApi } from '@/shared/api'
+
+import { authSlice } from '@/entities/auth'
+import { createApplicationSlice } from '@/features/create-application-form'
+
+const rootReducer = combineReducers({
+  [authApi.reducerPath]: authApi.reducer,
+  [clientsApi.reducerPath]: clientsApi.reducer,
+  [applicationsApi.reducerPath]: applicationsApi.reducer,
+  [referencesApi.reducerPath]: referencesApi.reducer,
+  auth: authSlice.reducer,
+  createApplication: createApplicationSlice.reducer,
+>>>>>>> integrate-tests
+})
+
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+<<<<<<< HEAD
+    getDefaultMiddleware().concat([rootApi.middleware]),
+})
+
+export type RootState = ReturnType<typeof store.getState>
+=======
+    getDefaultMiddleware().concat([
+      authApi.middleware,
+      clientsApi.middleware,
+      applicationsApi.middleware,
+      referencesApi.middleware,
+    ]),
+})
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+>>>>>>> integrate-tests

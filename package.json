@@ -25,7 +25,7 @@
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.83.0",
     "react-redux": "^9.3.0",
-    "react-router-dom": "^7.15.0",
+    "react-router-dom": "^7.18.2",
     "uuid": "^14.0.0",
     "zod": "^4.4.3"
   },
@@ -40,6 +40,7 @@
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^6.0.1",
     "cypress": "^15.17.0",
+    "cypress-vite": "^1.10.2",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",

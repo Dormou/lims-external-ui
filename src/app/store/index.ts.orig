@@ -1,0 +1,6 @@
+export { store } from './store'
+<<<<<<< HEAD
+export type { RootState } from './store'
+=======
+export type { RootState, AppDispatch } from './store'
+>>>>>>> integrate-tests

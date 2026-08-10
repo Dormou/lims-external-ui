@@ -1,0 +1,42 @@
+<<<<<<< HEAD
+import { rootApi } from '@/shared/api'
+import { v4 as uuidV4 } from 'uuid'
+import { APPLICATION_ENDPOINTS } from './types/endpoints'
+=======
+import { applicationsApi } from '@/shared/api'
+>>>>>>> integrate-tests
+import type {
+  GetAllApplicationsResponse,
+  GetApplicationResponse,
+} from './types/responses'
+<<<<<<< HEAD
+
+const extendedApi = rootApi.injectEndpoints({
+=======
+import { APPLICATION_ENDPOINTS } from './types/endpoints'
+
+const extendedApi = applicationsApi.injectEndpoints({
+>>>>>>> integrate-tests
+  endpoints: (builder) => ({
+    // Получить все заявки текущего пользователя
+    getAllApplications: builder.query<GetAllApplicationsResponse, void>({
+      query: () => APPLICATION_ENDPOINTS.getAllApplication,
+    }),
+    // Получить данные по заявке
+    getApplication: builder.query<GetApplicationResponse, string>({
+      query: (applicationId) =>
+        APPLICATION_ENDPOINTS.getApplication(applicationId),
+<<<<<<< HEAD
+      providesTags: ['CreateApplication'],
+=======
+>>>>>>> integrate-tests
+    }),
+  }),
+})
+
+<<<<<<< HEAD
+export const { useGetAllApplicationsQuery, useGetApplicationQuery } =
+=======
+export const { useLazyGetApplicationQuery, useGetAllApplicationsQuery } =
+>>>>>>> integrate-tests
+  extendedApi
