@@ -1,3 +1,4 @@
 export { SearchInput } from './search-input/SearchInput'
-export { FileCard } from './FileCard/FileCard'
-export { FileUploader } from './FileUploader/FileUploader'
+export { FileCard } from './file-card/FileCard'
+export { FileUploader } from './file-uploader/FileUploader'
+export { EXTENSIONS } from './file-uploader/FileUploader'
