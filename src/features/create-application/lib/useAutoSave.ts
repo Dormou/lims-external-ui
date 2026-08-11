@@ -9,6 +9,9 @@ export function useAutoSave(
 ) {
   const [saveDraft] = useSaveDraftMutation()
 
+  const debouncedSaveRef = useRef<(() => void) | undefined>(undefined)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
   // Храним последнее отправленное значение, чтобы не слать одинаковые данные
   const lastSavedValueRef = useRef<string>(JSON.stringify(form.getValues()))
 
@@ -16,29 +19,50 @@ export function useAutoSave(
   const skipSaveRef = useRef(false)
 
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      // Пропуск
-      if (skipSaveRef.current) return
-
-      const currentValue = form.getValues()
-      const JSONValue = JSON.stringify(currentValue)
-
-      // Проверяем, изменились ли данные с последнего сохранения
-      if (JSONValue === lastSavedValueRef.current) return
-
-      try {
-        await saveDraft({ id: applicationId, draft: currentValue }).unwrap()
-
-        // Обновляем последнее сохранённое значение
-        lastSavedValueRef.current = JSONValue
-      } catch (e) {
-        console.error('Ошибка автосохранения:', e)
+    const debounced = () => {
+      // Сбрасываем предыдущий таймер ПЕРЕД постановкой нового
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
       }
-    }, 10000) // Интервал 10 секунд
 
-    // Очистка при размонтировании или изменении зависимостей
-    return () => clearInterval(intervalId)
+      timeoutRef.current = setTimeout(async () => {
+        // Пропуск
+        if (skipSaveRef.current) return
+
+        const currentValue = form.getValues()
+        const JSONValue = JSON.stringify(currentValue)
+
+        // Проверяем, изменились ли данные с последнего сохранения
+        if (JSONValue === lastSavedValueRef.current) return
+
+        try {
+          await saveDraft({ id: applicationId, draft: currentValue }).unwrap()
+
+          // Обновляем последнее сохранённое значение
+          lastSavedValueRef.current = JSONValue
+        } catch (e) {
+          console.error('Ошибка автосохранения:', e)
+        }
+      }, 2000)
+    }
+
+    debouncedSaveRef.current = debounced
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
   }, [form, applicationId, saveDraft])
+
+  useEffect(() => {
+    form.watch(() => {
+      debouncedSaveRef.current?.()
+    })
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      debouncedSaveRef.current = undefined
+    }
+  }, [form])
 
   const skipSaving = () => {
     skipSaveRef.current = true
