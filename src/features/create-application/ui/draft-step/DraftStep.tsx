@@ -164,7 +164,7 @@ export const DraftStep = ({ application }: { application: Application }) => {
           </FormProvider>
 
           <FormProvider {...draftFilesForm}>
-            <Tabs.Panel value="docs" h="stretch">
+            <Tabs.Panel value="docs">
               <DocsTab applicationId={application.id} />
             </Tabs.Panel>
           </FormProvider>

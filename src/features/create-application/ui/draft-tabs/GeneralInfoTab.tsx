@@ -5,11 +5,10 @@ import {
   Button,
   ActionIcon,
   Text,
-  Title,
   Group,
   Anchor,
   ScrollArea,
-  Box,
+  Collapse,
 } from '@mantine/core'
 import { IconTrash, IconPlus } from '@tabler/icons-react'
 import {
@@ -22,6 +21,8 @@ import { useMemo } from 'react'
 import { useGetMetadataQuery } from '../../api/createApplicationApi'
 import { getActiveMeta, getEmptyParams, getEmptyTests } from '../../lib/helpers'
 import type { DraftForm, SampleForm } from '../../model/draftSchema'
+import { useDisclosure } from '@mantine/hooks'
+import { Icon } from '@iconify/react'
 
 export const GeneralInfoTab = () => {
   const { data: metadata } = useGetMetadataQuery()
@@ -57,6 +58,8 @@ export const GeneralInfoTab = () => {
         })) ?? [],
     [metadata, branchId]
   )
+
+  const [samplesExpand, { toggle }] = useDisclosure(true)
 
   // Создание сэмпла с пустыми параметрами и тестами в зависимости от текущего типа оборудования
   const getNewSample = (): SampleForm => {
@@ -108,7 +111,7 @@ export const GeneralInfoTab = () => {
   }
 
   return (
-    <ScrollArea mt="md" offsetScrollbars="y" h="stretch" w="stretch">
+    <ScrollArea mt="md" offsetScrollbars="y" h="stretch">
       <Stack gap={8}>
         <Text size="sm" ta="center">
           Типы испытаний, выполняемые различными филиалами, представлены на
@@ -202,51 +205,74 @@ export const GeneralInfoTab = () => {
             />
           )}
         />
-        <Group justify="space-between">
-          <Box>
-            <Title order={5}>Объекты испытаний (ОИ) {fields.length}</Title>
-            <Text c="errorRed" size="xs">
-              {formState.errors.samples?.message}
-            </Text>
-          </Box>
+
+        <Group>
           <Button
-            variant="outline"
-            leftSection={<IconPlus size={16} />}
-            onClick={() => append(getNewSample())}
-            disabled={fields.length >= 12}
+            c="primaryBlue"
+            variant="subtle"
+            onClick={toggle}
+            size="sm"
+            leftSection={
+              samplesExpand ? (
+                <Icon icon="mdi:chevron-up" />
+              ) : (
+                <Icon icon="mdi:chevron-down" />
+              )
+            }
           >
-            Добавить объект испытаний
+            {`Объекты испытаний (ОИ) ${fields.length}`}
           </Button>
         </Group>
-        {fields.map((fieldItem, index) => (
-          <Group key={fieldItem.id} align="flex-end">
-            <Controller
-              name={`samples.${index}.name`}
-              control={control}
-              render={({ field: { value, onChange }, fieldState }) => (
-                <TextInput
-                  label={`Полное наименование объекта испытаний №${index + 1}`}
-                  placeholder="Введите полное наименование образца/типопредставителя согласно технической документации"
-                  required
-                  flex={1}
-                  value={value}
-                  onChange={onChange}
-                  error={fieldState.error?.message}
-                />
-              )}
-            />
-            {fields.length > 1 && (
-              <ActionIcon
-                color="errorRed"
-                variant="subtle"
-                size="lg"
-                onClick={() => remove(index)}
+        <Text c="errorRed" size="xs">
+          {formState.errors.samples?.message}
+        </Text>
+
+        <Collapse expanded={samplesExpand}>
+          <Stack>
+            <Group>
+              <Button
+                variant="outline"
+                leftSection={<IconPlus size={16} />}
+                size="sm"
+                onClick={() => append(getNewSample())}
+                disabled={fields.length >= 12}
               >
-                <IconTrash size={20} />
-              </ActionIcon>
-            )}
-          </Group>
-        ))}
+                Добавить объект испытаний
+              </Button>
+            </Group>
+
+            {fields.map((fieldItem, index) => (
+              <Group key={fieldItem.id} align="center">
+                <Controller
+                  name={`samples.${index}.name`}
+                  control={control}
+                  render={({ field: { value, onChange }, fieldState }) => (
+                    <TextInput
+                      label={`Полное наименование объекта испытаний №${index + 1}`}
+                      placeholder="Введите полное наименование образца/типопредставителя согласно технической документации"
+                      required
+                      flex={1}
+                      value={value}
+                      onChange={onChange}
+                      error={fieldState.error?.message}
+                    />
+                  )}
+                />
+                {fields.length > 1 && (
+                  <ActionIcon
+                    color="errorRed"
+                    variant="subtle"
+                    size="lg"
+                    mt={8}
+                    onClick={() => remove(index)}
+                  >
+                    <IconTrash size={24} />
+                  </ActionIcon>
+                )}
+              </Group>
+            ))}
+          </Stack>
+        </Collapse>
       </Stack>
     </ScrollArea>
   )

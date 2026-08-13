@@ -53,7 +53,12 @@ export const CreateApplicationForm = () => {
   else if (currentStep !== 'preform' && !applicationData)
     return (
       <Stack h="stretch" justify="center" align="center">
-        <Icon icon="mdi:error-outline" width={48} height={48} opacity={0.3} />
+        <Icon
+          icon="mdi:error-outline"
+          width={48}
+          height={48}
+          color="var(--mantine-color-dimmed)"
+        />
         <Text c="dimmed" size="xl">
           Не удалось загрузить заявку, пожалуйста попробуйте позже
         </Text>
