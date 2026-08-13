@@ -1,3 +1,20 @@
-.tabsContent {
+.tabsContainer {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.tabsRoot {
+  display: flex;
   flex-direction: column;
+  height: stretch;
+  width: stretch;
+}
+
+.tabsList {
+  flex: 0 0 auto;
+}
+
+.tabsPanel {
+  flex: 1 1 auto;
+  min-height: 0;
 }

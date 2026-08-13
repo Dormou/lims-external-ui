@@ -9,6 +9,7 @@ import { typography } from './typography'
 import { buttonConfig, actionIconConfig } from '../ui/button/buttonConfig'
 import {
   textInputConfig,
+  numberInputConfig,
   passwordInputConfig,
   selectConfig,
   multiSelectConfig,
@@ -70,6 +71,7 @@ export const theme = createTheme({
 
     // Инпуты
     TextInput: textInputConfig,
+    NumberInput: numberInputConfig,
     PasswordInput: passwordInputConfig,
     Select: selectConfig,
     MultiSelect: multiSelectConfig,

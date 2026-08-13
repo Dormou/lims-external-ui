@@ -46,7 +46,7 @@ export const CreateApplicationForm = () => {
 
   if (isApplicationLoading || isMetadataLoading)
     return (
-      <Center h={400}>
+      <Center h="stretch">
         <Loader size="xl" />
       </Center>
     )
@@ -88,7 +88,7 @@ export const CreateApplicationForm = () => {
           </Title>
         </Group>
 
-        <Stack align="center" flex="1 1 auto">
+        <Stack align="center" flex="1 1 auto" mih={0}>
           {currentStep == 'preform' && <PreformStep />}
           {currentStep == 'draft' && applicationData && (
             <DraftStep application={applicationData} />

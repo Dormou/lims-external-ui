@@ -1,4 +1,4 @@
-import { Table, Text } from '@mantine/core'
+import { ScrollArea, Table, Text } from '@mantine/core'
 import { useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useGetMetadataQuery } from '../../api/createApplicationApi'
@@ -32,46 +32,60 @@ export const ParametersTab = () => {
     )
   else
     return (
-      <Table withColumnBorders withTableBorder mt="xl">
-        <Table.Thead>
-          <Table.Tr bg="complementaryBlue">
-            <Table.Th w={250}>Параметр</Table.Th>
-            {getValues('samples').map((sample, index) => (
-              <Table.Th key={`sample-show[${index}]`} ta="center">
-                Объект №{index + 1}
-                <Text size="xs" c="dimmed" fw={400}>
-                  {sample.name ?? 'Без названия'}
-                </Text>
+      <ScrollArea mt="md" offsetScrollbars="y" h="stretch" w="stretch">
+        <Table
+          stickyHeader
+          striped="even"
+          stripedColor="complementaryBlue"
+          withRowBorders={false}
+        >
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th bg="complementaryBlue" w={300}>
+                Параметр
               </Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {activeParameters?.map((param, paramIndex) => (
-            <Table.Tr key={param.parameterId}>
-              <Table.Td>
-                <Text size="sm" fw={500}>
-                  {param.parameterName}
-                </Text>
-                {param.parameterUnit && (
-                  <Text size="xs" c="dimmed">
-                    {param.parameterUnit}
+              {getValues('samples').map((sample, index) => (
+                <Table.Th
+                  bg="complementaryBlue"
+                  key={`sample-show[${index}]`}
+                  ta="center"
+                >
+                  Объект №{index + 1}
+                  <Text size="xs" c="dimmed" fw={400}>
+                    {sample.name ?? 'Без названия'}
                   </Text>
-                )}
-              </Table.Td>
-              {getValues('samples').map((_, sampleIndex) => (
-                <Table.Td key={`${param.parameterId}${sampleIndex}`}>
-                  <RenderInputs
-                    control={control}
-                    param={param}
-                    paramIndex={paramIndex}
-                    sampleIndex={sampleIndex}
-                  />
-                </Table.Td>
+                </Table.Th>
               ))}
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
+          </Table.Thead>
+
+          <Table.Tbody>
+            {activeParameters?.map((param, paramIndex) => (
+              <Table.Tr key={param.parameterId}>
+                <Table.Td>
+                  <Text size="sm" fw={500}>
+                    {param.parameterName}
+                  </Text>
+                  {param.parameterUnit && (
+                    <Text size="xs" c="dimmed">
+                      {param.parameterUnit}
+                    </Text>
+                  )}
+                </Table.Td>
+                {getValues('samples').map((_, sampleIndex) => (
+                  <Table.Td key={`${param.parameterId}${sampleIndex}`}>
+                    <RenderInputs
+                      control={control}
+                      param={param}
+                      paramIndex={paramIndex}
+                      sampleIndex={sampleIndex}
+                    />
+                  </Table.Td>
+                ))}
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </ScrollArea>
     )
 }

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { Table, Checkbox, Text } from '@mantine/core'
+import { Table, Checkbox, Text, ScrollArea } from '@mantine/core'
 import { useGetMetadataQuery } from '../../api/createApplicationApi'
 import { getActiveMeta } from '../../lib/helpers'
 import { WarningTab } from './components/WarningTab'
@@ -31,43 +31,45 @@ export const TestsTab = () => {
     )
   else
     return (
-      <Table withColumnBorders withTableBorder mt="xl">
-        <Table.Thead>
-          <Table.Tr bg="complementaryBlue">
-            <Table.Th w={300}>Наименование испытания</Table.Th>
-            {getValues('samples').map((sample, index) => (
-              <Table.Th key={`sample-show[${index}]`} ta="center">
-                Объект №{index + 1}
-                <Text size="xs" c="dimmed" fw={400}>
-                  {sample.name ?? 'Без названия'}
-                </Text>
-              </Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {activeTests?.map((test, testIndex) => (
-            <Table.Tr key={test.testId}>
-              <Table.Td>
-                <Text size="sm">{test.testName}</Text>
-                <Text size="xs" c="dimmed">
-                  {test.testMethod}
-                </Text>
-              </Table.Td>
-              {getValues('samples').map((_, sampleIndex) => (
-                <Table.Td key={`${test.testId}${sampleIndex}`} ta="center">
-                  <Controller
-                    name={`samples.${sampleIndex}.testValues.${testIndex}.testValue`}
-                    control={control}
-                    render={({ field: { value, onChange } }) => (
-                      <Checkbox checked={value} onChange={onChange} />
-                    )}
-                  />
-                </Table.Td>
+      <ScrollArea mt="md" offsetScrollbars="y" h="stretch" w="stretch">
+        <Table withColumnBorders withTableBorder>
+          <Table.Thead>
+            <Table.Tr bg="complementaryBlue">
+              <Table.Th w={300}>Наименование испытания</Table.Th>
+              {getValues('samples').map((sample, index) => (
+                <Table.Th key={`sample-show[${index}]`} ta="center">
+                  Объект №{index + 1}
+                  <Text size="xs" c="dimmed" fw={400}>
+                    {sample.name ?? 'Без названия'}
+                  </Text>
+                </Table.Th>
               ))}
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
+          </Table.Thead>
+          <Table.Tbody>
+            {activeTests?.map((test, testIndex) => (
+              <Table.Tr key={test.testId}>
+                <Table.Td>
+                  <Text size="sm">{test.testName}</Text>
+                  <Text size="xs" c="dimmed">
+                    {test.testMethod}
+                  </Text>
+                </Table.Td>
+                {getValues('samples').map((_, sampleIndex) => (
+                  <Table.Td key={`${test.testId}${sampleIndex}`} ta="center">
+                    <Controller
+                      name={`samples.${sampleIndex}.testValues.${testIndex}.testValue`}
+                      control={control}
+                      render={({ field: { value, onChange } }) => (
+                        <Checkbox checked={value} onChange={onChange} />
+                      )}
+                    />
+                  </Table.Td>
+                ))}
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </ScrollArea>
     )
 }

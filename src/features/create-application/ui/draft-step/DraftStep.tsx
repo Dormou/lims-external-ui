@@ -130,40 +130,46 @@ export const DraftStep = ({ application }: { application: Application }) => {
 
   return (
     <Stack w="stretch" h="stretch">
-      <Tabs
-        display="flex"
-        flex="1 1 auto"
-        className={styles.tabsContent}
-        value={activeTab}
-        onChange={(value) => setActiveTab((value as Tab) ?? 'general')}
-        variant="custom"
-        keepMounted={false}
-      >
-        <Tabs.List>
-          <Tabs.Tab value="general">Общая информация</Tabs.Tab>
-          <Tabs.Tab value="params">Характеристики объектов испытаний</Tabs.Tab>
-          <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
-          <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
-        </Tabs.List>
+      <Stack className={styles.tabsContainer}>
+        <Tabs
+          classNames={{
+            root: styles.tabsRoot,
+            list: styles.tabsList,
+            panel: styles.tabsPanel,
+          }}
+          value={activeTab}
+          onChange={(value) => setActiveTab((value as Tab) ?? 'general')}
+          variant="custom"
+          keepMounted={false}
+        >
+          <Tabs.List>
+            <Tabs.Tab value="general">Общая информация</Tabs.Tab>
+            <Tabs.Tab value="params">
+              Характеристики объектов испытаний
+            </Tabs.Tab>
+            <Tabs.Tab value="tests">Требования к испытаниям</Tabs.Tab>
+            <Tabs.Tab value="docs">Техническая документация</Tabs.Tab>
+          </Tabs.List>
 
-        <FormProvider {...draftForm}>
-          <Tabs.Panel value="general" h="stretch">
-            <GeneralInfoTab />
-          </Tabs.Panel>
-          <Tabs.Panel value="params" h="stretch">
-            <ParametersTab />
-          </Tabs.Panel>
-          <Tabs.Panel value="tests" h="stretch">
-            <TestsTab />
-          </Tabs.Panel>
-        </FormProvider>
+          <FormProvider {...draftForm}>
+            <Tabs.Panel value="general">
+              <GeneralInfoTab />
+            </Tabs.Panel>
+            <Tabs.Panel value="params">
+              <ParametersTab />
+            </Tabs.Panel>
+            <Tabs.Panel value="tests">
+              <TestsTab />
+            </Tabs.Panel>
+          </FormProvider>
 
-        <FormProvider {...draftFilesForm}>
-          <Tabs.Panel value="docs" h="stretch">
-            <DocsTab applicationId={application.id} />
-          </Tabs.Panel>
-        </FormProvider>
-      </Tabs>
+          <FormProvider {...draftFilesForm}>
+            <Tabs.Panel value="docs" h="stretch">
+              <DocsTab applicationId={application.id} />
+            </Tabs.Panel>
+          </FormProvider>
+        </Tabs>
+      </Stack>
       <Group justify="center" flex="0 0 auto">
         <Tooltip
           label={confirmComment}

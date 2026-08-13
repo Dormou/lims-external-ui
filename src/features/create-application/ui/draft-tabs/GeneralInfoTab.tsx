@@ -108,7 +108,7 @@ export const GeneralInfoTab = () => {
   }
 
   return (
-    <ScrollArea mt="xl">
+    <ScrollArea mt="md" offsetScrollbars="y" h="stretch" w="stretch">
       <Stack gap={8}>
         <Text size="sm" ta="center">
           Типы испытаний, выполняемые различными филиалами, представлены на

@@ -65,8 +65,8 @@ export const DocsTab = ({ applicationId }: { applicationId: string }) => {
   }
 
   return (
-    <ScrollArea mt="xl">
-      <Stack gap="xl" w="100%" maw={600} mx="auto">
+    <ScrollArea mt="md" offsetScrollbars="y" h="stretch" w="stretch">
+      <Stack gap="xl" maw={600} mx="auto">
         <Controller
           name="regulatoryDocument"
           control={control}

@@ -1,6 +1,7 @@
 import {
   TextInput,
   PasswordInput,
+  NumberInput,
   Select,
   MultiSelect,
   Pill,
@@ -8,7 +9,7 @@ import {
 import inputClasses from './input.module.css'
 
 /**
- * Общие классы для TextInput и PasswordInput
+ * Общие классы для TextInput, NumberInput и PasswordInput
  */
 const baseInputClasses = {
   root: inputClasses.root,
@@ -49,6 +50,31 @@ const selectClasses = {
  * ```
  */
 export const textInputConfig = TextInput.extend({
+  classNames: baseInputClasses,
+})
+
+/**
+ * Конфигурация числового поля NumberInput
+ *
+ * @description
+ * Базовое числовое поле ввода.
+ *
+ * @states
+ * - default — серый бордер
+ * - hover — синий бордер
+ * - focus — синий бордер
+ * - disabled — серый фон, нельзя редактировать
+ * - error — красный бордер, сообщение об ошибке
+ *
+ * @example
+ * ```tsx
+ * <NumberInput
+ *   label="Количество"
+ *   placeholder="Введите количество"
+ * />
+ * ```
+ */
+export const numberInputConfig = NumberInput.extend({
   classNames: baseInputClasses,
 })
 
