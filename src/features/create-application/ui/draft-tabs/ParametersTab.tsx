@@ -41,7 +41,7 @@ export const ParametersTab = () => {
         >
           <Table.Thead>
             <Table.Tr>
-              <Table.Th bg="complementaryBlue" w={300}>
+              <Table.Th bg="complementaryBlue" w={300} ta="center">
                 Параметр
               </Table.Th>
               {getValues('samples').map((sample, index) => (

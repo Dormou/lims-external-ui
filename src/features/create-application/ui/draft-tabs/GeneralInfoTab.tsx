@@ -214,13 +214,16 @@ export const GeneralInfoTab = () => {
             size="sm"
             leftSection={
               samplesExpand ? (
-                <Icon icon="mdi:chevron-up" />
-              ) : (
                 <Icon icon="mdi:chevron-down" />
+              ) : (
+                <Icon icon="mdi:chevron-right" />
               )
             }
           >
-            {`Объекты испытаний (ОИ) ${fields.length}`}
+            <Group gap={8}>
+              <Text>Объекты испытаний (ОИ)</Text>
+              <Text c="dimmed">{fields.length}</Text>
+            </Group>
           </Button>
         </Group>
         <Text c="errorRed" size="xs">
