@@ -1,5 +1,5 @@
 import { authTest } from "@/processes/authTest";
-import { getUXTID, type UXTID } from "@/processes/UXTID";
+import { getUXTID, type UXTID } from "@/processes/CreateApplication/CreateApplicationUXT";
 
 describe(`Бизнес процесс подачи заявки`, () => {
     authTest()
