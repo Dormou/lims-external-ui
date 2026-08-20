@@ -5,7 +5,7 @@ import type { FileMeta } from './fileMeta'
 export type Application = {
   id: string
   status: ApplicationStatus
-  updatedAt: Date
+  updatedAt: string
   draft: ApplicationDraft | null
   regulatoryDocument: FileMeta | null
   additionalDocuments: FileMeta[] | null

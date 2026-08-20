@@ -20,9 +20,9 @@ import {
 import { useMemo } from 'react'
 import { useGetMetadataQuery } from '../../api/createApplicationApi'
 import { getActiveMeta, getEmptyParams, getEmptyTests } from '../../lib/helpers'
-import type { DraftForm, SampleForm } from '../../model/draftSchema'
 import { useDisclosure } from '@mantine/hooks'
 import { Icon } from '@iconify/react'
+import type { DraftForm, SampleForm } from '../../model/draftSchema'
 
 export const GeneralInfoTab = () => {
   const { data: metadata } = useGetMetadataQuery()

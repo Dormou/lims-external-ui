@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Paper, Title, Stack, Text, Divider, Group } from '@mantine/core'
 import { RoutesPath } from '@/shared/config'
+import { formatDate } from '@/shared/lib'
 import type { ApplicationInfo } from '../model/types/applicationInfo'
 import styles from './ApplicationCard.module.css'
 
@@ -52,7 +53,7 @@ export const ApplicationCard = ({ app }: { app: ApplicationInfo }) => {
           {app.status}
         </Text>
         <Text size="xs" c="dimmed">
-          {new Date(app.updatedAt).toLocaleDateString('ru-RU')}
+          {app.updatedAt ? formatDate(app.updatedAt) : ''}
         </Text>
       </Group>
     </Paper>

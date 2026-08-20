@@ -14,3 +14,6 @@ export {
 } from './api/applicationApi'
 
 export { ApplicationCard } from './ui/ApplicationCard'
+
+export { getApplicationHandler } from './api/mock/getApplicationHandler'
+export { getAllApplicationsHandler } from './api/mock/getAllApplicationsHandler'

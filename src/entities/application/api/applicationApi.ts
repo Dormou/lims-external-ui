@@ -1,5 +1,4 @@
 import { rootApi } from '@/shared/api'
-import { v4 as uuidV4 } from 'uuid'
 import { APPLICATION_ENDPOINTS } from './types/endpoints'
 import type {
   GetAllApplicationsResponse,

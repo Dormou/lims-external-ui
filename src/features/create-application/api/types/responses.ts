@@ -8,22 +8,14 @@ export type GetClientConfirmedResponse = {
 
 export type GetMetadataResponse = BranchMeta[]
 
-export type UploadRegulatoryDocumentResponse = {
-  applicationId: string
-} & FileMeta
+export type UploadRegulatoryDocumentResponse = FileMeta
 
-export type UploadAdditionalDocumentsResponse = {
-  applicationId: string
-} & FileMeta[]
+export type UploadAdditionalDocumentsResponse = FileMeta[]
 
-export type GenerateApplicationResponse = {
-  applicationId: string
-} & FileMeta
+export type GenerateApplicationResponse = FileMeta
 
 export type DownloadApplicationFileResponse = File
 
-export type UploadSignedFileResponse = {
-  id: string
-} & FileMeta
+export type UploadSignedFileResponse = FileMeta
 
 export type DownloadSignedFileResponse = File

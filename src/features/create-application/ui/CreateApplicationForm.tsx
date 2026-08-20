@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
   Stack,
@@ -15,15 +15,21 @@ import { DraftStep } from './draft-step/DraftStep'
 import { PreformStep } from './preform-step/PreformStep'
 import { SigningStep } from './signing-step/SigningStep'
 import { SuccessStep } from './success-step/SuccessStep'
-import { useGetApplication } from '../lib/useGetApplication'
 import { useGetMetadataQuery } from '../api/createApplicationApi'
+import { useGetApplicationQuery } from '@/entities/application'
 
 export type Step = 'preform' | 'draft' | 'signing' | 'success'
 
 export const CreateApplicationForm = () => {
   const navigate = useNavigate()
 
-  const { applicationData, isApplicationLoading } = useGetApplication()
+  const [searchParams] = useSearchParams()
+
+  const { data: applicationData, isLoading: isApplicationLoading } =
+    useGetApplicationQuery(searchParams.get('id') ?? '', {
+      skip: !searchParams.get('id'),
+    })
+
   const { isLoading: isMetadataLoading } = useGetMetadataQuery()
 
   const [currentStep, setCurrentStep] = useState<Step>('preform')
@@ -50,7 +56,7 @@ export const CreateApplicationForm = () => {
         <Loader size="xl" />
       </Center>
     )
-  else if (currentStep !== 'preform' && !applicationData)
+  else if (!!searchParams.get('id') && !applicationData)
     return (
       <Stack h="stretch" justify="center" align="center">
         <Icon

@@ -1,4 +1,5 @@
 import { setupWorker } from 'msw/browser'
+
 import {
   loginHandler,
   logoutHandler,
@@ -6,6 +7,7 @@ import {
   setupPasswordHandler,
   changePasswordHandler,
 } from '@/entities/auth'
+
 import {
   registerUserHandler,
   getProfileHandler,
@@ -14,6 +16,20 @@ import {
   updateTechContactHandler,
   updateUserHandler,
 } from '@/entities/user'
+
+import {
+  getAllApplicationsHandler,
+  getApplicationHandler,
+} from '@/entities/application'
+
+import {
+  createDraftHandler,
+  generateApplicationHandler,
+  getClientConfirmedHandler,
+  getMetadataHandler,
+  saveDraftHandler,
+  uploadSignedFileHandler,
+} from '@/features/create-application'
 
 export const worker = setupWorker(
   ...[
@@ -28,5 +44,13 @@ export const worker = setupWorker(
     updateOrganizationHandler,
     updateTechContactHandler,
     updateUserHandler,
+    getApplicationHandler,
+    getAllApplicationsHandler,
+    getClientConfirmedHandler,
+    getMetadataHandler,
+    createDraftHandler,
+    saveDraftHandler,
+    generateApplicationHandler,
+    uploadSignedFileHandler,
   ]
 )
