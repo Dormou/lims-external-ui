@@ -22,7 +22,13 @@ import styles from './DraftStep.module.css'
 
 type Tab = 'general' | 'params' | 'tests' | 'docs'
 
-export const DraftStep = ({ application }: { application: Application }) => {
+export const DraftStep = ({
+  application,
+  setManualEdit,
+}: {
+  application: Application
+  setManualEdit: (value: boolean) => void
+}) => {
   const [saveDraft, { isLoading: isSaving }] = useSaveDraftMutation()
   const [generateApplication, { isLoading: isGenerating }] =
     useGenerateApplicationMutation()
@@ -88,9 +94,12 @@ export const DraftStep = ({ application }: { application: Application }) => {
       return
     }
 
-    // Формируем заявку
     try {
+      // Формируем заявку
       await generateApplication(application.id).unwrap()
+
+      // Возвращаем шаг по статусу
+      setManualEdit(false)
     } catch (error) {
       console.log('Не удалось сформировать заявку')
     }

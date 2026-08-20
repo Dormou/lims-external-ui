@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Stack,
   Group,
@@ -20,6 +20,19 @@ import { useGetMetadataQuery } from '@/entities/metadata'
 
 export type Step = 'preform' | 'draft' | 'signing' | 'success'
 
+const getStepFromStatus = (status?: string): Step => {
+  switch (status) {
+    case 'Черновик':
+      return 'draft'
+    case 'Сформирована':
+      return 'signing'
+    case 'Отправлена':
+      return 'success'
+    default:
+      return 'preform'
+  }
+}
+
 export const CreateApplicationForm = () => {
   const navigate = useNavigate()
 
@@ -33,23 +46,12 @@ export const CreateApplicationForm = () => {
 
   const { isLoading: isMetadataLoading } = useGetMetadataQuery()
 
-  const [currentStep, setCurrentStep] = useState<Step>('preform')
+  // Используется для переключения на редактирование заявки, минуя статус
+  const [manualEdit, setManualEdit] = useState(false)
 
-  useEffect(() => {
-    if (applicationData) {
-      switch (applicationData.status) {
-        case 'Черновик':
-          setCurrentStep('draft')
-          break
-        case 'Сформирована':
-          setCurrentStep('signing')
-          break
-        case 'Отправлена':
-          setCurrentStep('success')
-          break
-      }
-    }
-  }, [applicationData])
+  const currentStep: Step = manualEdit
+    ? 'draft'
+    : getStepFromStatus(applicationData?.status)
 
   if (isApplicationLoading || isMetadataLoading)
     return (
@@ -103,11 +105,14 @@ export const CreateApplicationForm = () => {
         <Stack align="center" flex="1 1 auto" mih={0}>
           {currentStep == 'preform' && <PreformStep />}
           {currentStep == 'draft' && applicationData && (
-            <DraftStep application={applicationData} />
+            <DraftStep
+              application={applicationData}
+              setManualEdit={setManualEdit}
+            />
           )}
           {currentStep == 'signing' && applicationData && (
             <SigningStep
-              setCurrentStep={setCurrentStep}
+              setManualEdit={setManualEdit}
               application={applicationData}
             />
           )}

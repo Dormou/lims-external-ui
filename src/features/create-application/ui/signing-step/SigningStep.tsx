@@ -2,15 +2,14 @@ import { useState } from 'react'
 import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
-import type { Step } from '../CreateApplicationForm'
 import type { Application } from '@/entities/application'
 import styles from './SigningStep.module.css'
 
 export const SigningStep = ({
-  setCurrentStep,
+  setManualEdit,
   application,
 }: {
-  setCurrentStep: (value: Step) => void
+  setManualEdit: (value: boolean) => void
   application: Application
 }) => {
   const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
@@ -90,11 +89,7 @@ export const SigningStep = ({
       </Box>
 
       <Group gap="md" mt="xl">
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={() => setCurrentStep('draft')}
-        >
+        <Button variant="outline" size="lg" onClick={() => setManualEdit(true)}>
           Редактировать заявку
         </Button>
         <Button
