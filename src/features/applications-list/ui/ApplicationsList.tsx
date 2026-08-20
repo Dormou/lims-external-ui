@@ -1,12 +1,22 @@
 import { useNavigate } from 'react-router-dom'
-import { Button, Center, Group, Stack, Text, Title } from '@mantine/core'
+import {
+  Box,
+  Button,
+  Center,
+  Group,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core'
 import { IconPlus } from '@tabler/icons-react'
-import { useGetAllApplicationsQuery } from '@/entities/application'
+import { Icon } from '@iconify/react'
+import { useGetAllApplicationsQuery } from '../api/applicationsListApi'
 import { SearchInput } from '@/shared/ui'
 import { useSearch } from '@/shared/lib'
 import { RoutesPath } from '@/shared/config'
-import { ApplicationCards } from './components/ApplicationCards'
-import type { ApplicationInfo } from '@/entities/application'
+import { ApplicationCard } from './ApplicationCard/ApplicationCard'
+import type { ApplicationInfo } from '../model/applicationInfo'
 
 export const ApplicationsList = () => {
   const navigate = useNavigate()
@@ -56,7 +66,39 @@ export const ApplicationsList = () => {
         </Group>
       )}
 
-      <ApplicationCards applications={result} isSearch={isSearch} />
+      {result.length > 0 && (
+        <SimpleGrid cols={3} spacing="xl">
+          {result.map((app) => (
+            <ApplicationCard key={app.id} app={app} />
+          ))}
+        </SimpleGrid>
+      )}
+      {result.length === 0 && isSearch && (
+        <Center mt={100}>
+          <Text c="dimmed">По вашему запросу ничего не найдено</Text>
+        </Center>
+      )}
+      {result.length === 0 && !isSearch && (
+        <Center mt={100}>
+          <Stack align="center" gap="md">
+            <Box opacity={0.3}>
+              <Icon icon="mdi:database-off-outline" width={80} height={80} />
+            </Box>
+            <Text c="dimmed" size="lg" ta="center">
+              Вы пока не подали ни одной заявки
+            </Text>
+            <Button
+              variant="filled"
+              leftSection={<IconPlus size={20} />}
+              size="md"
+              mt="xl"
+              onClick={() => navigate(RoutesPath.CreateApplication)}
+            >
+              Подать заявку
+            </Button>
+          </Stack>
+        </Center>
+      )}
     </Stack>
   )
 }

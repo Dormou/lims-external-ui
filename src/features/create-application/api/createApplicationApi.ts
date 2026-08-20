@@ -8,7 +8,6 @@ import type {
 } from './types/requests'
 import type {
   GetClientConfirmedResponse,
-  GetMetadataResponse,
   GenerateApplicationResponse,
   DownloadApplicationFileResponse,
   UploadSignedFileResponse,
@@ -22,10 +21,6 @@ const extendedApi = rootApi.injectEndpoints({
     // Узнать подтвержденность заявителя
     getClientConfirmed: builder.query<GetClientConfirmedResponse, void>({
       query: () => CREATE_APPLICATION_ENDPOINTS.getClientConfirmed,
-    }),
-    // Получить справочную информацию для заявки
-    getMetadata: builder.query<GetMetadataResponse, void>({
-      query: () => CREATE_APPLICATION_ENDPOINTS.getMetadata,
     }),
     // Создать черновик заявки
     createDraft: builder.mutation<string, void>({
@@ -148,7 +143,6 @@ const extendedApi = rootApi.injectEndpoints({
 
 export const {
   useGetClientConfirmedQuery,
-  useGetMetadataQuery,
   useCreateDraftMutation,
   useDownloadApplicationFileMutation,
   useDownloadSignedFileMutation,

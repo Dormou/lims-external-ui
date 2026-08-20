@@ -18,7 +18,7 @@ import {
   useWatch,
 } from 'react-hook-form'
 import { useMemo } from 'react'
-import { useGetMetadataQuery } from '../../api/createApplicationApi'
+import { useGetMetadataQuery } from '@/entities/metadata'
 import { getActiveMeta, getEmptyParams, getEmptyTests } from '../../lib/helpers'
 import { useDisclosure } from '@mantine/hooks'
 import { Icon } from '@iconify/react'

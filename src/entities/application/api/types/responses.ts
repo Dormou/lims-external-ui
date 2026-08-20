@@ -1,6 +1,3 @@
-import type { Application } from '../../model/types/application'
-import type { ApplicationInfo } from '../../model/types/applicationInfo'
-
-export type GetAllApplicationsResponse = ApplicationInfo[]
+import type { Application } from '../../model/application'
 
 export type GetApplicationResponse = Application

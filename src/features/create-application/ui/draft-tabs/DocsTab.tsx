@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react'
 import {
   useUploadAdditionalDocumentsMutation,
   useUploadRegulatoryDocumentMutation,
-} from '@/features/create-application/api/createApplicationApi'
+} from '../../api/createApplicationApi'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { DraftFilesForm } from '../../model/draftFilesSchema'
 

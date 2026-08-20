@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw'
 import { APPLICATION_ENDPOINTS } from '../types/endpoints'
 import type { GetApplicationResponse } from '../types/responses'
-import type { Application } from '../../model/types/application'
+import type { Application } from '../../model/application'
 
 type PathParams = {
   id: string

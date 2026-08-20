@@ -1,7 +1,7 @@
 import { ScrollArea, Table, Text } from '@mantine/core'
 import { useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { useGetMetadataQuery } from '../../api/createApplicationApi'
+import { useGetMetadataQuery } from '@/entities/metadata'
 import { getActiveMeta } from '../../lib/helpers'
 import { WarningTab } from './components/WarningTab'
 import { RenderInputs } from './components/RenderInputs'

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useGetMetadataQuery } from '../api/createApplicationApi'
+import { useGetMetadataQuery } from '@/entities/metadata'
 import { draftLoadingSchema } from '../model/draftSchema'
 import { getActiveMeta, getEmptyParams, getEmptyTests } from './helpers'
 import type { DraftForm, SampleForm } from '../model/draftSchema'

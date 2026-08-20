@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { valueTypeList } from './types/valueType'
+import { valueTypeList } from '@/entities/metadata/model/valueType'
 
 const sampleParameterSchema = z
   .object({

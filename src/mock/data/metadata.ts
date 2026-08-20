@@ -1,4 +1,4 @@
-import type { BranchMeta } from '@/features/create-application/model/types/branchMeta'
+import type { BranchMeta } from '@/entities/metadata'
 
 export const MetadataMock: BranchMeta[] = [
   {

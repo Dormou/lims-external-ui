@@ -1,12 +1,9 @@
 import type { FileMeta } from '@/entities/application'
-import type { BranchMeta } from '../../model/types/branchMeta'
 
 export type GetClientConfirmedResponse = {
   confirmed: boolean
   comment: string | null
 }
-
-export type GetMetadataResponse = BranchMeta[]
 
 export type UploadRegulatoryDocumentResponse = FileMeta
 

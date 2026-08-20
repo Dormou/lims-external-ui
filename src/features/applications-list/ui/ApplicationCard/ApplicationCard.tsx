@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Paper, Title, Stack, Text, Divider, Group } from '@mantine/core'
 import { RoutesPath } from '@/shared/config'
 import { formatDate } from '@/shared/lib'
-import type { ApplicationInfo } from '../model/types/applicationInfo'
+import type { ApplicationInfo } from '../../model/applicationInfo'
 import styles from './ApplicationCard.module.css'
 
 export const ApplicationCard = ({ app }: { app: ApplicationInfo }) => {

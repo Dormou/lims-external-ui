@@ -1,4 +1,4 @@
-import type { ApplicationStatus } from './applicationStatus'
+import type { ApplicationStatus } from '@/entities/application'
 
 export type ApplicationInfo = {
   id: string

@@ -1,8 +1,8 @@
 import { http, HttpHandler, HttpResponse } from 'msw'
-import { APPLICATION_ENDPOINTS } from '../types/endpoints'
+import { APPLICATIONS_LIST_ENDPOINTS } from '../types/endpoints'
 import type { GetAllApplicationsResponse } from '../types/responses'
-import type { BranchMeta } from '@/features/create-application/model/types/branchMeta'
-import type { Application } from '../../model/types/application'
+import type { BranchMeta } from '@/entities/metadata'
+import type { Application } from '@/entities/application'
 
 // Получить все заявки текущего пользователя
 export const getAllApplicationsHandler = (
@@ -10,7 +10,7 @@ export const getAllApplicationsHandler = (
   metadata: BranchMeta[]
 ): HttpHandler =>
   http.get<never, never, GetAllApplicationsResponse>(
-    APPLICATION_ENDPOINTS.getAllApplication,
+    APPLICATIONS_LIST_ENDPOINTS.getAllApplication,
     async () => {
       setTimeout(() => undefined, 1000)
 

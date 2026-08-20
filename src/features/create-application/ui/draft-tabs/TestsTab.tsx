@@ -12,12 +12,12 @@ import {
   Button,
   Collapse,
 } from '@mantine/core'
-import { useGetMetadataQuery } from '../../api/createApplicationApi'
+import { useGetMetadataQuery } from '@/entities/metadata'
 import { getActiveMeta } from '../../lib/helpers'
 import { WarningTab } from './components/WarningTab'
 import { Icon } from '@iconify/react'
 import { useDisclosure } from '@mantine/hooks'
-import type { TestMeta } from '../../model/types/branchMeta'
+import type { TestMeta } from '../../../../entities/metadata/model/branchMeta'
 import type { DraftForm } from '../../model/draftSchema'
 
 type ExtendedTestMeta = TestMeta & { hidden: boolean }

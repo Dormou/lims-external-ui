@@ -1,6 +1,5 @@
 export const CREATE_APPLICATION_ENDPOINTS = {
   getClientConfirmed: '/clients/confirmed',
-  getMetadata: '/references/application-info',
   createDraft: '/applications',
   saveDraft: (applicationId: string) => `/applications/${applicationId}`,
   //!!! Заполнить

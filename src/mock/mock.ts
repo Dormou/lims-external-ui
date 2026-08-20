@@ -20,19 +20,19 @@ import {
   updateUserHandler,
 } from '@/entities/user'
 
-import {
-  getAllApplicationsHandler,
-  getApplicationHandler,
-} from '@/entities/application'
+import { getApplicationHandler } from '@/entities/application'
+
+import { getMetadataHandler } from '@/entities/metadata'
 
 import {
   createDraftHandler,
   generateApplicationHandler,
   getClientConfirmedHandler,
-  getMetadataHandler,
   saveDraftHandler,
   uploadSignedFileHandler,
 } from '@/features/create-application'
+
+import { getAllApplicationsHandler } from '@/features/applications-list'
 
 export const worker = setupWorker(
   ...[
@@ -50,7 +50,7 @@ export const worker = setupWorker(
     getApplicationHandler(ApplicationsMockData),
     getAllApplicationsHandler(ApplicationsMockData, MetadataMock),
     getClientConfirmedHandler,
-    getMetadataHandler(ApplicationsMockData),
+    getMetadataHandler(MetadataMock),
     createDraftHandler(ApplicationsMockData),
     saveDraftHandler(ApplicationsMockData),
     generateApplicationHandler(ApplicationsMockData),

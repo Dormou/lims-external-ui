@@ -1,7 +1,7 @@
 import { Select, TextInput, NumberInput } from '@mantine/core'
 import { Controller, type Control } from 'react-hook-form'
-import type { ParameterMeta } from '@/features/create-application/model/types/branchMeta'
-import type { DraftForm } from '@/features/create-application/model/draftSchema'
+import type { ParameterMeta } from '@/entities/metadata'
+import type { DraftForm } from '../../../model/draftSchema'
 
 export interface RenderInputProps {
   param: ParameterMeta

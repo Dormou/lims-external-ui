@@ -1,19 +1,13 @@
-export type { ApplicationInfo } from './model/types/applicationInfo'
-export type { Application } from './model/types/application'
+export type { Application } from './model/application'
 export type {
   ApplicationDraft,
   Sample,
   SampleParameter,
   SampleTest,
-} from './model/types/applicationDraft'
-export type { FileMeta } from './model/types/fileMeta'
+} from './model/applicationDraft'
+export type { FileMeta } from './model/fileMeta'
+export type { ApplicationStatus } from './model/applicationStatus'
 
-export {
-  useGetAllApplicationsQuery,
-  useGetApplicationQuery,
-} from './api/applicationApi'
-
-export { ApplicationCard } from './ui/ApplicationCard'
+export { useGetApplicationQuery } from './api/applicationApi'
 
 export { getApplicationHandler } from './api/mock/getApplicationHandler'
-export { getAllApplicationsHandler } from './api/mock/getAllApplicationsHandler'

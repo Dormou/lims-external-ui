@@ -15,8 +15,8 @@ import { DraftStep } from './draft-step/DraftStep'
 import { PreformStep } from './preform-step/PreformStep'
 import { SigningStep } from './signing-step/SigningStep'
 import { SuccessStep } from './success-step/SuccessStep'
-import { useGetMetadataQuery } from '../api/createApplicationApi'
 import { useGetApplicationQuery } from '@/entities/application'
+import { useGetMetadataQuery } from '@/entities/metadata'
 
 export type Step = 'preform' | 'draft' | 'signing' | 'success'
 

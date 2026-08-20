@@ -1,4 +1,7 @@
-import type { BranchMeta, EquipmentTypeMeta } from '../model/types/branchMeta'
+import type {
+  BranchMeta,
+  EquipmentTypeMeta,
+} from '@/entities/metadata/model/branchMeta'
 import type { SampleParameterForm, SampleTestForm } from '../model/draftSchema'
 
 /** Получить данные о параметрах и тестах от выбраных филиала и типа оборудования */
