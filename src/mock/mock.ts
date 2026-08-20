@@ -1,5 +1,8 @@
 import { setupWorker } from 'msw/browser'
 
+import { ApplicationsMockData } from './data/applications'
+import { MetadataMock } from './data/metadata'
+
 import {
   loginHandler,
   logoutHandler,
@@ -44,13 +47,13 @@ export const worker = setupWorker(
     updateOrganizationHandler,
     updateTechContactHandler,
     updateUserHandler,
-    getApplicationHandler,
-    getAllApplicationsHandler,
+    getApplicationHandler(ApplicationsMockData),
+    getAllApplicationsHandler(ApplicationsMockData, MetadataMock),
     getClientConfirmedHandler,
-    getMetadataHandler,
-    createDraftHandler,
-    saveDraftHandler,
-    generateApplicationHandler,
-    uploadSignedFileHandler,
+    getMetadataHandler(ApplicationsMockData),
+    createDraftHandler(ApplicationsMockData),
+    saveDraftHandler(ApplicationsMockData),
+    generateApplicationHandler(ApplicationsMockData),
+    uploadSignedFileHandler(ApplicationsMockData),
   ]
 )

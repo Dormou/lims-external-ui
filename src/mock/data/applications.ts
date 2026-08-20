@@ -1,5 +1,5 @@
 import { formatDate } from '@/shared/lib'
-import type { Application } from '../../../model/types/application'
+import type { Application } from '@/entities/application'
 
 const IS_EMPTY_DATA = false
 
