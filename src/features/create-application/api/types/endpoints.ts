@@ -1,5 +1,4 @@
 export const CREATE_APPLICATION_ENDPOINTS = {
-  getClientConfirmed: '/clients/confirmed',
   createDraft: '/applications',
   saveDraft: (applicationId: string) => `/applications/${applicationId}`,
   //!!! Заполнить

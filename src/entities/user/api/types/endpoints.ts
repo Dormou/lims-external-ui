@@ -5,4 +5,5 @@ export const USER_ENDPOINTS = {
   updateOrganization: '/clients/me/organization',
   updateHead: '/clients/me/head',
   updateTechContact: '/clients/me/tech-contact',
+  getUserConfirmed: '/clients/confirmed',
 }

@@ -7,7 +7,6 @@ import type {
   UploadSignedFileRequest,
 } from './types/requests'
 import type {
-  GetClientConfirmedResponse,
   GenerateApplicationResponse,
   DownloadApplicationFileResponse,
   UploadSignedFileResponse,
@@ -18,10 +17,6 @@ import type {
 
 const extendedApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Узнать подтвержденность заявителя
-    getClientConfirmed: builder.query<GetClientConfirmedResponse, void>({
-      query: () => CREATE_APPLICATION_ENDPOINTS.getClientConfirmed,
-    }),
     // Создать черновик заявки
     createDraft: builder.mutation<string, void>({
       query: () => ({
@@ -142,7 +137,6 @@ const extendedApi = rootApi.injectEndpoints({
 })
 
 export const {
-  useGetClientConfirmedQuery,
   useCreateDraftMutation,
   useDownloadApplicationFileMutation,
   useDownloadSignedFileMutation,

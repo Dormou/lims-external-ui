@@ -7,7 +7,10 @@ import type {
   UpdateHeadRequest,
   UpdateTechContactRequest,
 } from './types/requests'
-import type { GetProfileResponse } from './types/responses'
+import type {
+  GetUserConfirmedResponse,
+  GetProfileResponse,
+} from './types/responses'
 
 const extendedApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -54,6 +57,10 @@ const extendedApi = rootApi.injectEndpoints({
       }),
       invalidatesTags: ['Profile'],
     }),
+    // Узнать подтвержденность заявителя
+    getUserConfirmed: builder.query<GetUserConfirmedResponse, void>({
+      query: () => USER_ENDPOINTS.getUserConfirmed,
+    }),
   }),
 })
 
@@ -64,4 +71,5 @@ export const {
   useUpdateOrganizationMutation,
   useUpdateHeadMutation,
   useUpdateTechContactMutation,
+  useGetUserConfirmedQuery,
 } = extendedApi

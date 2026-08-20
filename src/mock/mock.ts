@@ -18,6 +18,7 @@ import {
   updateOrganizationHandler,
   updateTechContactHandler,
   updateUserHandler,
+  getUserConfirmedHandler,
 } from '@/entities/user'
 
 import { getApplicationHandler } from '@/entities/application'
@@ -27,7 +28,6 @@ import { getMetadataHandler } from '@/entities/metadata'
 import {
   createDraftHandler,
   generateApplicationHandler,
-  getClientConfirmedHandler,
   saveDraftHandler,
   uploadSignedFileHandler,
 } from '@/features/create-application'
@@ -47,9 +47,9 @@ export const worker = setupWorker(
     updateOrganizationHandler,
     updateTechContactHandler,
     updateUserHandler,
+    getUserConfirmedHandler,
     getApplicationHandler(ApplicationsMockData),
     getAllApplicationsHandler(ApplicationsMockData, MetadataMock),
-    getClientConfirmedHandler,
     getMetadataHandler(MetadataMock),
     createDraftHandler(ApplicationsMockData),
     saveDraftHandler(ApplicationsMockData),
