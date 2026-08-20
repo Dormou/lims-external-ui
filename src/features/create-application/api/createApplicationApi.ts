@@ -104,7 +104,7 @@ const extendedApi = rootApi.injectEndpoints({
         url: CREATE_APPLICATION_ENDPOINTS.generateApplication(applicationId),
         method: 'POST',
       }),
-      invalidatesTags: ['CreateApplication'],
+      invalidatesTags: ['Applications'],
     }),
     // Скачать сформированную заявку
     downloadApplicationFile: builder.mutation<
@@ -131,7 +131,7 @@ const extendedApi = rootApi.injectEndpoints({
           body: formData,
         }
       },
-      invalidatesTags: ['CreateApplication'],
+      invalidatesTags: ['Applications'],
     }),
     // Скачать подписанную заявку
     downloadSignedFile: builder.mutation<DownloadSignedFileResponse, string>({

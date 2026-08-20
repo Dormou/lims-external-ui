@@ -28,6 +28,7 @@ export const CreateApplicationForm = () => {
   const { data: applicationData, isLoading: isApplicationLoading } =
     useGetApplicationQuery(searchParams.get('id') ?? '', {
       skip: !searchParams.get('id'),
+      refetchOnMountOrArgChange: true,
     })
 
   const { isLoading: isMetadataLoading } = useGetMetadataQuery()

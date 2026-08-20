@@ -7,6 +7,7 @@ const extendedApi = rootApi.injectEndpoints({
     // Получить все заявки текущего пользователя
     getAllApplications: builder.query<GetAllApplicationsResponse, void>({
       query: () => APPLICATIONS_LIST_ENDPOINTS.getAllApplication,
+      providesTags: ['Applications'],
     }),
   }),
 })
