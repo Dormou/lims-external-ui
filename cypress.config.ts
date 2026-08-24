@@ -1,17 +1,19 @@
 import { loadEnv } from 'vite'
 import { defineConfig } from 'cypress'
-import { RoutesPath } from './src/shared/config'
+import { RoutesPath } from './src/shared/config/routesPath'
 
-const generatePathsE2Etests = () =>
-  Object.keys(RoutesPath).map(
-    (routeName) => `src/pages/${routeName}/${routeName}Page.test.ts`
-  )
+// const generatePathsE2Etests = () =>
+//   Object.keys(RoutesPath).map(
+//     (routeName) => `src/pages/${routeName}/${routeName}Page.test.ts`
+//   )
 
 const viteEnv = loadEnv(
   process.env.NODE_ENV || 'development',
   process.cwd(),
   'VITE_'
 )
+
+const generatePathsE2Etests = () => Object.keys(RoutesPath).map(routeName => `src/processes/${routeName}/${routeName}Page.test.ts`)
 
 export default defineConfig({
   e2e: {
