@@ -1,26 +1,12 @@
-<<<<<<<< HEAD:src/features/create-application/ui/signing-step/SigningStep.tsx
 import { useState } from 'react'
 import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
 import type { Step } from '../CreateApplicationForm'
 import type { Application } from '@/entities/application'
-import styles from './SigningStep.module.css'
-========
-import { useDispatch, useSelector } from 'react-redux'
-import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
-import { Icon } from '@iconify/react'
-import {
-  setSignedFile,
-  setSignedFileMeta,
-  setStep,
-} from '../../model/createApplicationSlice'
-import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
-import styles from './SigningStep.module.css'
+import { setSignedFileMeta, setStep } from '@/features/create-application-form'
 
-export const SigningStep = () => {
-  const dispatch = useDispatch()
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/SigningStep.tsx
+import styles from './SigningStep.module.css'
 
 export const SigningStep = ({
   setCurrentStep,
@@ -31,26 +17,22 @@ export const SigningStep = ({
 }) => {
   const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
 
-<<<<<<<< HEAD:src/features/create-application/ui/signing-step/SigningStep.tsx
   const [signedFile, setSignedFile] = useState<File | null>(null)
-========
-  const { applicationId, signedFile, generatedFile } = useSelector(
-    (state) => state.createApplication
-  )
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/SigningStep.tsx
+
+  // const { applicationId, signedFile, generatedFile } = useSelector(
+  //   (state) => state.createApplication
+  // )
 
   const handleSend = async () => {
     if (!application || !signedFile) return
     try {
-      await uploadSignedFile({
+      const responseData = await uploadSignedFile({
         applicationId: application.id,
         signedFile,
       }).unwrap()
-<<<<<<<< HEAD:src/features/create-application/ui/signing-step/SigningStep.tsx
-========
+
       dispatch(setSignedFileMeta(responseData))
       dispatch(setStep(3))
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/SigningStep.tsx
     } catch (e) {
       console.error('Ошибка отправки файла:', e)
     }
@@ -111,12 +93,7 @@ export const SigningStep = ({
           placeholder="Нажмите, чтобы выбрать файл"
           leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
           value={signedFile}
-<<<<<<<< HEAD:src/features/create-application/ui/signing-step/SigningStep.tsx
-          onChange={(payload) => setSignedFile(payload)}
-========
           onChange={(payload) => dispatch(setSignedFile(payload))}
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/SigningStep.tsx
-          clearable
         />
       </Box>
 
@@ -124,11 +101,7 @@ export const SigningStep = ({
         <Button
           variant="outline"
           size="lg"
-<<<<<<<< HEAD:src/features/create-application/ui/signing-step/SigningStep.tsx
-          onClick={() => setCurrentStep('draft')}
-========
           onClick={() => dispatch(setStep(1))}
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/SigningStep.tsx
         >
           Редактировать заявку
         </Button>
@@ -145,3 +118,7 @@ export const SigningStep = ({
     </Stack>
   )
 }
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.')
+}
+

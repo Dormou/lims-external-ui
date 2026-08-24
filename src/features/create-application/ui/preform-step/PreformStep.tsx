@@ -1,21 +1,14 @@
-<<<<<<<< HEAD:src/features/create-application/ui/preform-step/PreformStep.tsx
-import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+
 import { Stack, Text, Button } from '@mantine/core'
+
+import { setApplicationId, setStep } from '@/features/create-application-form'
 import { RoutesPath } from '@/shared/config'
 import { useCreateDraftMutation } from '../../api/createApplicationApi'
-
-export const PreformStep = () => {
-  const navigate = useNavigate()
-========
-import { useDispatch } from 'react-redux'
-import { Stack, Text, Button } from '@mantine/core'
-import { setApplicationId, setStep } from '../../model/createApplicationSlice'
-import { useCreateDraftMutation } from '../../api/createApplicationApi'
-import { getUXTID } from '@/processes/UXTID'
+import { getUXTID } from '@/processes/CreateApplication/CreateApplicationUXT'
 
 export const PreformStep = () => {
   const dispatch = useDispatch()
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/PreformStep.tsx
 
   const [createDraft] = useCreateDraftMutation()
 
@@ -23,12 +16,8 @@ export const PreformStep = () => {
     try {
       const response = await createDraft().unwrap()
 
-<<<<<<<< HEAD:src/features/create-application/ui/preform-step/PreformStep.tsx
-      navigate(`${RoutesPath.CreateApplication}?id=${response}`)
-========
       dispatch(setApplicationId(response.id))
       dispatch(setStep(1))
->>>>>>>> integrate-tests:src/features/create-application-form/ui/steps/PreformStep.tsx
     } catch (error) {
       console.error('Не удалось создать черновик:', error)
       // Здесь можно добавить уведомление пользователю
