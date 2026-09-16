@@ -1,10 +1,25 @@
+import { RoutesPath } from "@/shared/config";
 import { authTest } from "@/processes/authTest";
 import { getUXTID, type UXTID } from "@/processes/CreateApplication/CreateApplicationUXT";
 
 describe(`Бизнес процесс подачи заявки`, () => {
     authTest()
 
-    it(`заполняет все вкладки и создаёт заявку`, () => {
+    it(`заполняет все вкладки и создаёт заявку`, () => {        
+        cy.visit(RoutesPath.CreateApplication)
+
+        cy.get(`[ux-test-id="${getUXTID("add-application")}"]`).click()
+
+        cy.get(`[ux-test-id="${getUXTID("add-application-preform")}"]`).should('exist')
+
+        cy.get(`[ux-test-id="${getUXTID("application-description")}"]`).should('exist')
+
+        cy.get(`[ux-test-id="${getUXTID("back")}"]`).click()
+
+        cy.get(`[ux-test-id="${getUXTID("add-application")}"]`).click()
+
+        cy.get(`[ux-test-id="${getUXTID("go-write-application-btn")}"]`).click()
+        
         cy.get(`[ux-test-id="${getUXTID("tab-general-info")}"]`).click()
 
         cy.get(`[ux-test-id="${getUXTID("tab-object-params")}"]`).click()
