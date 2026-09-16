@@ -2,14 +2,13 @@ import { getUXID } from './PersonalAreaUXT'
 import { authTest } from '@/processes/authTest'
 
 import * as chai from 'chai'
+
 import { CustomMatchers } from './CustomMatchers'
 
 chai.use(CustomMatchers)
 
 describe('Личный кабинет', () => {
-  beforeEach(() => {
-    authTest() // Авторизация перед каждым тестом
-  })
+  authTest()
 
   it('Проверка открытия меню профиля и перехода в личный кабинет', () => {
     cy.get(getUXID('profile-menu-button')).click()

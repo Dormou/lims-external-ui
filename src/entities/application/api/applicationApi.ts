@@ -21,5 +21,5 @@ const extendedApi = rootApi.injectEndpoints({
   }),
 })
 
-export const { useGetAllApplicationsQuery, useGetApplicationQuery } =
+export const { useGetAllApplicationsQuery, useGetApplicationQuery, useLazyGetApplicationQuery } =
   extendedApi

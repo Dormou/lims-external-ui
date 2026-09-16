@@ -4,25 +4,26 @@ import { useEffect, useState } from 'react'
 import { Stack, Group, Button, Title, Center, Loader } from '@mantine/core'
 import { Icon } from '@iconify/react'
 import { RoutesPath } from '@/shared/config'
-import { useLazyGetApplicationQuery } from '@/entities/application'
-import {
-  loadApplicationData,
-  reset,
-  setStep,
-} from '../model/createApplicationSlice'
-import { useAutoSave } from '../lib/useAutoSave'
-import { useUserConfirmationPolling } from '../lib/useUserConfirmationPollling'
-import { CreateFormStep } from './steps/CreateFormStep'
-import { PreformStep } from './steps/PreformStep'
-import { SigningStep } from './steps/SigningStep'
-import { SuccessStep } from './steps/SuccessStep'
+import { useLazyGetApplicationQuery, type Application } from '@/entities/application'
+
+//import { loadApplicationData, reset, setStep } from '..'
+import { useAutoSave } from '@/features/create-application/lib/useAutoSave'
+import { useUserConfirmationPolling } from '@/features/create-application/lib/useUserConfirmationPollling'
+// import {
+//   loadApplicationData,
+//   reset,
+//   setStep,
+// } from '../model/createApplicationSlice'
+
+// import { useAutoSave } from '@/features/create-application-form/lib/useAutoSave'
+// import { useUserConfirmationPolling } from '../lib/useUserConfirmationPollling'
+// import { CreateFormStep } from './steps/CreateFormStep.module.css'
+// import { PreformStep } from './steps/PreformStep'
+// import { SigningStep } from './steps/SigningStep'
+// import { SuccessStep } from './steps/SuccessStep'
 
 export const CreateApplicationForm = () => {
   const dispatch = useDispatch()
-
-  const currentStep = useSelector(
-    (state) => state.createApplication.currentStep
-  )
 
   const [getApplication] = useLazyGetApplicationQuery()
 
@@ -53,7 +54,7 @@ export const CreateApplicationForm = () => {
     initForm()
   }, [appIdFromUrl])
 
-  useAutoSave()
+  //useAutoSave()
   useUserConfirmationPolling()
 
   return (
@@ -81,12 +82,25 @@ export const CreateApplicationForm = () => {
         </Center>
       ) : (
         <Stack align="center" h="80vh">
-          {currentStep === 0 && <PreformStep />}
+          {/* {currentStep === 0 && <PreformStep />}
           {currentStep === 1 && <CreateFormStep />}
           {currentStep === 2 && <SigningStep />}
-          {currentStep === 3 && <SuccessStep />}
+          {currentStep === 3 && <SuccessStep />} */}
         </Stack>
       )}
     </Stack>
   )
 }
+
+function loadApplicationData(appData: Application): any {
+  throw new Error('Function not implemented.')
+}
+
+function reset(): any {
+  throw new Error('Function not implemented.')
+}
+
+function setStep(arg0: number): any {
+  throw new Error('Function not implemented.')
+}
+

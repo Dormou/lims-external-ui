@@ -5,26 +5,26 @@ export type { EquipmentTypeMeta } from './model/types/branchMeta'
 export type { ParameterMeta } from './model/types/branchMeta'
 export type { TestMeta } from './model/types/branchMeta'
 
-export { createApplicationSlice } from './model/createApplicationSlice'
-export {
-  setStep,
-  setActiveTab,
-  setApplicationId,
-  updateGeneral,
-  setIsUserConfirmed,
-  addObject,
-  removeObject,
-  updateObjectName,
-  setParameterValue,
-  setTestValue,
-  setRegulatoryFile,
-  setAdditionalFiles,
-  setSignedFile,
-  setGeneratedFile,
-  setSignedFileMeta,
-  loadApplicationData,
-  reset,
-} from './model/createApplicationSlice'
+//export { createApplicationSlice } from './model/createApplicationSlice'
+// export {
+//   setStep,
+//   setActiveTab,
+//   setApplicationId,
+//   updateGeneral,
+//   setIsUserConfirmed,
+//   addObject,
+//   removeObject,
+//   updateObjectName,
+//   setParameterValue,
+//   setTestValue,
+//   setRegulatoryFile,
+//   setAdditionalFiles,
+//   setSignedFile,
+//   setGeneratedFile,
+//   setSignedFileMeta,
+//   loadApplicationData,
+//   reset,
+// } from './api/createApplicationApi/'
 
 export {
   useLazyGetClientConfirmedQuery,

@@ -11,6 +11,7 @@ export type { FileMeta } from './model/types/fileMeta'
 export {
   useGetAllApplicationsQuery,
   useGetApplicationQuery,
+  useLazyGetApplicationQuery,
 } from './api/applicationApi'
 
 export { ApplicationCard } from './ui/ApplicationCard'

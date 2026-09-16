@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useDispatch } from 'react-redux'
+
 import {
   PasswordInput,
   Button,
@@ -23,20 +23,17 @@ export const SecurityForm = () => {
   const dispatch = useDispatch()
 
   const { data } = useGetProfileQuery()
-export const SecurityForm = () => {
-  const dispatch = useDispatch()
-
-  const { data } = useGetProfileQuery()
 
   const [changePassword] = useChangePasswordMutation()
 
   const lastUpdate = data?.passwordChangeDate
-  const lastUpdate = data?.passwordChangeDate
   const monthsAgo = lastUpdate ? dayjs().diff(lastUpdate, 'month') : 0
+
   const timeAgoText =
     monthsAgo < 1
       ? 'меньше месяца назад'
       : `${monthsAgo} ${getMonthNoun(monthsAgo)} назад`
+      
   const isExpired = monthsAgo >= 3
 
   const [isPasswordEditing, setIsPasswordEditing] = useState(false)
@@ -57,13 +54,11 @@ export const SecurityForm = () => {
   const handleSavePassword = async (values: typeof passwordForm.values) => {
     try {
       const saveResponse = await changePassword({
-      const saveResponse = await changePassword({
         oldPassword: values.oldPassword,
         newPassword: values.newPassword,
       }).unwrap()
 
       // Обновление данных авторизации
-      dispatch(setAuth(saveResponse))
       dispatch(setAuth(saveResponse))
 
       // Обновление данных профиля
@@ -82,7 +77,6 @@ export const SecurityForm = () => {
   return (
     <Box pt={20}>
       <Title order={3} c="primaryBlue" mb={16}>
-      <Title order={3} c="primaryBlue" mb={16}>
         Безопасность
       </Title>
       <Divider mb={24} />
@@ -95,14 +89,12 @@ export const SecurityForm = () => {
               {lastUpdate ? formatDate(lastUpdate) : ''}
               {lastUpdate && (
                 <Text span c={isExpired ? 'errorRed' : 'dimmed'} inherit ml={4}>
-                <Text span c={isExpired ? 'errorRed' : 'dimmed'} inherit ml={4}>
                   ({timeAgoText})
                 </Text>
               )}
             </Text>
 
             {isExpired && (
-              <Text size="xs" c="errorRed">
               <Text size="xs" c="errorRed">
                 Рекомендуется менять пароль каждые 3 месяца
               </Text>
