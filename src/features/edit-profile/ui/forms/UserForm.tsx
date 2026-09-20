@@ -4,6 +4,7 @@ import { setFullName } from '@/entities/auth'
 import { useUpdateUserMutation } from '@/entities/user'
 import { ProfileSection } from '../components/ProfileSection'
 import { useUserFormContext } from '../../model/userFormContext'
+import { getUXTID } from '@/processes/Profile/PersonalAreaUXT'
 
 export const UserForm = () => {
   const dispatch = useDispatch()
@@ -39,12 +40,14 @@ export const UserForm = () => {
       <Grid gap="xl">
         <Grid.Col span={6}>
           <TextInput
+            ux-test-id={getUXTID('lastname')}
             label="Фамилия"
             placeholder="Введите фамилию"
             required
             {...userForm.getInputProps('lastName')}
           />
           <TextInput
+            ux-test-id={getUXTID('firstname')}
             label="Имя"
             placeholder="Введите имя"
             required
@@ -52,6 +55,7 @@ export const UserForm = () => {
             mt="md"
           />
           <TextInput
+            ux-test-id={getUXTID('patronymic')}
             label="Отчество (при наличии)"
             placeholder="Введите отчество"
             {...userForm.getInputProps('patronymic')}
@@ -79,6 +83,7 @@ export const UserForm = () => {
               })}
             />
             <Checkbox
+              ux-test-id={getUXTID('is-head-checkbox')}
               label="Я являюсь руководителем организации (или иным лицом, уполномоченным на подписание документов)"
               {...userForm.getInputProps('iAmHead', {
                 type: 'checkbox',

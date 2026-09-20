@@ -5,6 +5,7 @@ import { UserForm } from './forms/UserForm'
 import { OrganizationForm } from './forms/OrganizationForm'
 import { HeadForm } from './forms/HeadForm'
 import { TechContactForm } from './forms/TechContactForm'
+import { getUXTID } from '@/processes/Profile/PersonalAreaUXT'
 
 export const EditProfileForm = ({
   securityForm,
@@ -27,9 +28,9 @@ export const EditProfileForm = ({
 
   return (
     <Stack gap={40} w="100%">
-      <ProfileBadge />
+      <ProfileBadge /><div ux-test-id={getUXTID("user-info-block")}>ux-test-id={getUXTID('user-info-block')}</div>
       <UserFormProvider form={userForm}>
-        <UserForm />
+        <UserForm/>
         <OrganizationForm profile={profileData} />
         <HeadForm profile={profileData} />
         <TechContactForm profile={profileData} />

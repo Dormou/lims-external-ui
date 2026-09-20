@@ -1,124 +1,124 @@
-import { useState } from 'react'
-import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
-import { Icon } from '@iconify/react'
-import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
-import type { Step } from '../CreateApplicationForm'
-import type { Application } from '@/entities/application'
-import { setSignedFileMeta, setStep } from '@/features/create-application-form'
+// import { useState } from 'react'
+// import { Stack, Text, Button, Group, Box, FileInput } from '@mantine/core'
+// import { Icon } from '@iconify/react'
+// import { useUploadSignedFileMutation } from '../../api/createApplicationApi'
+// import type { Step } from '../CreateApplicationForm'
+// import type { Application } from '@/entities/application'
+// import { setSignedFileMeta, setStep } from '@/features/create-application-form'
 
-import styles from './SigningStep.module.css'
+// import styles from './SigningStep.module.css'
 
-export const SigningStep = ({
-  setCurrentStep,
-  application,
-}: {
-  setCurrentStep: (value: Step) => void
-  application: Application
-}) => {
-  const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
+// export const SigningStep = ({
+//   setCurrentStep,
+//   application,
+// }: {
+//   setCurrentStep: (value: Step) => void
+//   application: Application
+// }) => {
+//   const [uploadSignedFile, { isLoading }] = useUploadSignedFileMutation()
 
-  const [signedFile, setSignedFile] = useState<File | null>(null)
+//   const [signedFile, setSignedFile] = useState<File | null>(null)
 
-  // const { applicationId, signedFile, generatedFile } = useSelector(
-  //   (state) => state.createApplication
-  // )
+//   // const { applicationId, signedFile, generatedFile } = useSelector(
+//   //   (state) => state.createApplication
+//   // )
 
-  const handleSend = async () => {
-    if (!application || !signedFile) return
-    try {
-      const responseData = await uploadSignedFile({
-        applicationId: application.id,
-        signedFile,
-      }).unwrap()
+//   const handleSend = async () => {
+//     if (!application || !signedFile) return
+//     try {
+//       const responseData = await uploadSignedFile({
+//         applicationId: application.id,
+//         signedFile,
+//       }).unwrap()
 
-      dispatch(setSignedFileMeta(responseData))
-      dispatch(setStep(3))
-    } catch (e) {
-      console.error('Ошибка отправки файла:', e)
-    }
-  }
+//       dispatch(setSignedFileMeta(responseData))
+//       dispatch(setStep(3))
+//     } catch (e) {
+//       console.error('Ошибка отправки файла:', e)
+//     }
+//   }
 
-  return (
-    <Stack gap={24} align="center" w="100%">
-      <Text fw={300} size="xl" ta="center">
-        По вашим данным сформирована заявка.
-      </Text>
+//   return (
+//     <Stack gap={24} align="center" w="100%">
+//       <Text fw={300} size="xl" ta="center">
+//         По вашим данным сформирована заявка.
+//       </Text>
 
-      <Group
-        p="xs"
-        bd="1px solid primaryBlue"
-        miw={450}
-        className={styles.groupInfo}
-        justify="space-between"
-      >
-        <Group gap="sm">
-          <Icon
-            icon="mdi:file-pdf-box"
-            width={32}
-            height={32}
-            color="primaryBlue"
-          />
-          <Stack gap={0}>
-            <Text size="sm" fw={500}>
-              {application.rawFile?.fileName ?? 'Заявка на испытания.pdf'}
-            </Text>
-            <Text size="xs" c="dimmed">
-              {application.rawFile?.fileExtension?.toUpperCase() ?? 'PDF'} •{' '}
-              {application.rawFile?.fileSize ?? 'Размер неизвестен'}
-            </Text>
-          </Stack>
-        </Group>
-        <Button
-          variant="subtle"
-          size="xs"
-          component="a"
-          href={`/api/applications/${application.id}/raw-file`}
-          download
-        >
-          <Icon icon="mdi:download" width={20} height={20} />
-        </Button>
-      </Group>
+//       <Group
+//         p="xs"
+//         bd="1px solid primaryBlue"
+//         miw={450}
+//         className={styles.groupInfo}
+//         justify="space-between"
+//       >
+//         <Group gap="sm">
+//           <Icon
+//             icon="mdi:file-pdf-box"
+//             width={32}
+//             height={32}
+//             color="primaryBlue"
+//           />
+//           <Stack gap={0}>
+//             <Text size="sm" fw={500}>
+//               {application.rawFile?.fileName ?? 'Заявка на испытания.pdf'}
+//             </Text>
+//             <Text size="xs" c="dimmed">
+//               {application.rawFile?.fileExtension?.toUpperCase() ?? 'PDF'} •{' '}
+//               {application.rawFile?.fileSize ?? 'Размер неизвестен'}
+//             </Text>
+//           </Stack>
+//         </Group>
+//         <Button
+//           variant="subtle"
+//           size="xs"
+//           component="a"
+//           href={`/api/applications/${application.id}/raw-file`}
+//           download
+//         >
+//           <Icon icon="mdi:download" width={20} height={20} />
+//         </Button>
+//       </Group>
 
-      <Text fw={300} size="xl" maw={800} ta="center">
-        Пожалуйста, скачайте сформированный файл, распечатайте его на фирменном
-        бланке вашей организации, поставьте подпись руководителя организации
-        (или иного лица, уполномоченного на подпись документов) и прикрепите
-        скан подписанного документа в форму ниже.
-      </Text>
+//       <Text fw={300} size="xl" maw={800} ta="center">
+//         Пожалуйста, скачайте сформированный файл, распечатайте его на фирменном
+//         бланке вашей организации, поставьте подпись руководителя организации
+//         (или иного лица, уполномоченного на подпись документов) и прикрепите
+//         скан подписанного документа в форму ниже.
+//       </Text>
 
-      <Box w="100%" maw={600}>
-        <FileInput
-          label="Подписанная заявка"
-          required
-          placeholder="Нажмите, чтобы выбрать файл"
-          leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
-          value={signedFile}
-          onChange={(payload) => dispatch(setSignedFile(payload))}
-        />
-      </Box>
+//       <Box w="100%" maw={600}>
+//         <FileInput
+//           label="Подписанная заявка"
+//           required
+//           placeholder="Нажмите, чтобы выбрать файл"
+//           leftSection={<Icon icon="mdi:file-upload-outline" width={20} />}
+//           value={signedFile}
+//           onChange={(payload) => dispatch(setSignedFile(payload))}
+//         />
+//       </Box>
 
-      <Group gap="md" mt="xl">
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={() => dispatch(setStep(1))}
-        >
-          Редактировать заявку
-        </Button>
-        <Button
-          variant="filled"
-          size="lg"
-          disabled={!signedFile}
-          loading={isLoading}
-          onClick={handleSend}
-        >
-          Отправить заявку
-        </Button>
-      </Group>
-    </Stack>
-  )
-}
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.')
-}
+//       <Group gap="md" mt="xl">
+//         <Button
+//           variant="outline"
+//           size="lg"
+//           onClick={() => dispatch(setStep(1))}
+//         >
+//           Редактировать заявку
+//         </Button>
+//         <Button
+//           variant="filled"
+//           size="lg"
+//           disabled={!signedFile}
+//           loading={isLoading}
+//           onClick={handleSend}
+//         >
+//           Отправить заявку
+//         </Button>
+//       </Group>
+//     </Stack>
+//   )
+// }
+// function dispatch(arg0: any) {
+//   throw new Error('Function not implemented.')
+// }
 

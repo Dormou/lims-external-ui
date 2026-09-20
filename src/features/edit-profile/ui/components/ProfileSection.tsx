@@ -1,3 +1,4 @@
+import { getUXTID } from '@/processes/Profile/PersonalAreaUXT'
 import { Stack, Title, Text, Group, Button, Divider, Box } from '@mantine/core'
 
 interface ProfileSectionProps {
@@ -32,10 +33,17 @@ export const ProfileSection = ({
 
       {isDirty && (
         <Group justify="flex-end" mt="md">
-          <Button variant="outline" onClick={onReset}>
+          <Button 
+            ux-test-id={getUXTID('reset-changes-button')}
+            variant="outline" onClick={onReset}
+          >
             Сбросить изменения
           </Button>
-          <Button variant="filled" onClick={onSave}>
+          <Button 
+            ux-test-id={getUXTID('save-changes-button')}
+            variant="filled" 
+            onClick={onSave}
+          >
             Сохранить изменения
           </Button>
         </Group>

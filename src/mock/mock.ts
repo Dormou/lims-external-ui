@@ -1,4 +1,5 @@
 import { setupWorker } from 'msw/browser'
+
 import {
   loginHandler,
   logoutHandler,
@@ -6,6 +7,7 @@ import {
   setupPasswordHandler,
   changePasswordHandler,
 } from '@/entities/auth'
+
 import {
   registerUserHandler,
   getProfileHandler,

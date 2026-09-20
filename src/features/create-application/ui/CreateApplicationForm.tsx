@@ -12,8 +12,8 @@ import {
 import { Icon } from '@iconify/react'
 import { RoutesPath } from '@/shared/config'
 import { DraftStep } from './draft-step/DraftStep'
-import { PreformStep } from './preform-step/PreformStep'
-import { SigningStep } from './signing-step/SigningStep'
+// import { PreformStep } from './preform-step/PreformStep'
+// import { SigningStep } from './signing-step/SigningStep'
 import { SuccessStep } from './success-step/SuccessStep'
 import { useGetApplication } from '../lib/useGetApplication'
 import { useGetMetadataQuery } from '../api/createApplicationApi'
@@ -89,16 +89,16 @@ export const CreateApplicationForm = () => {
         </Group>
 
         <Stack align="center" flex="1 1 auto">
-          {currentStep == 'preform' && <PreformStep />}
+          {/* {currentStep == 'preform' && <PreformStep />} */}
           {currentStep == 'draft' && applicationData && (
             <DraftStep application={applicationData} />
           )}
-          {currentStep == 'signing' && applicationData && (
-            <SigningStep
-              setCurrentStep={setCurrentStep}
-              application={applicationData}
-            />
-          )}
+          {/* {currentStep == 'signing' && applicationData && (
+            // <SigningStep
+            //   setCurrentStep={setCurrentStep}
+            //   application={applicationData}
+            // />
+          )} */}
           {currentStep == 'success' && applicationData && (
             <SuccessStep application={applicationData} />
           )}

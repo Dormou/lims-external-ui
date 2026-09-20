@@ -1,0 +1,1 @@
+export const fromUXTIDValue = (value: string) => `[ux-test-id="${value}"]`
