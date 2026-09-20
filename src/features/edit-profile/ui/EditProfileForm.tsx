@@ -27,8 +27,8 @@ export const EditProfileForm = ({
   })
 
   return (
-    <Stack gap={40} w="100%">
-      <ProfileBadge /><div ux-test-id={getUXTID("user-info-block")}>ux-test-id={getUXTID('user-info-block')}</div>
+    <Stack ux-test-id={getUXTID("user-info-block")} gap={40} w="100%">
+      <ProfileBadge/>
       <UserFormProvider form={userForm}>
         <UserForm/>
         <OrganizationForm profile={profileData} />

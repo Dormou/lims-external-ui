@@ -77,6 +77,7 @@ export const UserForm = () => {
           />
           <Stack gap={8} mt="md">
             <Checkbox
+              ux-test-id={getUXTID('is-tech-contact-checkbox')}
               label="Я являюсь контактным лицом по техническим вопросам"
               {...userForm.getInputProps('iAmTechContact', {
                 type: 'checkbox',

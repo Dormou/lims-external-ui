@@ -30,8 +30,8 @@ describe('Личный кабинет', () => {
 
   it('Проверка сохранения изменений данных пользователя', () => {
     cy.get(fromUXTIDValue('user-info-block')).within(() => {
-      cy.get('[data-testid="firstName"]').clear().type('TestFirstName')
-      cy.get('[data-testid="lastName"]').clear().type('TestLastName')
+      cy.get(fromUXTIDValue('firstname')).clear().type('TestFirstName')
+      cy.get(fromUXTIDValue('lastname')).clear().type('TestLastName')
     })
 
     cy.get(fromUXTIDValue('save-changes-button')).click()
@@ -42,8 +42,8 @@ describe('Личный кабинет', () => {
     cy.get(fromUXTIDValue('is-tech-contact-checkbox')).click()
 
     // Проверка, что поля в блоке "Информация о контактном лице" стали неактивными и заполнены данными из блока "Информация о пользователе"
-    cy.get(fromUXTIDValue('tech-contact-firstName')).should('be.disabled')
-    cy.get(fromUXTIDValue('tech-contact-lastName')).should('be.disabled')
+    cy.get(fromUXTIDValue('tech-contact-firstname')).should('be.disabled')
+    cy.get(fromUXTIDValue('tech-contact-lastname')).should('be.disabled')
     // Добавьте проверки для остальных полей
 
     // Проверка, что кнопки сохранения/отмены появились только в блоке "Информация о пользователе"
@@ -55,8 +55,8 @@ describe('Личный кабинет', () => {
     cy.get(fromUXTIDValue('is-head-checkbox')).click()
 
     // Проверка, что поля в блоке "Информация о руководителе" стали неактивными и заполнены данными из блока "Информация о пользователе"
-    cy.get(fromUXTIDValue('head-firstName')).should('be.disabled')
-    cy.get(fromUXTIDValue('head-lastName')).should('be.disabled')
+    cy.get(fromUXTIDValue('head-firstname')).should('be.disabled')
+    cy.get(fromUXTIDValue('head-lastname')).should('be.disabled')
     // Добавьте проверки для остальных полей
 
     // Проверка, что кнопки сохранения/отмены появились только в блоке "Информация о пользователе"

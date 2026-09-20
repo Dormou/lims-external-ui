@@ -18,6 +18,7 @@ import { useGetProfileQuery } from '@/entities/user'
 import { rootApi } from '@/shared/api'
 import { formatDate, getMonthNoun } from '@/shared/lib'
 import dayjs from 'dayjs'
+import { getUXTID } from '@/processes/Profile/PersonalAreaUXT'
 
 export const SecurityForm = () => {
   const dispatch = useDispatch()
@@ -136,6 +137,7 @@ export const SecurityForm = () => {
 
           <Group justify="flex-end" mt="xl">
             <Button
+              ux-test-id={getUXTID("reset-changes-button")}
               variant="outline"
               onClick={() => {
                 setIsPasswordEditing(false)
