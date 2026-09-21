@@ -74,26 +74,44 @@ describe('Личный кабинет', () => {
   it('Проверка чекбокса "Я являюсь контактным лицом по техническим вопросам"', () => {
     cy.get(fromUXTIDValue('is-tech-contact-checkbox')).click()
 
-    // Проверка, что поля в блоке "Информация о контактном лице" стали неактивными и заполнены данными из блока "Информация о пользователе"
-    cy.get(fromUXTIDValue('tech-contact-firstname')).should('be.disabled')
-    cy.get(fromUXTIDValue('tech-contact-lastname')).should('be.disabled')
-    // Добавьте проверки для остальных полей
+    cy.get(fromUXTIDValue('tech-user-info-block')).within(() => {
+      // Проверка, что поля в блоке "Информация о руководителе" стали неактивными и заполнены данными из блока "Информация о пользователе"
+      cy.get(fromUXTIDValue('tech-contact-firstname')).should('be.disabled')
+      cy.get(fromUXTIDValue('tech-contact-lastname')).should('be.disabled')
+      cy.get(fromUXTIDValue('tech-contact-patronymic')).should('be.disabled')   
+    })
 
-    // Проверка, что кнопки сохранения/отмены появились только в блоке "Информация о пользователе"
-    cy.get(fromUXTIDValue('reset-changes-button')).should('be.visible')
-    cy.get(fromUXTIDValue('save-changes-button')).should('be.visible')
+    cy.get(fromUXTIDValue('is-tech-contact-checkbox')).click()
+    
+    cy.get(fromUXTIDValue('tech-user-info-block')).within(() => {
+      cy.get(fromUXTIDValue('tech-contact-firstname')).clear().type('TestFirstName')
+      cy.get(fromUXTIDValue('tech-contact-lastname')).clear().type('TestLastName')
+      cy.get(fromUXTIDValue('tech-contact-patronymic')).clear().type('TestPatronymic')
+
+      // Проверка появления кнопок
+      cy.get(fromUXTIDValue('reset-changes-button')).should('be.visible')
+      cy.get(fromUXTIDValue('save-changes-button')).should('be.visible')
+    })
   })
 
   it('Проверка чекбокса "Я являюсь руководителем организации"', () => {
+    cy.get(fromUXTIDValue('head-user-info-block')).within(() => {
+        // Проверка, что поля в блоке "Информация о руководителе" стали неактивными и заполнены данными из блока "Информация о пользователе"
+        cy.get(fromUXTIDValue('head-firstname')).should('be.disabled')
+        cy.get(fromUXTIDValue('head-lastname')).should('be.disabled')
+        cy.get(fromUXTIDValue('head-patronymic')).should('be.disabled')
+    })
+
     cy.get(fromUXTIDValue('is-head-checkbox')).click()
 
-    // Проверка, что поля в блоке "Информация о руководителе" стали неактивными и заполнены данными из блока "Информация о пользователе"
-    cy.get(fromUXTIDValue('head-firstname')).should('be.disabled')
-    cy.get(fromUXTIDValue('head-lastname')).should('be.disabled')
-    // Добавьте проверки для остальных полей
+    cy.get(fromUXTIDValue('head-user-info-block')).within(() => {
+        cy.get(fromUXTIDValue('head-firstname')).clear().type('TestFirstName')
+        cy.get(fromUXTIDValue('head-lastname')).clear().type('TestLastName')
+        cy.get(fromUXTIDValue('head-patronymic')).clear().type('TestPatronymic')
 
-    // Проверка, что кнопки сохранения/отмены появились только в блоке "Информация о пользователе"
-    cy.get(fromUXTIDValue('reset-changes-button')).should('be.visible')
-    cy.get(fromUXTIDValue('save-changes-button')).should('be.visible')
-  })
+        // Проверка появления кнопок
+        cy.get(fromUXTIDValue('reset-changes-button')).should('be.visible')
+        cy.get(fromUXTIDValue('save-changes-button')).should('be.visible')
+      })
+    })
 })

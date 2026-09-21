@@ -18,8 +18,13 @@ export type UXTID =
     | "firstname"
     | "lastname"
     | "patronymic"
-    | "confirm-password-input-container";
-    
+    | "confirm-password-input-container"
+    | "tech-contact-patronymic"
+    | "head-patronymic"
+    | "head-user-info-block"
+    | "tech-user-info-block"
+    | "tech-contact-patronymic";
+
 // export const getUXID = (uxid: UXTID): string => {
 //   switch (uxid) {
 //     case 'profile-menu-button': return '#profileMenuButton'; // Пример ID, замените на фактический

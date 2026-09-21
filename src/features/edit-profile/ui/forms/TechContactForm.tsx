@@ -3,6 +3,7 @@ import { Grid, TextInput } from '@mantine/core'
 import { useUpdateTechContactMutation, type UserProfile } from '@/entities/user'
 import { ProfileSection } from '../components/ProfileSection'
 import { useUserFormContext } from '../../model/userFormContext'
+import { getUXTID } from '@/processes/Profile/PersonalAreaUXT'
 
 export const TechContactForm = ({
   profile,
@@ -34,84 +35,90 @@ export const TechContactForm = ({
   const iAmTechContact = userForm.values.iAmTechContact
 
   return (
-    <ProfileSection
-      title="Информация о контактном лице по техническим вопросам"
-      description="Данные лица, уполномоченного на предоставление технических сведений"
-      isDirty={!iAmTechContact && techContactForm.isDirty()}
-      onSave={handleSaveTechContact}
-      onReset={() => techContactForm.reset()}
-    >
-      <Grid gap="xl">
-        <Grid.Col span={6}>
-          <TextInput
-            label="Фамилия"
-            placeholder="Введите фамилию"
-            disabled={iAmTechContact}
-            value={
-              iAmTechContact
-                ? userForm.values.lastName
-                : techContactForm.values.lastName
-            }
-            onChange={(e) =>
-              techContactForm.setFieldValue('lastName', e.target.value)
-            }
-          />
-          <TextInput
-            label="Имя"
-            placeholder="Введите имя"
-            disabled={iAmTechContact}
-            value={
-              iAmTechContact
-                ? userForm.values.firstName
-                : techContactForm.values.firstName
-            }
-            onChange={(e) =>
-              techContactForm.setFieldValue('firstName', e.target.value)
-            }
-          />
-          <TextInput
-            label="Отчество (при наличии)"
-            placeholder="Введите отчество"
-            disabled={iAmTechContact}
-            value={
-              iAmTechContact
-                ? userForm.values.patronymic
-                : techContactForm.values.patronymic
-            }
-            onChange={(e) =>
-              techContactForm.setFieldValue('lastName', e.target.value)
-            }
-          />
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <TextInput
-            label="Email"
-            placeholder="Введите email"
-            disabled={iAmTechContact}
-            value={
-              iAmTechContact
-                ? userForm.values.email
-                : techContactForm.values.email
-            }
-            onChange={(e) =>
-              techContactForm.setFieldValue('email', e.target.value)
-            }
-          />
-          <TextInput
-            label="Телефон"
-            placeholder="Введите телефон"
-            disabled={iAmTechContact}
-            value={
-              iAmTechContact
-                ? userForm.values.phoneNumber
-                : techContactForm.values.phoneNumber
-            }
-            onChange={(e) =>
-              techContactForm.setFieldValue('phoneNumber', e.target.value)
-            }
-          />
-        </Grid.Col>
-      </Grid>
-    </ProfileSection>
+    <div ux-test-id={getUXTID("tech-user-info-block")}>
+      <ProfileSection
+        title="Информация о контактном лице по техническим вопросам"
+        description="Данные лица, уполномоченного на предоставление технических сведений"
+        isDirty={!iAmTechContact && techContactForm.isDirty()}
+        onSave={handleSaveTechContact}
+        onReset={() => techContactForm.reset()}
+      >
+        <Grid gap="xl">
+          <Grid.Col span={6}>
+            <TextInput
+              ux-test-id={getUXTID("tech-contact-lastname")}
+              label="Фамилия"
+              placeholder="Введите фамилию"
+              disabled={iAmTechContact}
+              value={
+                iAmTechContact
+                  ? userForm.values.lastName
+                  : techContactForm.values.lastName
+              }
+              onChange={(e) =>
+                techContactForm.setFieldValue('lastName', e.target.value)
+              }
+            />
+            <TextInput
+              ux-test-id={getUXTID("tech-contact-firstname")}
+              label="Имя"
+              placeholder="Введите имя"
+              disabled={iAmTechContact}
+              value={
+                iAmTechContact
+                  ? userForm.values.firstName
+                  : techContactForm.values.firstName
+              }
+              onChange={(e) =>
+                techContactForm.setFieldValue('firstName', e.target.value)
+              }
+            />
+            <TextInput
+              ux-test-id={getUXTID("tech-contact-patronymic")}
+              label="Отчество (при наличии)"
+              placeholder="Введите отчество"
+              disabled={iAmTechContact}
+              value={
+                iAmTechContact
+                  ? userForm.values.patronymic
+                  : techContactForm.values.patronymic
+              }
+              onChange={(e) =>
+                techContactForm.setFieldValue('lastName', e.target.value)
+              }
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              label="Email"
+              placeholder="Введите email"
+              disabled={iAmTechContact}
+              value={
+                iAmTechContact
+                  ? userForm.values.email
+                  : techContactForm.values.email
+              }
+              onChange={(e) =>
+                techContactForm.setFieldValue('email', e.target.value)
+              }
+            />
+            <TextInput
+              label="Телефон"
+              placeholder="Введите телефон"
+              disabled={iAmTechContact}
+              value={
+                iAmTechContact
+                  ? userForm.values.phoneNumber
+                  : techContactForm.values.phoneNumber
+              }
+              onChange={(e) =>
+                techContactForm.setFieldValue('phoneNumber', e.target.value)
+              }
+            />
+          </Grid.Col>
+        </Grid>
+      </ProfileSection>
+    </div>
+
   )
 }
