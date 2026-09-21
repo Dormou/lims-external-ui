@@ -102,6 +102,7 @@ export const SecurityForm = () => {
             )}
           </Stack>
           <Button
+            ux-test-id={getUXTID("change-password-button")}
             variant="outline"
             size="md"
             onClick={() => setIsPasswordEditing(true)}
@@ -114,6 +115,7 @@ export const SecurityForm = () => {
           <Grid gap="xl" align="flex-start">
             <Grid.Col span={4}>
               <PasswordInput
+                ux-test-id={getUXTID("old-password-input")}
                 label="Текущий пароль"
                 placeholder="Введите текущий пароль"
                 {...passwordForm.getInputProps('oldPassword')}
@@ -121,13 +123,15 @@ export const SecurityForm = () => {
             </Grid.Col>
             <Grid.Col span={4}>
               <PasswordInput
+                ux-test-id={getUXTID("new-password-input")}
                 label="Новый пароль"
                 placeholder="Введите новый пароль"
                 {...passwordForm.getInputProps('newPassword')}
               />
             </Grid.Col>
-            <Grid.Col span={4}>
+            <Grid.Col  ux-test-id={getUXTID("confirm-password-input-container")} span={4}>
               <PasswordInput
+                ux-test-id={getUXTID("confirm-password-input")}
                 label="Подтверждение пароля"
                 placeholder="Повторите новый пароль"
                 {...passwordForm.getInputProps('confirmPassword')}
@@ -146,7 +150,10 @@ export const SecurityForm = () => {
             >
               Отмена
             </Button>
-            <Button type="submit" variant="filled">
+            <Button 
+              type="submit" 
+              ux-test-id={getUXTID("save-password-button")}
+              variant="filled">
               Сохранить пароль
             </Button>
           </Group>

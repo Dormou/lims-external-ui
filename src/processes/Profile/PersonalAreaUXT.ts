@@ -17,8 +17,9 @@ export type UXTID =
     | "save-password-button"
     | "firstname"
     | "lastname"
-    | "patronymic";
-
+    | "patronymic"
+    | "confirm-password-input-container";
+    
 // export const getUXID = (uxid: UXTID): string => {
 //   switch (uxid) {
 //     case 'profile-menu-button': return '#profileMenuButton'; // Пример ID, замените на фактический

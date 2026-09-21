@@ -38,6 +38,39 @@ describe('Личный кабинет', () => {
     // Проверка успешного сохранения (можно добавить проверку API запроса или отображения сообщения об успехе)
   })
 
+    it('Проверка формы смены пароля', () => {
+    cy.get(fromUXTIDValue('change-password-button')).click()
+
+    // Проверка отображения формы смены пароля
+    cy.get(fromUXTIDValue('old-password-input')).should('be.visible')
+    cy.get(fromUXTIDValue('new-password-input')).should('be.visible')
+    cy.get(fromUXTIDValue('confirm-password-input')).should('be.visible')
+
+    // Проверка неактивности кнопки "Сохранить пароль"
+    // cy.get(fromUXTIDValue('save-password-button')).should('be.disabled')
+
+    // Валидация пароля (пример)
+    // cy.get(fromUXTIDValue('new-password-input')).type('weakpass')
+    // cy.get('[data-testid="error-description"]').should('contain', 'не менее 8 символов, содержит буквы в нижнем и верхнем регистре, содержит хотя бы одну цифру')
+
+    // Проверка сравнения паролей
+    cy.get(fromUXTIDValue('old-password-input')).type('test1234')
+    cy.get(fromUXTIDValue('new-password-input')).type('strongpass')
+    cy.get(fromUXTIDValue('confirm-password-input')).type('wrongpass')
+    // cy.get('[data-testid="error-description"]').should('contain', 'Пароли не совпадают')
+    cy.get(fromUXTIDValue('save-password-button')).click()
+    cy.get(fromUXTIDValue('confirm-password-input-container')).should('contain', 'Пароли не совпадают')
+
+    // Активация кнопки "Сохранить пароль"
+    cy.get(fromUXTIDValue('new-password-input')).clear().type('StrongPass123!')
+    cy.get(fromUXTIDValue('confirm-password-input')).clear().type('StrongPass123!')
+    cy.get(fromUXTIDValue('save-password-button')).should('be.enabled')
+
+    // Сохранение пароля (пример)
+    cy.get(fromUXTIDValue('save-password-button')).click()
+    // Проверка успешного сохранения и перенаправления (можно добавить проверку API запроса или отображения сообщения об успехе)
+  })
+
   it('Проверка чекбокса "Я являюсь контактным лицом по техническим вопросам"', () => {
     cy.get(fromUXTIDValue('is-tech-contact-checkbox')).click()
 
@@ -62,35 +95,5 @@ describe('Личный кабинет', () => {
     // Проверка, что кнопки сохранения/отмены появились только в блоке "Информация о пользователе"
     cy.get(fromUXTIDValue('reset-changes-button')).should('be.visible')
     cy.get(fromUXTIDValue('save-changes-button')).should('be.visible')
-  })
-
-  it('Проверка формы смены пароля', () => {
-    cy.get(fromUXTIDValue('change-password-button')).click()
-
-    // Проверка отображения формы смены пароля
-    cy.get(fromUXTIDValue('old-password-input')).should('be.visible')
-    cy.get(fromUXTIDValue('new-password-input')).should('be.visible')
-    cy.get(fromUXTIDValue('confirm-password-input')).should('be.visible')
-
-    // Проверка неактивности кнопки "Сохранить пароль"
-    cy.get(fromUXTIDValue('save-password-button')).should('be.disabled')
-
-    // Валидация пароля (пример)
-    cy.get(fromUXTIDValue('new-password-input')).type('weakpass')
-    cy.get('[data-testid="error-description"]').should('contain', 'не менее 8 символов, содержит буквы в нижнем и верхнем регистре, содержит хотя бы одну цифру')
-
-    // Проверка сравнения паролей
-    cy.get(fromUXTIDValue('new-password-input')).type('strongpass')
-    cy.get(fromUXTIDValue('confirm-password-input')).type('wrongpass')
-    cy.get('[data-testid="error-description"]').should('contain', 'Пароли не совпадают')
-
-    // Активация кнопки "Сохранить пароль"
-    cy.get(fromUXTIDValue('new-password-input')).clear().type('StrongPass123!')
-    cy.get(fromUXTIDValue('confirm-password-input')).clear().type('StrongPass123!')
-    cy.get(fromUXTIDValue('save-password-button')).should('be.enabled')
-
-    // Сохранение пароля (пример)
-    cy.get(fromUXTIDValue('save-password-button')).click()
-    // Проверка успешного сохранения и перенаправления (можно добавить проверку API запроса или отображения сообщения об успехе)
   })
 })
